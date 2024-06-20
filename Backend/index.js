@@ -4,6 +4,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import DbConnection from './utils/db.js'
 import AuthRoutes from './routes/Auth.js'
+import AdminRoute from './routes/AdminRoute.js'
 
 
 dotenv.config()
@@ -17,6 +18,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
 app.use('/api/auth',AuthRoutes)
+app.use('/api/admin',AdminRoute)
 app.get('/', (req,res)=>{
     res.send('test')
 })
