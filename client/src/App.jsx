@@ -16,7 +16,7 @@ export default function App() {
 const dispatch=useDispatch()
   useEffect(()=>{
       dispatch(updateUser())
-  },[user])
+  },[])
   return (
     <>
     <BrowserRouter>
