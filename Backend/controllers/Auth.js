@@ -45,7 +45,7 @@ const Login=async(req,res)=>{
                 secure:false,
                 maxAge:3600000
             })
-        res.status(200).json({success:true,message:"User Registration successful",user,token})
+        res.status(200).json({success:true,message:"User Login successful",user,token})
     } catch (error) {
         res.status(500).json({success:false,message:"Internal Server Error"})
         console.log(error)
@@ -61,4 +61,17 @@ const Logout=async(_req,res)=>{
     }
 }
 
-export {register,Login,Logout}
+const checkuser=async(req,res)=>{
+    try {
+        const user= req.user
+       if(!user){
+        res.status(404).json({message:'User not found'})
+       }
+       res.status(200).json({user})
+    } catch (error) {
+       res.status(500).json({message:"internal server error"})
+        console.log(error)
+    }
+}
+
+export {register,Login,Logout,checkuser}

@@ -5,6 +5,6 @@ import { isAdmin } from "../middleware/verifyToken.js";
 const AdminRoute=express.Router()
 
 AdminRoute.get('/getuser', isAdmin, Getuser)
-AdminRoute.post('/delete/:id', isAdmin, deleteUser)
+AdminRoute.post('/delet/:id', isAdmin, deleteUser)
 
 export default AdminRoute
