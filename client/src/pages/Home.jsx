@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 
+// ======
+import StudentDetailBar from '../components/StudentDetailBar/StudentDetailBar';
 
 export default function Home() {
   const user=useSelector ((state) => state.Auth.user)
@@ -28,12 +30,16 @@ export default function Home() {
   return (
     <>
     <div className='home-container'>
-      <div className="user-card">
+      {/* <div className="user-card">
         <h2>Welcome,{user && user.name}</h2>
         <button className='logout-btn' onClick={handleLogout}>Logout</button>
         
         {user && user.role =='admin' ?<button className='Admin-btn' onClick={gotoAdmin} >Go to Admin</button> : ''}
       
+      </div> */}
+
+      <div>
+        <StudentDetailBar/>
       </div>
     </div>
 
