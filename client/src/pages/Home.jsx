@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 
-// ======
+// ============================================================================
 import StudentDetailBar from '../components/StudentDetailBar/StudentDetailBar';
+
+
 
 export default function Home() {
   const user=useSelector ((state) => state.Auth.user)
