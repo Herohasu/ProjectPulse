@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { post } from '../services/ApiEndpoint'
 import toast from 'react-hot-toast'
+import './Register.css'
 
 export default function Register() {
   const [name, setName] = useState('')
