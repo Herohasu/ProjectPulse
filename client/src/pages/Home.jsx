@@ -5,6 +5,10 @@ import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import './Home.css'
 
+// ============================================================================
+import StudentDetailBar from '../components/StudentDetailBar/StudentDetailBar';
+
+
 
 export default function Home() {
   const user=useSelector ((state) => state.Auth.user)
@@ -35,6 +39,10 @@ export default function Home() {
         
         {user && user.role =='admin' ?<button className='Admin-btn' onClick={gotoAdmin} >Go to Admin</button> : ''}
       
+      </div>
+
+      <div>
+        <StudentDetailBar/>
       </div>
     </div>
 

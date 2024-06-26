@@ -4,7 +4,7 @@ import { post } from '../services/ApiEndpoint.js'
 import toast from 'react-hot-toast';
 import { useDispatch } from "react-redux";
 import { setUser } from '../redux/AuthSlice.js';
-import './login.css'
+import './Login.css'
 
 export default function Login() {
 
