@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { deleteUser, get } from '../services/ApiEndpoint'
 import toast from 'react-hot-toast'
-
+import './Admin.css'
 
 export default function Admin() {
   const [users, setUsers] = useState('')
