@@ -23,7 +23,7 @@ export default function App() {
         <Toaster />
         <Routes>
 
-          <Route path='/' element={<UserLayout />}>
+          <Route path='/UserLayout' element={<UserLayout />}>
             <Route index element={<Home />} />
           </Route>
           <Route path='/admin' element={<AdminLayout />}>
@@ -31,7 +31,6 @@ export default function App() {
 
           </Route>
           <Route path='/' element={<PublicLayout />}>
-            <Route index element={<LandingPage />} />
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
           </Route>

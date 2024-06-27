@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
+import './Home.css'
 
 // ============================================================================
 import StudentDetailBar from '../components/StudentDetailBar/StudentDetailBar';
@@ -22,7 +23,7 @@ export default function Home() {
       const response = request.data 
       if (request.status==200) {
         dispatch(Logout())
-        navigate('/login')
+        navigate('/')
       }
     } catch (error) {
       console.log(error)
@@ -32,13 +33,13 @@ export default function Home() {
   return (
     <>
     <div className='home-container'>
-      {/* <div className="user-card">
+      <div className="user-card">
         <h2>Welcome,{user && user.name}</h2>
         <button className='logout-btn' onClick={handleLogout}>Logout</button>
         
         {user && user.role =='admin' ?<button className='Admin-btn' onClick={gotoAdmin} >Go to Admin</button> : ''}
       
-      </div> */}
+      </div>
 
       <div>
         <StudentDetailBar/>

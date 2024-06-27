@@ -1,11 +1,16 @@
 import React from 'react'
 import "./StudentDetailBar.css"
 import { Link } from 'react-router-dom';
+import { Navbar, Nav, Dropdown, Form, FormControl, Image } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faEnvelope, faBell, faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import profile_img from '/images/profile.jpg';
 
 const StudentDetailBar = () => {
     return (
         <div>
+
             <div className="std_details_contain">
                 <div className="std_details1">
                     <p>Name: <a className='try'>Dhaval S Bavda</a></p>
@@ -20,6 +25,7 @@ const StudentDetailBar = () => {
                 </div>
             </div>
 
+
             <div className='navbar-container'>
                 <nav className="nav-content">
                     <ul>
@@ -27,16 +33,13 @@ const StudentDetailBar = () => {
                             <Link to="/" className='nav-linktag'>Home</Link>
                         </li>
                         <li>
-                            <Link to="/about" className='nav-linktag'>Add Data</Link>
-                        </li>
-                        <li>
-                            <Link to="/services" className='nav-linktag'>Video Call</Link>
+                            <Link to="/about" className='nav-linktag'>Add Files</Link>
                         </li>
                         <li>
                             <Link to="/contact" className='nav-linktag'>Request Meeting</Link>
                         </li>
                         <li className='nav-linktag-btn'>
-                            <Link to="/contact" className='nav-linktag'>About</Link>
+                            <Link to="/contact" className='nav-linktag'>Logout</Link>
                         </li>
                     </ul>
                 </nav>

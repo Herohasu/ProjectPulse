@@ -4,6 +4,7 @@ import { post } from '../services/ApiEndpoint.js'
 import toast from 'react-hot-toast';
 import { useDispatch } from "react-redux";
 import { setUser } from '../redux/AuthSlice.js';
+import './Login.css'
 
 export default function Login() {
 
@@ -36,8 +37,9 @@ try {
     <>
     
         <div className="login-container">
-            <h2>Login</h2>
+            
             <form onSubmit={handleSubmit}>
+            <h2>Login</h2>
                 <div className="input-group">
                     <label htmlFor="Email">Email</label>
                     <input type="email" name="" id="email" 
