@@ -6,7 +6,7 @@ import { post } from '../services/ApiEndpoint';
 import './Home.css'
 
 // ============================================================================
-import StudentDetailBar from '../components/StudentDetailBar/StudentDetailBar';
+// import StudentDetailBar from '../components/StudentDetailBar/StudentDetailBar';
 
 
 
@@ -42,7 +42,7 @@ export default function Home() {
       </div>
 
       <div>
-        <StudentDetailBar/>
+        {/* <StudentDetailBar/> */}
       </div>
     </div>
 
