@@ -7,7 +7,6 @@ import Register from './pages/Register'
 import Admin from './pages/Admin'
 import { Toaster } from 'react-hot-toast'
 import AdminLayout from './Layouts/AdminLayout'
-import UserLayout from './Layouts/UserLayout'
 import PublicLayout from './Layouts/PublicLayout'
 import { useDispatch } from 'react-redux'
 import { updateUser } from './redux/AuthSlice'
@@ -23,17 +22,20 @@ export default function App() {
         <Toaster />
         <Routes>
 
-          <Route path='/UserLayout' element={<UserLayout />}>
-            <Route index element={<Home />} />
-          </Route>
+
+          <Route path='home' element={<Home />} />
+
+
           <Route path='/admin' element={<AdminLayout />}>
             <Route index element={<Admin />} />
 
           </Route>
-          <Route path='/' element={<PublicLayout />}>
-            <Route path='login' element={<Login />} />
-            <Route path='register' element={<Register />} />
-          </Route>
+          <Route path='/' element={<PublicLayout />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+
+
+
 
         </Routes>
       </BrowserRouter>

@@ -8,56 +8,56 @@ import './login.css'
 
 export default function Login() {
 
-    const dispatch= useDispatch()
-    const [email,setEmail]=useState('')
-    const navigate =useNavigate()
-    const [password,setPassword]=useState('')
+    const dispatch = useDispatch()
+    const [email, setEmail] = useState('')
+    const navigate = useNavigate()
+    const [password, setPassword] = useState('')
 
-    const handleSubmit=async (e)=>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email,password)
-try {
-    const request=await post('/api/auth/login', {email,password})
-    const response=request.data
-    
-    if (request.status==200) {
-        if (response.user.role == 'admin') {
-            navigate('/admin')
-        }else if(response.user.role =='user'){
-            navigate('/')
+        console.log(email, password)
+        try {
+            const request = await post('/api/auth/login', { email, password })
+            const response = request.data
+
+            if (request.status == 200) {
+                if (response.user.role == 'admin') {
+                    navigate('/admin')
+                } else if (response.user.role == 'user') {
+                    navigate('/home')
+                }
+                toast.success(response.message)
+                dispatch(setUser(response.user))
+            }
+        } catch (error) {
+            console.log("sdgfs",error)
         }
-        toast.success(response.message)
-        dispatch(setUser(response.user))
     }
-} catch (error) {
-    console.log(error)
-}
-    }
-  return (
-    <>
-    
-        <div className="login-container">
-            
-            <form onSubmit={handleSubmit}>
-            <h2>Login</h2>
-                <div className="input-group">
-                    <label htmlFor="Email">Email</label>
-                    <input type="email" name="" id="email" 
-                    onChange={(e)=>setEmail(e.target.value)}/>
-                </div>
-                <div className="input-group">
-                    <label htmlFor="password">Password</label>
-                    <input type="password" name="" id="password" 
-                    onChange={(e)=>setPassword(e.target.value)}/>
-                </div>
-                <button type='submit'>Login</button>
-                <p className='register-link'>
-                    Not Registered? <Link to={'/register'}>Register here</Link>
-                </p>
+    return (
+        <>
+
+            <div className="login-container">
+
+                <form onSubmit={handleSubmit}>
+                    <h2>Login</h2>
+                    <div className="input-group">
+                        <label htmlFor="Email">Email</label>
+                        <input type="email" name="" id="email"
+                            onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="password">Password</label>
+                        <input type="password" name="" id="password"
+                            onChange={(e) => setPassword(e.target.value)} />
+                    </div>
+                    <button type='submit'>Login</button>
+                    <p className='register-link'>
+                        Not Registered? <Link to={'/register'}>Register here</Link>
+                    </p>
 
 
-            </form>
-        </div>
-    </>
-  )
+                </form>
+            </div>
+        </>
+    )
 }

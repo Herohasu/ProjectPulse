@@ -1,7 +1,8 @@
 import express from "express";
-const app=express();
+// const app=express();
 const router = express.Router() 
-const {StudentData} = require('../models/Schemas')
+
+import StudentData from '../models/Schemas.js';
 
 router.get('/ShowStudent',async (req,res)=>{
     try{
@@ -26,3 +27,5 @@ router.post('/AddStudent', async (req,res)=>{
         res.status(500).json({error:e})
     }
 })
+
+export default router;

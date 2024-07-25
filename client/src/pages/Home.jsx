@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
@@ -12,11 +13,17 @@ import './Home.css'
 
 export default function Home() {
   const user=useSelector ((state) => state.Auth.user)
+    
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const gotoAdmin=()=>{
     navigate('/admin')
   }
+  useEffect(()=>{
+    if(!user){
+        navigate('/login')
+    }
+},[user, navigate] )
   const handleLogout=async()=>{
     try {
       const request=await post('/api/auth/logout')

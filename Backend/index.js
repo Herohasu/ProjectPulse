@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import DbConnection from './utils/db.js'
 import AuthRoutes from './routes/Auth.js'
 import AdminRoute from './routes/AdminRoute.js'
+import AllRoutes from './routes/AllRoutes.js'
 
 
 dotenv.config()
@@ -25,6 +26,8 @@ app.use('/api/admin',AdminRoute)
 app.get('/', (req,res)=>{
     res.send('test')
 })
+
+app.use('/ShowStudent',AllRoutes);
 
 app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`)

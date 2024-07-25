@@ -29,14 +29,17 @@ const register=async(req,res)=>{
 const Login=async(req,res)=>{
     try {
         const{email,password}=req.body
+        console.log(req.body)
 
         const user=await UserModel.findOne({email})
         if (!user){
+            console.log("dfgh")
             return res.status(404).json({success:false,message:"Invalid Credentials"})
         }
 
         const ispasswordValid = await bcryptjs.compare(password,user.password)
         if(!ispasswordValid){
+            console.log("sfd")
             return res.status(404).json({success:false,message:"Invalid Credentials"})
         }
             const token= jwt.sign({userId:user._id},process.env.JWT_SECRET)
@@ -45,6 +48,7 @@ const Login=async(req,res)=>{
                 secure:false,
                 maxAge:3600000
             })
+        console.log(user)
         res.status(200).json({success:true,message:"User Login successful",user,token})
     } catch (error) {
         res.status(500).json({success:false,message:"Internal Server Error"})
