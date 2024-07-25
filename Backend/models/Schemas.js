@@ -125,7 +125,7 @@ const NotificationDataSchema = new mongoose.Schema({
         required:true
     }
 },{timestamps:true})
-const NotificationData = mongoose.model('/NotificationData',NotificationDataSchema)
+const NotificationData = mongoose.model('NotificationData',NotificationDataSchema)
 
 
 
