@@ -1,0 +1,148 @@
+/*#F9F6E5   #152F46  #1DABFF   */
+
+/* Admin.css */
+:root {
+    --primary-color: #152F46;
+    --secondary-color: #1DABFF;
+    --background-color: #F9F6E5; 
+  }
+  
+  /* Top Navbar */
+  .top-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; 
+    background-color: var(--background-color); 
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .top-navbar .logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: var(--primary-color); 
+  }
+  
+  .logo-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .top-navbar .actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .top-navbar .notifications,
+  .top-navbar .calendar {
+    margin-right: 20px;
+    color: var(--primary-color);
+    cursor: pointer;
+  }
+  .top-navbar .admin-profile{
+    color: var(--primary-color);
+  }
+  
+  .top-navbar .logout-button {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Sidebar */
+  .side-navbar {
+    background-color: var(--background-color);
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 75px;
+    left: -250px;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    z-index: 999;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .side-navbar.open {
+    left: 0;
+  }
+  
+  .side-navbar a {
+    display: block;
+    padding: 15px 20px; 
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .side-navbar a:hover {
+    background-color: var(--primary-color); 
+    color: var(--secondary-color);
+  }
+  
+  .side-navbar .active {
+    background-color: var(--primary-color); 
+    color: var(--secondary-color); 
+  }
+  
+.admin-container {
+    margin-left: 0; 
+    padding: 20px;
+    padding-top: 80px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  .admin-container.sidebar-open {
+    margin-left: 250px; 
+  }
+
+ 
+  @media screen and (max-width: 768px) {
+    .admin-container {
+      padding-top: 60px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .top-navbar {
+      padding: 10px 20px;
+    }
+  
+    .top-navbar .logo {
+      font-size: 1.2rem;
+    }
+  
+    .side-navbar {
+      width: 250px;
+      left: -250px;
+    }
+  
+    .side-navbar.open {
+      left: 0;
+    }
+  
+    .admin-container {
+      padding-top: 60px;
+    }
+  }
+  
+  @media screen and (max-width: 444px) {
+    .top-navbar .logo {
+      font-size: 0;
+    }
+  
+    .top-navbar .logo-img {
+      margin-right: 0;
+    }
+  }
+  
