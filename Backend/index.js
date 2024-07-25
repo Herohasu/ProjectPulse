@@ -27,7 +27,7 @@ app.get('/', (req,res)=>{
     res.send('test')
 })
 
-app.use('/ShowStudent',AllRoutes);
+app.use('/',AllRoutes);
 
 app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`)
