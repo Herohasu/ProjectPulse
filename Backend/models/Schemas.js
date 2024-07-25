@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
 const StudentDataSchema = new mongoose.Schema({
@@ -111,4 +111,22 @@ const FacultyData = mongoose.model('FacultyData',FacultyDataScehma)
 
 
 
-export {StudentData,TeamsData,ProjectData,FacultyData};
+const NotificationDataSchema = new mongoose.Schema({
+    message:{
+        type:String,
+        required:true
+    },
+    deadlineDate:{
+        type:String,
+        required:true
+    },
+    forWhom:{
+        type:String,
+        required:true
+    }
+},{timestamps:true})
+const NotificationData = mongoose.model('/NotificationData',NotificationDataSchema)
+
+
+
+export {StudentData,TeamsData,ProjectData,FacultyData,NotificationData};

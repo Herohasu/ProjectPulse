@@ -1,9 +1,13 @@
 import express from "express";
 const router = express.Router();
 
-import { StudentData, TeamsData } from "../models/Schemas.js";
-// import {TeamsData} from '../models/Schemas.js';
-import { FacultyData, ProjectData } from "../models/Schemas.js";
+import {
+  StudentData,
+  TeamsData,
+  FacultyData,
+  ProjectData,
+  NotificationData,
+} from "../models/Schemas.js";
 
 //==============StudentData================================================
 router.get("/ShowStudent", async (req, res) => {
@@ -256,4 +260,53 @@ router.delete("/DeleteFaculty/:id", async (req, res) => {
   }
 });
 
+//==============NotificationData================================================
+router.get("/ShowAllNotifications", async (req, res) => {
+  try {
+    const AllNotifications = await NotificationData.find();
+    res.status(200).json(AllNotifications);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post("/AddNotifications", async (req, res) => {
+  try {
+    const { message, deadlineDate, forWhom } = req.body;
+    const newNotification = new NotificationData({
+      message,
+      deadlineDate,
+      forWhom,
+    });
+    newNotification.save();
+    res.status(200).json(newNotification);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.put("/EditNotification/:id", async (req, res) => {
+  try {
+    const NotifId = req.params.id;
+    const { message, deadlineDate, forWhom } = req.body;
+    const EditNotifi = await NotificationData.findByIdAndUpdate(NotifId, {
+      message,
+      deadlineDate,
+      forWhom,
+    });
+    res.status(200).json(EditNotifi);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.delete("/DeleteNotification/:id", async (req, res) => {
+  try {
+    const NotifiId = req.params.id
+    const DeleteNotification = await NotificationData.findByIdAndDelete(NotifiId)
+    res.status(200).json(DeleteNotification)
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 export default router;
