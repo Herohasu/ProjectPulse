@@ -256,6 +256,4 @@ router.delete("/DeleteFaculty/:id", async (req, res) => {
   }
 });
 
-
-
 export default router;
