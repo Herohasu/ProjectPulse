@@ -1,12 +1,6 @@
 /*#F9F6E5   #152F46  #1DABFF   */
 
 /* Admin.css */
-:root {
-    --primary-color: #152F46;
-    --secondary-color: #1DABFF;
-    --background-color: #F9F6E5; 
-  }
-
   body{
     background-color: white;
   }
