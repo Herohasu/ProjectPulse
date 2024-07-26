@@ -1,103 +1,118 @@
-/* Styles the overall registration container */
-.register-container {
-  position: relative; /* Allows positioning of elements within the container relative to the background */
-  display: flex; /* Arranges elements horizontally by default */
-  justify-content: center; /* Centers elements horizontally within the container */
-  align-items: center; /* Centers elements vertically within the container */
-  min-height: 100vh; /* Sets minimum height to 100% viewport height */
-  background-image: url("../../public/Cherry.jpg"); /* Replace with path to your background image */
-  background-size: cover; /* Scales the background image to fill the container */
-  background-position: center; /* Positions the background image at the center */
-}
-.register-container .blur-overlay::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: inherit; /* Inherit background image from container */
-  background-size: cover;
-  background-position: center;
-  filter: blur(10%); /* Adjust the blur amount as desired */
+:root {
+  --primary-color: #152F46;
+  --secondary-color: #1DABFF;
+  --background-color: #F9F6E5;
 }
 
-/* Styles the title */
-.register-container h2 {
-  color: whitesmoke; /* Sets text color to white for better visibility on background image */
-  text-align: center; /* Centers the title text horizontally */
-  margin-bottom: 20px; /* Adds some space below the title */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--background-color);
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+.register-image {
+  flex: 1;
+  background-image: url("../../public/RegisterBG.jpeg");
+  background-size: cover;
+  background-position: center;
+  max-width: 45%;
+}
+
+.register-form {
+  flex: 1;
+  min-width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, #FEFEE4 0%, #1DABFF 100%);
+}
+
+.register-form form {
+  background-color: #001733;
+  padding: 30px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0;
+  box-shadow: 0 25px 40px rgba(5, 5, 5, 0.952);
+}
+
+.register-form h2 {
+  color: var(--background-color);
+  text-align: center;
   margin-top: 5px;
 }
 
-/* Styles the form element */
-.register-container form {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* Semi-transparent black background over the image */
-  padding: 30px; /* Adds padding around the form elements */
-  border-radius: 5px; /* Adds rounded corners to the form */
-  display: flex; /* Arranges form elements vertically by default */
-  flex-direction: column; /* Stacks elements on top of each other */
+.register-form .input-group {
+  margin-bottom: 15px;
 }
 
-/* Styles the input group */
-.register-container .input-group {
-  margin-bottom: 15px; /* Adds space between input groups */
-  margin-right: 15px;
+.register-form .input-group label {
+  color: var(--background-color);
+  display: block;
+  margin-bottom: 10px;
 }
 
-/* Styles the label */
-.register-container .input-group label {
-  color: white; /* Sets text color to white for better visibility */
-  display: block; /* Makes the label take up a full line */
-  margin-bottom: 5px; /* Adds space below the label */
+.register-form .input-group input[type="text"],
+.register-form .input-group input[type="email"],
+.register-form .input-group input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  border-radius: 3px;
 }
 
-/* Styles the input fields */
-.register-container .input-group input[type="text"],
-.register-container .input-group input[type="email"] {
-  width: 100%; /* Makes input fields fill the available space */
-  padding: 10px; /* Adds padding to the input fields */
-  border: 1px solid #ccc; /* Adds a solid border to the input fields */
-  border-radius: 3px; /* Adds rounded corners to the input fields */
-}
-
-/* Styles the button */
-.register-container button {
-  background-color: rosybrown; /* Green background color for the button */
-  color: white; /* White text color for the button */
-  padding: 10px 20px; /* Adds padding to the button */
-  border: none; /* Removes default button border */
-  border-radius: 3px; /* Adds rounded corners to the button */
-  cursor: pointer; /* Changes cursor to pointer on hover */
-  transition: 0.3s ease all; /* Adds smooth transition effect on hover */
+.register-form button {
+  background-color: var(--secondary-color);
+  color: var(--background-color);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s ease all;
   margin-top: 15px;
 }
 
-/* Applies hover effect to the button */
-.register-container button:hover {
-  background-color: #3e8e41; /* Changes button background color on hover */
+.register-form button:hover {
+  background-color: var(--primary-color);
 }
 
-/* Styles the register link */
-.register-container .register-link {
-  text-align: center; /* Centers the link text horizontally */
-  color: white; /* Sets text color to white for better visibility */
-  margin-top: 15px; /* Adds space above the link */
+.register-form .register-link {
+  text-align: center;
+  color: var(--background-color);
+  margin-top: 15px;
 }
 
-/* Styles the link text within the register link */
-.register-container .register-link a {
-  color: white; /* Sets link text color to white for better visibility */
-  text-decoration: none; /* Removes underline from the link */
-  transition: 0.3s ease all; /* Adds smooth transition effect on hover */
+.register-form .register-link a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: 0.3s ease all;
 }
 
-/* Applies hover effect to the link text */
-.register-container .register-link a:hover {
-  color: #ccc; /* Changes link text color on hover */
+.register-form .register-link a:hover {
+  color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    flex-direction: column;
+  }
+
+  .register-image, .register-form {
+    flex: none;
+    width: 100%;
+  }
+
+  .register-form form {
+    width: 70%;
+  }
 }

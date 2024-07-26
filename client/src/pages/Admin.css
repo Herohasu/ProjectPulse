@@ -6,6 +6,10 @@
     --secondary-color: #1DABFF;
     --background-color: #F9F6E5; 
   }
+
+  body{
+    background-color: white;
+  }
   
   /* Top Navbar */
   .top-navbar {

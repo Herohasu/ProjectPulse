@@ -1,88 +1,116 @@
-/* Styles the overall login container */
+:root {
+  --primary-color: #152F46;
+  --secondary-color: #1DABFF;
+  --background-color: #F9F6E5;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--background-color);
+}
+
 .login-container {
-    position: relative;  /* Allows positioning of elements within the container relative to the background */
-    display: flex;       /* Arranges elements horizontally by default */
-    justify-content: center;  /* Centers elements horizontally within the container */
-    align-items: center;   /* Centers elements vertically within the container */
-    min-height: 100vh;   /* Sets minimum height to 100% viewport height */
-    background-image: url("../../public/Bloom.jpg"); /* Replace with path to your background image */
-    background-size: cover; /* Scales the background image to fill the container */
-    background-position: center; /* Positions the background image at the center */
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
 
-  }
-  
-  
-  .login-container h2{
-    color: whitesmoke;
-    text-align: center;
-    margin-top: 5px;
-  }
-  
-  /* Styles the form element */
-  .login-container form {
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background over the image */
-    padding: 30px;         /* Adds padding around the form elements */
-    border-radius: 5px;    /* Adds rounded corners to the form */
-    display: flex;         /* Arranges form elements vertically by default */
-    flex-direction: column; /* Stacks elements on top of each other */
-  }
-  
-  /* Styles the input group */
-  .login-container .input-group {
-    margin-bottom: 15px;  /* Adds space between input groups */
-    margin-right: 15px;
+.login-image {
+  flex: 1;
+  background-image: url("../../public/LoginBG.png");
+  background-size: cover;
+  background-position: center;
+}
 
+.login-form {
+  flex: 1;
+  min-width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, #FDF4D5 0%, var(--secondary-color) 100%);
+}
+
+.login-form form {
+  background-color: #001733;
+  padding: 30px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0;
+  box-shadow: 0 25px 40px rgba(5, 5, 5, 0.952);
+}
+
+.login-form h2 {
+  color: var(--background-color);
+  text-align: center;
+  margin-top: 5px;
+}
+
+.login-form .input-group {
+  margin-bottom: 15px;
+}
+
+.login-form .input-group label {
+  color: var(--background-color);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.login-form .input-group input[type="email"],
+.login-form .input-group input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  border-radius: 3px;
+}
+
+.login-form button {
+  background-color: var(--secondary-color);
+  color: var(--background-color);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s ease all;
+  margin-top: 15px;
+}
+
+.login-form button:hover {
+  background-color: var(--primary-color);
+}
+
+.login-form .register-link {
+  text-align: center;
+  color: var(--background-color);
+  margin-top: 15px;
+}
+
+.login-form .register-link a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: 0.3s ease all;
+}
+
+.login-form .register-link a:hover {
+  color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
   }
-  
-  /* Styles the label */
-  .login-container .input-group label {
-    color: rgb(255, 255, 255);          /* Sets text color to white for better visibility */
-    display: block;        /* Makes the label take up a full line */
-    margin-bottom: 10px;    /* Adds space below the label */
+
+  .login-image, .login-form {
+    flex: none;
+    width: 100%;
   }
-  
-  /* Styles the input fields */
-  .login-container .input-group input[type="email"],
-  .login-container .input-group input[type="password"]  {
-    width: 100%;            /* Makes input fields fill the available space */
-    padding: 10px;          /* Adds padding to the input fields */
-    border: 1px solid #ccc;  /* Adds a solid border to the input fields */
-    border-radius: 3px;    /* Adds rounded corners to the input fields */
+
+  .login-form form {
+    width: 70%;
   }
-  
-  /* Styles the button */
-  .login-container button {
-    background-color:rosybrown; /* Green background color for the button */
-    color: white;              /* White text color for the button */
-    padding: 10px 20px;        /* Adds padding to the button */
-    border: none;              /* Removes default button border */
-    border-radius: 3px;        /* Adds rounded corners to the button */
-    cursor: pointer;          /* Changes cursor to pointer on hover */
-    transition: 0.3s ease all; /* Adds smooth transition effect on hover */
-    margin-top: 15px;
-  }
-  
-  /* Applies hover effect to the button */
-  .login-container button:hover {
-    background-color: #3e8e41; 
-  }
-  
-  
-  .login-container .register-link {
-    text-align: center;      
-    color: white;              
-    margin-top: 15px;         
-  }
-  
- 
-  .login-container .register-link a {
-    color: white;             
-    text-decoration: none;    
-    transition: 0.3s ease all; 
-  }
-  
-  .login-container .register-link a:hover {
-    color: #ccc;             
-  }
-  
-  /* Hide default checkbox and create custom box with ::before */
+}
