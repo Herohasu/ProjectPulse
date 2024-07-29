@@ -122,6 +122,7 @@ export default function Register() {
       <div className="register-form">
         <form onSubmit={handleSubmit}>
           <h2>Register</h2>
+          <div></div>
           <div className="input-group">
             <label htmlFor="name">Name</label>
             <input

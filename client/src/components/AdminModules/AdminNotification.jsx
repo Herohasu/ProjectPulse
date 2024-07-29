@@ -15,6 +15,7 @@ const AdminNotification = () => {
     dispatch(fetchNotifications());
   }, [dispatch]);
 
+
   const handleAddNotification = () => {
     dispatch(addNotification({ subject, message, deadlineDate, forWhom }));
     setSubject('');
@@ -62,7 +63,7 @@ const AdminNotification = () => {
             <label htmlFor="deadlineDate">Deadline Date</label>
             <input
               id="deadlineDate"
-              type="date" 
+              type="date"
               className="form-control"
               value={deadlineDate}
               onChange={(e) => setDeadlineDate(e.target.value)}

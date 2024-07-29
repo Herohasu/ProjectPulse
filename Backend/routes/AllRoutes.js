@@ -10,6 +10,20 @@ import {
 } from "../models/Schemas.js";
 
 //==============StudentData================================================
+
+router.get("/StudentDetail/:id", async (req, res) => {
+  try {
+    const StuData = await StudentData.findById(req.params.id);
+    if (!StuData) {
+      return res.status(404).json("Student Not Found");
+    }
+    res.status(200).json(StuData);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ eroor: e.message });
+  }
+});
+
 router.get("/ShowStudent", async (req, res) => {
   try {
     const AllStudent = await StudentData.find();
@@ -24,6 +38,7 @@ router.post("/AddStudent", async (req, res) => {
   try {
     const {
       name,
+      gender,
       enrollmentnumber,
       email,
       mobilenumber,
@@ -33,6 +48,7 @@ router.post("/AddStudent", async (req, res) => {
     } = req.body;
     const newStudent = new StudentData({
       name,
+      gender,
       enrollmentnumber,
       email,
       mobilenumber,
@@ -53,6 +69,7 @@ router.put("/EditStudent/:id", async (req, res) => {
     const StdId = req.params.id;
     const {
       name,
+      gender,
       enrollmentnumber,
       email,
       mobilenumber,
@@ -62,6 +79,7 @@ router.put("/EditStudent/:id", async (req, res) => {
     } = req.body;
     const EditStudent = await StudentData.findByIdAndUpdate(StdId, {
       name,
+      gender,
       enrollmentnumber,
       email,
       mobilenumber,
@@ -302,9 +320,11 @@ router.put("/EditNotification/:id", async (req, res) => {
 
 router.delete("/DeleteNotification/:id", async (req, res) => {
   try {
-    const NotifiId = req.params.id
-    const DeleteNotification = await NotificationData.findByIdAndDelete(NotifiId)
-    res.status(200).json(DeleteNotification)
+    const NotifiId = req.params.id;
+    const DeleteNotification = await NotificationData.findByIdAndDelete(
+      NotifiId
+    );
+    res.status(200).json(DeleteNotification);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

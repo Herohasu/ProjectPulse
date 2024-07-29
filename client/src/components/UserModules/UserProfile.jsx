@@ -3,19 +3,24 @@ import axios from 'axios'
 
 const UserProfile = () => {
 
-  const [studentdata,setStudentdata] = useState([])
+  const [student,setStudentdata] = useState([])
   const [loading,setLoading] = useState(true)
   const [error, setError] = useState(null)
   
-  useEffect(()=>{
-    // const fetch
-  })
+  // useEffect(()=>{
+  //   const fetchStudentData  = async () =>{
+  //     try{
+  //       const response = await axios.get('http://localhost:4000/StudentDetail/')
+  //     }catch(err){}
+  //   }
+  // })
   return (
     <div>
       <h1>Student Profile</h1>
       {student && (
         <div>
           <p><strong>Name:</strong> {student.name}</p>
+          <p><strong>Gender:</strong> {student.gender}</p>
           <p><strong>Enrollment Number:</strong> {student.enrollmentnumber}</p>
           <p><strong>Email:</strong> {student.email}</p>
           <p><strong>Mobile Number:</strong> {student.mobilenumber}</p>

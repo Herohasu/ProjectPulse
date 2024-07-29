@@ -21,22 +21,15 @@ export default function App() {
       <BrowserRouter>
         <Toaster />
         <Routes>
-
-
           <Route path='home' element={<Home />} />
-
 
           <Route path='/admin' element={<AdminLayout />}>
             <Route index element={<Admin />} />
-
           </Route>
+
           <Route path='/' element={<PublicLayout />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-
-
-
-
         </Routes>
       </BrowserRouter>
     </>
