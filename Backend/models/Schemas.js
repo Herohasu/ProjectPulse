@@ -112,6 +112,10 @@ const FacultyData = mongoose.model('FacultyData',FacultyDataScehma)
 
 
 const NotificationDataSchema = new mongoose.Schema({
+    subject:{
+        type:String,
+        required:true
+    },
     message:{
         type:String,
         required:true

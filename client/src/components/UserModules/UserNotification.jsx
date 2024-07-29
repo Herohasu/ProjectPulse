@@ -25,7 +25,7 @@ const UserNotification = () => {
           <h2>User Notifications</h2>
         </div>
         <div className="card-body">
-          <NotificationList notifications={notifications} />
+          <NotificationList notifications={notifications} forWhom={"student"} />
         </div>
       </div>
     </div>

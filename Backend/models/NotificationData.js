@@ -17,7 +17,7 @@ const NotificationDataSchema = new Schema({
   },
   forWhom: {
     type: String,
-    enum: ['faculty', 'student', 'both'], 
+    enum: ['faculty', 'student', 'Both'], 
     required: true,
   }
 }, { timestamps: true });

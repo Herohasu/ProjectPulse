@@ -6,8 +6,8 @@ const router = express.Router();
 // Add a new notification
 router.post('/add', async (req, res) => {
   try {
-    const { message, deadlineDate, forWhom } = req.body;
-    const newNotification = new NotificationData({ message, deadlineDate, forWhom });
+    const { subject,message, deadlineDate, forWhom } = req.body;
+    const newNotification = new NotificationData({ subject ,message, deadlineDate, forWhom });
     await newNotification.save();
     res.status(201).json({ message: 'Notification added successfully' });
   } catch (error) {
