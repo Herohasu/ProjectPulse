@@ -3,16 +3,21 @@ import mongoose from 'mongoose';
 const { Schema, model, models } = mongoose;
 
 const NotificationDataSchema = new Schema({
+  subject: {
+    type: String,
+    required: true,
+  },
   message: {
     type: String,
     required: true,
   },
   deadlineDate: {
-    type: String,
+    type: Date, 
     required: true,
   },
   forWhom: {
     type: String,
+    enum: ['faculty', 'student', 'both'], 
     required: true,
   }
 }, { timestamps: true });

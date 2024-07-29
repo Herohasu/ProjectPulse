@@ -1,4 +1,3 @@
-// redux/NotificationSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { get, post } from '../services/ApiEndpoint';
 

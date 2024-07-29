@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchNotifications } from '../../redux/NotificationSlice';
-import './UserNotification.css'; 
+import NotificationList from '../../redux/NotificationList';
+import './UserNotification.css';
 
 const UserNotification = () => {
   const dispatch = useDispatch();
@@ -24,13 +25,7 @@ const UserNotification = () => {
           <h2>User Notifications</h2>
         </div>
         <div className="card-body">
-          <ul className="list-group">
-            {notifications.map((notification, index) => (
-              <li key={index} className="list-group-item">
-                {notification.message}
-              </li>
-            ))}
-          </ul>
+          <NotificationList notifications={notifications} />
         </div>
       </div>
     </div>
@@ -38,4 +33,3 @@ const UserNotification = () => {
 };
 
 export default UserNotification;
-
