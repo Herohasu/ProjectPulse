@@ -1,0 +1,33 @@
+/* UserNotification.css */
+
+.card-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card-body {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .list-group-item {
+    border: none;
+    padding: 1rem;
+  }
+  
+  .list-group-item:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .list-group-item:nth-child(even) {
+    background-color: #f1f1f1;
+  }
+  
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    margin: 2rem auto;
+    display: block;
+  }
+  
