@@ -42,7 +42,7 @@ import DbConnection from './utils/db.js';
 import AuthRoutes from './routes/Auth.js';
 import AdminRoute from './routes/AdminRoute.js';
 import AllRoutes from './routes/AllRoutes.js';
-import notificationRoutes from './routes/notifications.js'; // Import notification routes
+import notificationRoutes from '../Backend/routes/Notifications.js'; 
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -60,7 +60,7 @@ app.use(cors({
 
 app.use('/api/auth', AuthRoutes);
 app.use('/api/admin', AdminRoute);
-app.use('/api/notifications', notificationRoutes); // Add this line to use notification routes
+app.use('/api/notifications', notificationRoutes);
 
 app.get('/', (req, res) => {
     res.send('test');
