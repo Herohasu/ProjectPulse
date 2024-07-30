@@ -107,6 +107,7 @@ const requestPasswordReset = async (req,res)=>{
         }
     });
 
+    
     const mailOptions = {
         to: "studyai2909@gmail.com",
         from: 'passwordreset@projectpulse.com',
