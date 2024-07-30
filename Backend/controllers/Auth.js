@@ -13,9 +13,12 @@ const register=async(req,res)=>{
 
         const hashpassword= await bcryptjs.hashSync(password, 10)
 
-        const newUser= new UserModel({
-            name,email,password:hashpassword
-        })
+        const newUser = new UserModel({
+            name: req.body.name,
+            email: req.body.email,
+            password: hashpassword,
+            role: req.body.role 
+          });
             await newUser.save()
 
             res.status(200).json({message:"User register Successfully",newUser})

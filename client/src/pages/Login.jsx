@@ -19,16 +19,21 @@ export default function Login() {
       const response = request.data;
 
       if (request.status === 200) {
+        dispatch(setUser(response.user));
+        toast.success(response.message);
+
+        // Redirect based on user role
         if (response.user.role === 'admin') {
           navigate('/admin');
+        } else if (response.user.role === 'faculty') {
+          navigate('/faculty');
         } else if (response.user.role === 'user') {
           navigate('/home');
         }
-        toast.success(response.message);
-        dispatch(setUser(response.user));
       }
     } catch (error) {
-      console.log(error);
+      console.error('Login failed', error);
+      toast.error('Login failed. Please try again.');
     }
   };
 
@@ -57,7 +62,7 @@ export default function Login() {
             />
           </div>
           <p className="register-link">
-            <Link to="/forgot-password">Forgot Password ?</Link>
+            <Link to="/forgot-password">Forgot Password?</Link>
           </p>
           <button type="submit">Login</button>
           <p className="register-link">
