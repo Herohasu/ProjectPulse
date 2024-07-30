@@ -15,8 +15,6 @@ const AdminLayout = () => {
   return (
     <>
     <Outlet />
-
-
     </>
   )
 }

@@ -42,6 +42,10 @@ export function Admin({ loggedInAdmin }) {
     getUsers();
   }, []);
 
+  const handleEdit = async (id) =>{
+    
+  }
+
   const handleDelete = async (id) => {
     try {
       const request = await deleteUser(`/api/admin/delete/${id}`);
@@ -95,7 +99,7 @@ export function Admin({ loggedInAdmin }) {
   ];
 
   const sectionComponents = {
-    dashboard: <AdminDashboard users={users} handleDelete={handleDelete} />,
+    dashboard: <AdminDashboard users={users} handleDelete={handleDelete} handleEdit={handleEdit} />,
     mentor: <AdminMentor />,
     projects: <AdminProject />,
     notifications: <AdminNotification />,
