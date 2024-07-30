@@ -92,7 +92,7 @@ const requestPasswordReset = async (req,res)=>{
 
     const token = crypto.randomBytes(32).toString('hex')
     user.resetPasswordToken = token
-    user.resetPasswordExpires = Date.now() + 3600000
+    user.resetPasswordExpires = Date.now() + 1800000
 
     await user.save()
 
@@ -106,11 +106,11 @@ const requestPasswordReset = async (req,res)=>{
 
     const mailOptions = {
         to: "studyai2909@gmail.com",
-        from: 'passwordreset@example.com',
+        from: 'passwordreset@projectpulse.com',
         subject: 'Password Reset',
         text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n` +
               `Please click on the following link, or paste this into your browser to complete the process:\n\n` +
-              `http://localhost:4000/api/auth/reset-password/${token}\n\n` +
+              `http://localhost:5173//reset-password/${token}\n\n` +
               `If you did not request this, please ignore this email and your password will remain unchanged.\n`
     };
 
@@ -124,7 +124,7 @@ const requestPasswordReset = async (req,res)=>{
 }
 
 const resetPassword = async (req, res) => {
-    console.log("call")
+    console.log("called resetpassword")
     const { token } = req.params;
     const { password } = req.body;
 
@@ -136,7 +136,7 @@ const resetPassword = async (req, res) => {
     if (!user) {
         return res.status(400).send('Password reset token is invalid or has expired');
     }
-
+    
     user.password = await bcryptjs.hashSync(password, 10);
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
