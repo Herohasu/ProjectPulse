@@ -10,6 +10,7 @@ import AdminLayout from './Layouts/AdminLayout'
 import PublicLayout from './Layouts/PublicLayout'
 import { useDispatch } from 'react-redux'
 import { updateUser } from './redux/AuthSlice'
+import ForgotPassword from './pages/ForgotPassword'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -28,6 +29,7 @@ export default function App() {
           </Route>
 
           <Route path='/' element={<PublicLayout />} />
+          <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Routes>

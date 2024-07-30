@@ -56,6 +56,9 @@ export default function Login() {
               required
             />
           </div>
+          <p className="register-link">
+            <Link to="/forgot-password">Forgot Password ?</Link>
+          </p>
           <button type="submit">Login</button>
           <p className="register-link">
             Not Registered? <Link to="/register">Register here</Link>
