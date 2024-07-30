@@ -12,7 +12,8 @@ import { useDispatch } from 'react-redux'
 import { updateUser } from './redux/AuthSlice'
 import ForgotPassword from './pages/ForgotPassword'
 import FacultyDashboard from './components/FacultyModules/FacultyDashboard'
-import FacultyLayout from './Layouts/FacultyLayout'
+import FacultyLayout from './Layouts/FacultyLayout'import PasswordReset from './pages/PasswordReset'
+
 export default function App() {
   const dispatch = useDispatch();
 
@@ -37,8 +38,12 @@ export default function App() {
           <Route index element={<FacultyDashboard />} />
         </Route>
 
-        <Route path='/' element={<PublicLayout />} />
-      </Routes>
-    </BrowserRouter>
-  );
+          <Route path='/' element={<PublicLayout />} />
+          <Route path="/forgot-password" element={<ForgotPassword/>} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  )
 }

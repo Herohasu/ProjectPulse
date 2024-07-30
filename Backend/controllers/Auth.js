@@ -1,6 +1,8 @@
 import UserModel from "../models/user.js"
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
+import nodemailer from 'nodemailer'
 
 const register=async(req,res)=>{
     try{
@@ -83,6 +85,7 @@ const checkuser=async(req,res)=>{
 }
 
 const requestPasswordReset = async (req,res)=>{
+    console.log("callesd request")
     const {email} =req.body;
     const user = await UserModel.findOne({email})
 
@@ -99,27 +102,50 @@ const requestPasswordReset = async (req,res)=>{
     const transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: 'studyai2909@gmail.com',
-            pass: '1@2#3$4_AI'
+            user: 'djbavda@gmail.com',
+            pass: 'vlbu xpfk ijjk jwhi'
         }
     });
 
     const mailOptions = {
-        to: user.email,
+        to: "studyai2909@gmail.com",
         from: 'passwordreset@example.com',
         subject: 'Password Reset',
         text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n` +
               `Please click on the following link, or paste this into your browser to complete the process:\n\n` +
-              `http://localhost:3000/reset-password/${token}\n\n` +
+              `http://localhost:4000/api/auth/reset-password/${token}\n\n` +
               `If you did not request this, please ignore this email and your password will remain unchanged.\n`
     };
 
     transporter.sendMail(mailOptions, (err) => {
         if (err) {
+            console.log(err)
             return res.status(500).send('Error sending email');
         }
         res.status(200).send('Password reset email sent');
     });
 }
 
-export {register,Login,Logout,checkuser,requestPasswordReset}
+const resetPassword = async (req, res) => {
+    console.log("call")
+    const { token } = req.params;
+    const { password } = req.body;
+
+    const user = await UserModel.findOne({ 
+        resetPasswordToken: token, 
+        resetPasswordExpires: { $gt: Date.now() } 
+    });
+
+    if (!user) {
+        return res.status(400).send('Password reset token is invalid or has expired');
+    }
+
+    user.password = await bcryptjs.hashSync(password, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.status(200).send('Password has been reset');
+};
+
+export {register,Login,Logout,checkuser,requestPasswordReset,resetPassword}
