@@ -11,26 +11,35 @@ import PublicLayout from './Layouts/PublicLayout'
 import { useDispatch } from 'react-redux'
 import { updateUser } from './redux/AuthSlice'
 import ForgotPassword from './pages/ForgotPassword'
+import FacultyDashboard from './components/FacultyModules/FacultyDashboard'
+import FacultyLayout from './Layouts/FacultyLayout'
 import PasswordReset from './pages/PasswordReset'
 
 export default function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(updateUser())
-  }, [])
+    dispatch(updateUser());
+  }, [dispatch]);
+
   return (
     <>
-      <BrowserRouter>
-        <Toaster />
-        <Routes>
-          <Route path='home' element={<Home />} />
+    <BrowserRouter>
+      <Toaster />
+      <Routes>
+        <Route path='/home' element={<Home />} />
+        
 
-          <Route path='/admin' element={<AdminLayout />}>
-            <Route index element={<Admin />} />
-          </Route>
+        <Route path='/admin' element={<AdminLayout />}>
+          <Route index element={<Admin />} />
+        </Route>
+
+        <Route path='/faculty' element={<FacultyLayout />}>
+          <Route index element={<FacultyDashboard />} />
+        </Route>
 
           <Route path='/' element={<PublicLayout />} />
-          <Route path="/reset-password/:token" element={<PasswordReset/>} />
+          <Route path='/reset-password/:token' element={<PasswordReset />} />
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
