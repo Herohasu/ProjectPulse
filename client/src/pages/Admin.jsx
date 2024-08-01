@@ -42,18 +42,26 @@ export function Admin({ loggedInAdmin }) {
     getUsers();
   }, []);
 
-  const handleEdit = async (id) =>{
-    
+  const handleEdit = async (id) => {
+
   }
 
   const handleDelete = async (id) => {
     try {
       const request = await deleteUser(`/api/admin/delete/${id}`);
       const response = request.data;
-  
+
       if (request.status === 200) {
         toast.success(response.message);
-        getUsers();
+        try {
+          const request = await get('/api/admin/getuser');
+          const response = request.data;
+          if (request.status === 200) {
+            setUsers(response.users);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     } catch (error) {
       if (error.response) {
