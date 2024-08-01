@@ -1,15 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
-:root {
-  --primary-color: #19938f;
-  --primary-color-dark: #19938f;
-  --text-dark: #333333;
-  --text-light: #767268;
-  --white: #ffffff;
-  --max-width: 1200px;
-  --header-font: "Bebas Neue", sans-serif;
-}
-
 * {
   padding: 0;
   margin: 0;
@@ -26,7 +15,7 @@ img {
 }
 
 a {
-  color: black;
+  color: var(--background-color);
   text-decoration: none;
   transition: 0.3s;
 }

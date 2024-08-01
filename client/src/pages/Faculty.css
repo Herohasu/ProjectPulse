@@ -1,27 +1,25 @@
-  body{
+body {
     background-color: white;
   }
-  
-  /* Top Navbar */
   .top-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px; 
-    background-color: var(--background-color); 
+    padding: 10px 20px;
+    background-color: var(--background-color);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .top-navbar .logo {
     display: flex;
     align-items: center;
     font-weight: bold;
-    color: var(--primary-color); 
+    color: var(--primary-color);
   }
   
   .logo-img {
@@ -41,7 +39,8 @@
     color: var(--primary-color);
     cursor: pointer;
   }
-  .top-navbar .admin-profile{
+  
+  .top-navbar .faculty-profile {
     color: var(--primary-color);
   }
   
@@ -65,7 +64,7 @@
     transition: left 0.3s ease;
     overflow-y: auto;
     z-index: 999;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
   }
   
   .side-navbar.open {
@@ -74,36 +73,35 @@
   
   .side-navbar a {
     display: block;
-    padding: 15px 20px; 
+    padding: 15px 20px;
     color: var(--secondary-color);
     text-decoration: none;
     transition: background-color 0.3s ease;
   }
   
   .side-navbar a:hover {
-    background-color: var(--primary-color); 
+    background-color: var(--primary-color);
     color: var(--secondary-color);
   }
   
   .side-navbar .active {
-    background-color: var(--primary-color); 
-    color: var(--secondary-color); 
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
   }
   
-.admin-container {
-    margin-left: 0; 
+  .faculty-container {
+    margin-left: 0;
     padding: 20px;
     padding-top: 80px;
     transition: margin-left 0.3s ease;
   }
   
-  .admin-container.sidebar-open {
-    margin-left: 250px; 
+  .faculty-container.sidebar-open {
+    margin-left: 250px;
   }
-
- 
+  
   @media screen and (max-width: 768px) {
-    .admin-container {
+    .faculty-container {
       padding-top: 60px;
     }
   }
@@ -126,7 +124,7 @@
       left: 0;
     }
   
-    .admin-container {
+    .faculty-container {
       padding-top: 60px;
     }
   }
