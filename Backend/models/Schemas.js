@@ -12,7 +12,7 @@ const StudentDataSchema = new mongoose.Schema({
         required: false,
     },
     enrollmentnumber:{
-        type:Number,
+        type:String,
         required:false
     },
     email:{
@@ -20,7 +20,7 @@ const StudentDataSchema = new mongoose.Schema({
         required:true
     },
     mobilenumber:{
-        type:Number,
+        type:String,
         required:false
     },
     branch:{
@@ -28,7 +28,7 @@ const StudentDataSchema = new mongoose.Schema({
         required:false
     },
     semester:{
-        type:Number,
+        type:String,
         required:false
     },
     division:{
@@ -105,7 +105,7 @@ const FacultyDataScehma = new mongoose.Schema({
         required:true
     },
     mobilenumber:{
-        type:Number,
+        type:String,
         required:true
     },
     projectsid:{
