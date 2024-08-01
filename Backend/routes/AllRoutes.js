@@ -1,21 +1,23 @@
 import express from "express";
 import multer from 'multer';
 const router = express.Router();
+import path from 'path'
 
 
 
 const storage = multer.diskStorage({
   destination:(req,file,cb)=>{
-    cb(null,'public/uploads');
+    cb(null,'public/upload/');
   },
   filename:(req,file,cb)=>{
-    cb(null, Date.now()+Path2D.extname(file.originalname));
+    cb(null, Date.now()+ path.extname(file.originalname));
   }
 });
 const upload = multer({
   storage:storage,
   limits: {fileSize: 2*1024*1024}
 });
+
 
 
 
@@ -42,6 +44,23 @@ router.get("/StudentDetail/:id", async (req, res) => {
   }
 });
 
+router.post("/StudentDetailByEmail",async (req,res)=>{
+  try{
+    const {email} = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+    const StuData = await StudentData.findOne({email:email})
+    if (!StuData){
+      return res.status(404).json({ message: "Student not found" });
+    }
+    res.status(200).json(StuData);
+    console.log(StuData)
+  }catch(err){
+    res.status(500).json({message:err.message})
+  }
+})
+
 router.get("/ShowStudent", async (req, res) => {
   try {
     const AllStudent = await StudentData.find();
@@ -52,7 +71,7 @@ router.get("/ShowStudent", async (req, res) => {
   }
 });
 
-router.post("/AddStudent",upload.none(), async (req, res) => {
+router.post("/AddStudent",upload.single('image'), async (req, res) => {
   try {
     console.log(req.body)
     const {
@@ -64,6 +83,7 @@ router.post("/AddStudent",upload.none(), async (req, res) => {
       branch,
       semester,
       division,
+      image
     } = req.body;
     const newStudent = new StudentData({
       name,
@@ -87,6 +107,9 @@ router.post("/AddStudent",upload.none(), async (req, res) => {
     if (division){
       newStudent.division = division;
     }
+    if (image){
+      newStudent.image = `upload/${req.file.filename}`
+    }
     newStudent.save();
     res.json(newStudent);
   } catch (e) {
@@ -95,8 +118,10 @@ router.post("/AddStudent",upload.none(), async (req, res) => {
   }
 });
 
-router.put("/EditStudent/:id", async (req, res) => {
+router.put("/EditStudent/:id",upload.single('image'), async (req, res) => {
   try {
+    console.log("put called",req.body)
+    console.log(req.file)
     const StdId = req.params.id;
     const {
       name,
@@ -107,6 +132,7 @@ router.put("/EditStudent/:id", async (req, res) => {
       branch,
       semester,
       division,
+      image
     } = req.body;
     const updateData = {
       name,
@@ -131,9 +157,14 @@ router.put("/EditStudent/:id", async (req, res) => {
     if (division){
       updateData.division = division;
     }
+    if (req.file){
+      updateData.image = `upload/${req.file.filename}`
+      console.log("done")
+    }
     const EditStudent = await StudentData.findByIdAndUpdate(StdId, updateData);
     res.status(200).json(EditStudent);
   } catch (e) {
+    console.log(e)
     res.status(500).json({ error: e.message });
   }
 });

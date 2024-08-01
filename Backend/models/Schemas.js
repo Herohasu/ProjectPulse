@@ -34,6 +34,10 @@ const StudentDataSchema = new mongoose.Schema({
     division:{
         type:String,
         required:false
+    },
+    image:{
+        type:String,
+        required:false
     }
 },{timestamps:true})
 const StudentData = mongoose.model('StudentData',StudentDataSchema)

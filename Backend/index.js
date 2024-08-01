@@ -44,6 +44,12 @@ import AdminRoute from './routes/AdminRoute.js';
 import AllRoutes from './routes/AllRoutes.js';
 import notificationRoutes from '../Backend/routes/Notifications.js'; 
 
+import path from 'path'
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -57,6 +63,8 @@ app.use(cors({
     credentials: true,
     origin: "http://localhost:5173"
 }));
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use('/api/auth', AuthRoutes);
 app.use('/api/admin', AdminRoute);
