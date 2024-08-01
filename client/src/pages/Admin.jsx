@@ -50,7 +50,7 @@ export function Admin({ loggedInAdmin }) {
     try {
       const request = await deleteUser(`/api/admin/delete/${id}`);
       const response = request.data;
-
+  
       if (request.status === 200) {
         toast.success(response.message);
         getUsers();
@@ -61,6 +61,7 @@ export function Admin({ loggedInAdmin }) {
       }
     }
   };
+
 
   const handleLogout = async () => {
     try {
