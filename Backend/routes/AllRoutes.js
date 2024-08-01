@@ -1,5 +1,23 @@
 import express from "express";
+import multer from 'multer';
 const router = express.Router();
+
+
+
+const storage = multer.diskStorage({
+  destination:(req,file,cb)=>{
+    cb(null,'public/uploads');
+  },
+  filename:(req,file,cb)=>{
+    cb(null, Date.now()+Path2D.extname(file.originalname));
+  }
+});
+const upload = multer({
+  storage:storage,
+  limits: {fileSize: 2*1024*1024}
+});
+
+
 
 import {
   StudentData,
@@ -34,13 +52,14 @@ router.get("/ShowStudent", async (req, res) => {
   }
 });
 
-router.post("/AddStudent", async (req, res) => {
+router.post("/AddStudent",upload.none(), async (req, res) => {
   try {
+    console.log(req.body)
     const {
       name,
+      email,
       gender,
       enrollmentnumber,
-      email,
       mobilenumber,
       branch,
       semester,
@@ -48,14 +67,26 @@ router.post("/AddStudent", async (req, res) => {
     } = req.body;
     const newStudent = new StudentData({
       name,
-      gender,
-      enrollmentnumber,
-      email,
-      mobilenumber,
-      branch,
-      semester,
-      division,
+      email
     });
+    if (gender){
+      newStudent.gender = gender;
+    }
+    if (enrollmentnumber){
+      newStudent.enrollmentnumber = enrollmentnumber;
+    }
+    if (mobilenumber){
+      newStudent.mobilenumber = mobilenumber;
+    }
+    if (branch){
+      newStudent.branch = branch;
+    }
+    if (semester){
+      newStudent.semester = semester;
+    }
+    if (division){
+      newStudent.division = division;
+    }
     newStudent.save();
     res.json(newStudent);
   } catch (e) {
@@ -77,16 +108,30 @@ router.put("/EditStudent/:id", async (req, res) => {
       semester,
       division,
     } = req.body;
-    const EditStudent = await StudentData.findByIdAndUpdate(StdId, {
+    const updateData = {
       name,
-      gender,
-      enrollmentnumber,
-      email,
-      mobilenumber,
-      branch,
-      semester,
-      division,
-    });
+      email
+    };
+   
+    if (gender){
+      updateData.gender = gender;
+    }
+    if (enrollmentnumber){
+      updateData.enrollmentnumber = enrollmentnumber;
+    }
+    if (mobilenumber){
+      updateData.mobilenumber = mobilenumber;
+    }
+    if (branch){
+      updateData.branch = branch;
+    }
+    if (semester){
+      updateData.semester = semester;
+    }
+    if (division){
+      updateData.division = division;
+    }
+    const EditStudent = await StudentData.findByIdAndUpdate(StdId, updateData);
     res.status(200).json(EditStudent);
   } catch (e) {
     res.status(500).json({ error: e.message });

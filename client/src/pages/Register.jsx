@@ -89,6 +89,7 @@ import { Link } from 'react-router-dom';
 import { post } from '../services/ApiEndpoint';
 import toast from 'react-hot-toast';
 import './Register.css';
+import axios from 'axios';
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -98,6 +99,9 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("name",name);
+    formData.append("email",email);
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
       return;
@@ -109,7 +113,14 @@ export default function Register() {
 
       if (request.status === 200) {
         toast.success(response.message);
+        axios.post('http://localhost:4000/AddStudent', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
       }
+
+      
     } catch (error) {
       console.log(error);
       toast.error('Registration failed');
@@ -128,7 +139,6 @@ export default function Register() {
             <input
               type="text"
               id="name"
-              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -137,7 +147,6 @@ export default function Register() {
             <input
               type="email"
               id="email"
-              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -146,7 +155,6 @@ export default function Register() {
             <input
               type="password"
               id="password"
-              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
@@ -155,7 +163,6 @@ export default function Register() {
             <input
               type="password"
               id="confirm-password"
-              value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
