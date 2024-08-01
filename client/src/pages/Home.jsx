@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Logout, updateUser } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
-import { FaBell, FaCalendar, FaHome, FaUsers, FaTasks, FaUser } from 'react-icons/fa';
+import { FaBell, FaCalendar, FaHome, FaTasks, FaUser } from 'react-icons/fa';
+import { RiTeamFill } from "react-icons/ri";
 import './Home.css';
 import UserDashboard from '../components/UserModules/UserDashboard';
-import UserNotification from '../components/UserModules/UserNotification'
-import UserCalender from '../components/UserModules/UserCalender'
+import UserNotification from '../components/UserModules/UserNotification';
+import UserCalender from '../components/UserModules/UserCalender';
 import UserProject from '../components/UserModules/UserProject';
 import UserProfile from '../components/UserModules/UserProfile';
+import UserTeam from '../components/UserModules/UserTeam';
 
 const Home = () => {
   const user = useSelector((state) => state.Auth.user);
@@ -60,19 +62,20 @@ const Home = () => {
 
   const sideNavItems = [
     { name: 'Dashboard', icon: <FaHome />, path: 'dashboard' },
-    { name: 'Project', icon: <FaTasks/>, path: 'project'},
+    { name: 'Project', icon: <FaTasks />, path: 'project' },
+    { name: 'My Team', icon: <RiTeamFill />, path: 'myteam' },
     { name: 'Notifications', icon: <FaBell />, path: 'notifications' },
     { name: 'Calendar', icon: <FaCalendar />, path: 'calendar' },
     { name: 'My Profile', icon: <FaUser />, path: 'myprofile' },
-
   ];
 
   const sectionComponents = {
-    dashboard: <UserDashboard/>,
-    project: <UserProject/>,
-    notifications: <UserNotification/>,
-    calendar: <UserCalender/>,
-    myprofile: <UserProfile/>,
+    dashboard: <UserDashboard />,
+    project: <UserProject />,
+    myteam: <UserTeam user={user} />,
+    notifications: <UserNotification />,
+    calendar: <UserCalender />,
+    myprofile: <UserProfile />,
   };
 
   return (

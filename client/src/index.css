@@ -1,7 +1,12 @@
+/* trial #56ADB7 
+#043544 
+#B5DFD5 */
+
 /* :root {
-    --primary-color: #152F46;
-    --secondary-color: #1DABFF;
-    --background-color: #F9F6E5;
+    --primary-color: #043544;
+    --secondary-color:  #56adb7;
+    --background-color: #b5dfd5;
+    background-color: white;
   } */
 
   :root {
@@ -10,3 +15,5 @@
     --background-color: #F9F6E5;
     background-color: white;
   }
+
+  

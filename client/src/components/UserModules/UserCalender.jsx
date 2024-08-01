@@ -41,10 +41,15 @@ const UserCalendar = () => {
     return calendarDays;
   };
 
+  const hasComments = (day) => {
+    const dateKey = day ? day.toLocaleDateString() : '';
+    return comments[dateKey] && comments[dateKey].length > 0;
+  };
+
   const handleDateClick = (day) => {
     if (day) {
       setSelectedDate(day);
-      setShowCommentDropdown(!showCommentDropdown);
+      setShowCommentDropdown(true);
     }
   };
 
@@ -77,38 +82,74 @@ const UserCalendar = () => {
     const calendarDays = generateCalendar();
 
     return (
-      <div className="my_calendar">
-        <div className="header">
-          <button onClick={handlePreviousMonth} className="nav-button">&lt;</button>
-          <h2>{selectedDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
-          <button onClick={handleNextMonth} className="nav-button">&gt;</button>
+      <div className="calendar-container">
+        <div className="my_calendar">
+          <div className="header">
+            <button onClick={handlePreviousMonth} className="nav-button">&lt;</button>
+            <h2>{selectedDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
+            <button onClick={handleNextMonth} className="nav-button">&gt;</button>
+          </div>
+          <button onClick={handleToday} className="today-button">Today</button>
+          <div className="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+          <div className="days">
+            {calendarDays.map((day, index) => {
+              const dateKey = day ? day.toLocaleDateString() : '';
+              return (
+                <div
+                  key={index}
+                  className={`day ${day && day.toLocaleDateString() === selectedDate.toLocaleDateString() ? 'selected' : ''} ${hasComments(day) ? 'highlighted' : ''}`}
+                  onClick={() => handleDateClick(day)}
+                >
+                  {day ? day.getDate() : ''}
+                </div>
+              );
+            })}
+          </div>
+          {renderComments()}
         </div>
-        <button onClick={handleToday} className="today-button">Today</button>
-        <div className="weekdays">
-          <div>Sun</div>
-          <div>Mon</div>
-          <div>Tue</div>
-          <div>Wed</div>
-          <div>Thu</div>
-          <div>Fri</div>
-          <div>Sat</div>
+        {showCommentDropdown && (
+          <div className="comment-dropdown">
+            <h3>Add Comment for {selectedDate.toLocaleDateString()}</h3>
+            <textarea
+              value={commentInput}
+              onChange={(e) => setCommentInput(e.target.value)}
+            />
+            <div><button className="addcommentbtn" onClick={handleAddComment}>Add Comment</button></div>
+            <div className="cancelbtn"><button onClick={() => setShowCommentDropdown(false)}>Cancel</button></div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderAllComments = () => {
+    const allComments = Object.entries(comments).map(([date, commentsForDate]) => (
+      <div key={date} className="comment-item">
+        <div className="comment-date">{date}</div>
+        <div className="comment-content">
+          <ul>
+            {commentsForDate.map((comment, index) => (
+              <li key={index}>{comment}</li>
+            ))}
+          </ul>
         </div>
-        <div className="days">
-          {calendarDays.map((day, index) => {
-            const dateKey = day ? day.toLocaleDateString() : '';
-            const hasComments = comments[dateKey] && comments[dateKey].length > 0;
-            return (
-              <div
-                key={index}
-                className={`day ${day && day.toLocaleDateString() === selectedDate.toLocaleDateString() ? 'selected' : ''} ${hasComments ? 'has-comments' : ''}`}
-                onClick={() => handleDateClick(day)}
-              >
-                {day ? day.getDate() : ''}
-              </div>
-            );
-          })}
+      </div>
+    ));
+
+    return (
+      <div className="all-comments-container">
+        <div className="all-comments">
+          <h2>Comment History</h2>
+          {allComments}
         </div>
-        {renderComments()}
       </div>
     );
   };
@@ -116,17 +157,7 @@ const UserCalendar = () => {
   return (
     <div>
       {renderCalendar()}
-      {showCommentDropdown && (
-        <div className="comment-dropdown">
-          <h3>Add Comment for {selectedDate.toLocaleDateString()}</h3>
-          <textarea
-            value={commentInput}
-            onChange={(e) => setCommentInput(e.target.value)}
-          />
-          <button onClick={handleAddComment}>Add Comment</button>
-          <button onClick={() => setShowCommentDropdown(false)}>Cancel</button>
-        </div>
-      )}
+      {renderAllComments()}
     </div>
   );
 };
