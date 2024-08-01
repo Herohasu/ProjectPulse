@@ -11,12 +11,10 @@ const AdminLayout = () => {
         if(!user || user.role !== 'admin'){
             navigate('/login')
         }
-    },[user])
+    },[user,navigate])
   return (
     <>
     <Outlet />
-
-
     </>
   )
 }

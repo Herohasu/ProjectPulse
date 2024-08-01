@@ -1,5 +1,23 @@
 import express from "express";
+import multer from 'multer';
 const router = express.Router();
+
+
+
+const storage = multer.diskStorage({
+  destination:(req,file,cb)=>{
+    cb(null,'public/uploads');
+  },
+  filename:(req,file,cb)=>{
+    cb(null, Date.now()+Path2D.extname(file.originalname));
+  }
+});
+const upload = multer({
+  storage:storage,
+  limits: {fileSize: 2*1024*1024}
+});
+
+
 
 import {
   StudentData,
@@ -10,6 +28,20 @@ import {
 } from "../models/Schemas.js";
 
 //==============StudentData================================================
+
+router.get("/StudentDetail/:id", async (req, res) => {
+  try {
+    const StuData = await StudentData.findById(req.params.id);
+    if (!StuData) {
+      return res.status(404).json("Student Not Found");
+    }
+    res.status(200).json(StuData);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ eroor: e.message });
+  }
+});
+
 router.get("/ShowStudent", async (req, res) => {
   try {
     const AllStudent = await StudentData.find();
@@ -20,12 +52,14 @@ router.get("/ShowStudent", async (req, res) => {
   }
 });
 
-router.post("/AddStudent", async (req, res) => {
+router.post("/AddStudent",upload.none(), async (req, res) => {
   try {
+    console.log(req.body)
     const {
       name,
-      enrollmentnumber,
       email,
+      gender,
+      enrollmentnumber,
       mobilenumber,
       branch,
       semester,
@@ -33,13 +67,26 @@ router.post("/AddStudent", async (req, res) => {
     } = req.body;
     const newStudent = new StudentData({
       name,
-      enrollmentnumber,
-      email,
-      mobilenumber,
-      branch,
-      semester,
-      division,
+      email
     });
+    if (gender){
+      newStudent.gender = gender;
+    }
+    if (enrollmentnumber){
+      newStudent.enrollmentnumber = enrollmentnumber;
+    }
+    if (mobilenumber){
+      newStudent.mobilenumber = mobilenumber;
+    }
+    if (branch){
+      newStudent.branch = branch;
+    }
+    if (semester){
+      newStudent.semester = semester;
+    }
+    if (division){
+      newStudent.division = division;
+    }
     newStudent.save();
     res.json(newStudent);
   } catch (e) {
@@ -53,6 +100,7 @@ router.put("/EditStudent/:id", async (req, res) => {
     const StdId = req.params.id;
     const {
       name,
+      gender,
       enrollmentnumber,
       email,
       mobilenumber,
@@ -60,15 +108,30 @@ router.put("/EditStudent/:id", async (req, res) => {
       semester,
       division,
     } = req.body;
-    const EditStudent = await StudentData.findByIdAndUpdate(StdId, {
+    const updateData = {
       name,
-      enrollmentnumber,
-      email,
-      mobilenumber,
-      branch,
-      semester,
-      division,
-    });
+      email
+    };
+   
+    if (gender){
+      updateData.gender = gender;
+    }
+    if (enrollmentnumber){
+      updateData.enrollmentnumber = enrollmentnumber;
+    }
+    if (mobilenumber){
+      updateData.mobilenumber = mobilenumber;
+    }
+    if (branch){
+      updateData.branch = branch;
+    }
+    if (semester){
+      updateData.semester = semester;
+    }
+    if (division){
+      updateData.division = division;
+    }
+    const EditStudent = await StudentData.findByIdAndUpdate(StdId, updateData);
     res.status(200).json(EditStudent);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -302,9 +365,11 @@ router.put("/EditNotification/:id", async (req, res) => {
 
 router.delete("/DeleteNotification/:id", async (req, res) => {
   try {
-    const NotifiId = req.params.id
-    const DeleteNotification = await NotificationData.findByIdAndDelete(NotifiId)
-    res.status(200).json(DeleteNotification)
+    const NotifiId = req.params.id;
+    const DeleteNotification = await NotificationData.findByIdAndDelete(
+      NotifiId
+    );
+    res.status(200).json(DeleteNotification);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -1,4 +1,11 @@
-/* *{
-    max-width: 1280px;
-    max-height: 1000px;
-} */
+/* :root {
+    --primary-color: #152F46;
+    --secondary-color: #1DABFF;
+    --background-color: #F9F6E5;
+  } */
+
+  :root {
+    --primary-color: #193956;
+    --secondary-color: #00a2ff;
+    --background-color: #F9F6E5;
+  }
