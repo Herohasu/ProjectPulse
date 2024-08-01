@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import './PasswordReset.css';
+
 
 const PasswordReset = ({ match }) => {
     const { token } = useParams()
@@ -23,9 +25,11 @@ const PasswordReset = ({ match }) => {
     };
 
     return (
-        <div>
-            <h2>Reset Password</h2>
-            <form onSubmit={handleSubmit}>
+        <div className='reseting-container'>
+            <div className='reseting-image'></div>
+            <div>
+            <form id='reseta' onSubmit={handleSubmit}>
+                <h2>Its good to change your password</h2>
                 <input
                     type="password"
                     value={password}
@@ -35,6 +39,7 @@ const PasswordReset = ({ match }) => {
                 <button type="submit">Reset Password</button>
             </form>
             {message && <p>{message}</p>}
+            </div>
         </div>
     );
 };

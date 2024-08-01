@@ -20,7 +20,7 @@ body, html {
 
 .register-image {
   flex: 1;
-  background-image: url("../../public/RegisterBG.jpeg");
+  background-image: url("../../public/RL.jpeg");
   background-size: cover;
   background-position: center;
   max-width: 45%;
@@ -32,7 +32,7 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(90deg, #FEFEE4 0%, #1DABFF 100%);
+  background: linear-gradient(90deg, #0057688b 20%, #005768 100%);
 }
 
 .register-form form {
