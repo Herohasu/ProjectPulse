@@ -9,11 +9,11 @@ const StudentDataSchema = new mongoose.Schema({
     gender:{
         type: String,
         enum: ['male', 'female'], 
-        required: true,
+        required: false,
     },
     enrollmentnumber:{
         type:Number,
-        required:true
+        required:false
     },
     email:{
         type:String,
@@ -21,19 +21,19 @@ const StudentDataSchema = new mongoose.Schema({
     },
     mobilenumber:{
         type:Number,
-        required:true
+        required:false
     },
     branch:{
         type:String,
-        required:true
+        required:false
     },
     semester:{
         type:Number,
-        required:true
+        required:false
     },
     division:{
         type:String,
-        required:true
+        required:false
     }
 },{timestamps:true})
 const StudentData = mongoose.model('StudentData',StudentDataSchema)
