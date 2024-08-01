@@ -41,6 +41,11 @@ const UserCalendar = () => {
     return calendarDays;
   };
 
+  const hasComments = (day) => {
+    const dateKey = day ? day.toLocaleDateString() : '';
+    return comments[dateKey] && comments[dateKey].length > 0;
+  };
+
   const handleDateClick = (day) => {
     if (day) {
       setSelectedDate(day);
@@ -97,11 +102,10 @@ const UserCalendar = () => {
           <div className="days">
             {calendarDays.map((day, index) => {
               const dateKey = day ? day.toLocaleDateString() : '';
-              const hasComments = comments[dateKey] && comments[dateKey].length > 0;
               return (
                 <div
                   key={index}
-                  className={`day ${day && day.toLocaleDateString() === selectedDate.toLocaleDateString() ? 'selected' : ''} ${hasComments ? 'has-comments' : ''}`}
+                  className={`day ${day && day.toLocaleDateString() === selectedDate.toLocaleDateString() ? 'selected' : ''} ${hasComments(day) ? 'highlighted' : ''}`}
                   onClick={() => handleDateClick(day)}
                 >
                   {day ? day.getDate() : ''}
@@ -126,9 +130,34 @@ const UserCalendar = () => {
     );
   };
 
+  const renderAllComments = () => {
+    const allComments = Object.entries(comments).map(([date, commentsForDate]) => (
+      <div key={date} className="comment-item">
+        <div className="comment-date">{date}</div>
+        <div className="comment-content">
+          <ul>
+            {commentsForDate.map((comment, index) => (
+              <li key={index}>{comment}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    ));
+
+    return (
+      <div className="all-comments-container">
+        <div className="all-comments">
+          <h2>Comment History</h2>
+          {allComments}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div>
       {renderCalendar()}
+      {renderAllComments()}
     </div>
   );
 };
