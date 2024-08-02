@@ -224,7 +224,7 @@ async function getStudentDataById(ids) {
 
 router.get("/ShowTeams", async (req, res) => {
   try {
-    console.log("ShowTeams")
+    // console.log("ShowTeams")
     const AllTeams = await TeamsData.find();
     // console.log("all",AllTeams)
 
