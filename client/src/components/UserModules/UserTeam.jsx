@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './UserTeam.css';
 import toast from 'react-hot-toast';
 import axios from 'axios'
@@ -13,6 +13,14 @@ const UserTeam = ({ user }) => {
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+
+    useEffect(()=>{
+        axios.get('http://localhost:4000/ShowTeams')
+        .then(result=>{
+            setTeams(result.data)
+        })
+        .catch(err=>{console.log(err)})
+    }) 
 
     const handleSave = () => {
         if (parseInt(teamMembers) === 3 && membersDetails.split(',').length > 2) {
@@ -33,21 +41,35 @@ const UserTeam = ({ user }) => {
                 }
             })
             .then(result=>{
-                console.log(result.data.message)
-                toast(result.data.message)
+                if(result.data.email){
+                    console.log(result.data.message)
+                    toast(result.data.email + result.data.message)
+                }
             }
             )
             .catch((err)=>{
                 console.log(err)
             })
         }
-        const newTeam = {
-            teamName,
-            teamMembers,
-            membersDetails: [user.name, ...memberList],
-            teamLeader
-        };
-        setTeams([...teams, newTeam]);
+        
+        // =================== db storing ==============
+        const formData = new FormData()
+        const dataformembers = membersDetails+","+user.email
+        formData.append('TeamName',teamName)
+        formData.append('LeaderName',teamLeader)
+        formData.append('TeamMembers',dataformembers)
+        axios.post('http://localhost:4000/AddTeams',formData,{
+            headers:{
+                'Content-Type':'multipart/form-data'
+            }
+        })
+        .then((result)=>{
+            toast("Team Added Successfully")
+            // console.log(result.data)
+        })
+        .catch((err)=>{console.log(err)})
+
+
         closeModal();
     };
 
@@ -125,13 +147,13 @@ const UserTeam = ({ user }) => {
                     {teams.map((team, index) => (
                         <div key={index} className="team-details-card">
                             <h3>Team Details:</h3>
-                            <p><strong>Team Name:</strong> {team.teamName}</p>
-                            <p><strong>Number of Team Members:</strong> {team.teamMembers}</p>
+                            <p><strong>Team Name:</strong> {team.TeamName}</p>
+                            {/* <p><strong>Number of Team Members:</strong> {team.teamMembers}</p> */}
                             <div><strong>Name of Team Members: </strong></div>
                             <div className="members-container">
-                                {team.membersDetails.map((member, index) => (
-                                    <div key={index} className={`member-item ${member === team.teamLeader ? 'captain' : ''}`}>
-                                        {member} {member === team.teamLeader ? '(Captain)' : ''}
+                                {team.MemberName.map((member, index) => (
+                                    <div key={index} className={`member-item ${member === team.LeaderName ? 'captain' : ''}`}>
+                                        {member} {member === team.LeaderName ? '(Captain)' : ''}
                                     </div>
                                 ))}
                             </div>

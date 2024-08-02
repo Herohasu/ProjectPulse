@@ -44,27 +44,20 @@ router.get("/StudentDetail/:id", async (req, res) => {
   }
 });
 
-router.post("/StudentDetailByEmail",async (req,res)=>{
+router.get('/StudentDetailById',async (req,res)=>{
   try{
-    const {email} = req.body;
-    if (!email) {
-      return res.status(400).json({ message: "Email is required" });
-    }
-    const StuData = await StudentData.findOne({email:email})
-    if (!StuData){
-      return res.status(404).json({ message: "Student not found" });
-    }
-    res.status(200).json(StuData);
-    console.log(StuData)
-  }catch(err){
-    res.status(500).json({message:err.message})
-  }
+    const {id} = req.query
+    console.log(req.query)
+    const Studata  = await StudentData.findById({id})
+    const email = Studata.email
+    res.status(200).json(email) 
+  }catch(e){res.status(500).json({message : e})}
 })
+
 
 router.get('/CheckForEmail', async (req,res)=>{
   try{
     const {email} = req.query;
-    console.log("sdfgs",email)
     const StuEmailFound = await StudentData.findOne({email:email})
     if(!StuEmailFound){
       res.status(200).json({message: "Email Not Found ",email})
@@ -195,30 +188,154 @@ router.delete("/DeleteStudent/:id", async (req, res) => {
 
 //==============TeamsData================================================
 
+
+router.post("/StudentDetailByEmail",async (req,res)=>{
+  try{
+    const {email} = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+    const StuData = await StudentData.findOne({email:email})
+    if (!StuData){
+      return res.status(404).json({ message: "Student not found" });
+    }
+    res.status(200).json(StuData);
+    console.log(StuData)
+  }catch(err){
+    res.status(500).json({message:err.message})
+  }
+})
+
+
+async function getStudentDataById(ids) {
+  // Map IDs to promises that fetch the email data
+  const emailPromises = ids.map(async id => {
+    const details = await StudentData.findById(id);
+    return details ? details.email : null; // Return email or null if not found
+  });
+
+  // Wait for all promises to resolve
+  const emails = await Promise.all(emailPromises);
+
+  // Filter out any null values (in case some IDs didn't exist)
+  return emails.filter(email => email !== null);
+}
+
+
 router.get("/ShowTeams", async (req, res) => {
   try {
+    console.log("ShowTeams")
     const AllTeams = await TeamsData.find();
-    res.status(200).json(AllTeams);
+    // console.log("all",AllTeams)
+
+    const allTeamData = await Promise.all(AllTeams.map(async (team) => {
+      const leaderId = team.LeaderName;
+
+      // Fetch leader's data
+      const leaderData = await StudentData.findById(leaderId);
+      if (!leaderData) {
+        throw new Error(`Leader with ID ${leaderId} not found.`);
+      }
+      const leaderEmail = leaderData.email;
+
+      // Fetch team members' data
+      const memberIds = team.TeamMembers;
+      const memberEmails = await getStudentDataById(memberIds);
+
+      return {
+        TeamName: team.TeamName,
+        LeaderName: leaderEmail,
+        MemberName: memberEmails,
+      };
+    }));
+    // console.log(allTeamData)
+
+    res.status(200).json(allTeamData);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
-router.post("/AddTeams", async (req, res) => {
+
+async function getObjectIdsByEmails(emails) {
+  const results = await StudentData.find({ email: { $in: emails } }).select('_id email').lean();
+  const emailToIdMap = new Map(results.map(item => [item.email, item._id]));
+  return emailToIdMap;
+}
+
+// Helper function to validate ObjectIds
+// async function validateObjectIds(ids) {
+//   const results = await StudentData.find({ _id: { $in: ids } }).select('_id').lean();
+//   const validIds = results.map(result => result._id.toString());
+//   return ids.every(id => validIds.includes(id.toString()));
+// }
+
+
+router.post("/AddTeams", upload.none(), async (req, res) => {
   try {
-    const { TeamName, MentorName, LeaderName, TeamMembers } = req.body;
+    const { TeamName, LeaderName, TeamMembers } = req.body;
+
+    // Convert emails to ObjectIds
+    const emails = [LeaderName, ...TeamMembers.split(',').map(email => email.trim())];
+    const emailToIdMap = await getObjectIdsByEmails(emails);
+
+    // Convert email addresses to ObjectIds
+    const leaderId = emailToIdMap.get(LeaderName);
+    const teamMembersArray = TeamMembers.split(',').map(email => email.trim()).map(email => emailToIdMap.get(email)).filter(id => id);
+
+    if (!leaderId) {
+      return res.status(400).json({ error: 'Leader email is invalid or not found in StudentData.' });
+    }
+
+    // Include the leader's ID in the team members array if not already present
+    if (!teamMembersArray.includes(leaderId)) {
+      teamMembersArray.push(leaderId);
+    }
+
+    // Validate that all team member IDs (including the leader's ID) exist in StudentData
+    // const allIds = teamMembersArray; // All team members including leader
+    // const allIdsValid = await validateObjectIds(allIds);
+
+    console.log(teamMembersArray)
+
+    // if (!allIdsValid) {
+    //   return res.status(400).json({ error: 'One or more IDs are invalid or do not exist in StudentData.' });
+    // }
+
+    // Create a new team document
     const newTeam = new TeamsData({
       TeamName,
-      MentorName,
-      LeaderName,
-      TeamMembers,
+      LeaderName: leaderId,
+      TeamMembers: teamMembersArray,
     });
-    newTeam.save();
-    res.status(200).json("newTeam");
+
+    // Save the new team document to the database
+    await newTeam.save();
+
+    // Respond with a success message
+    res.status(200).json(newTeam);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
+
+// router.post("/AddTeams",upload.none(), async (req, res) => {
+//   try {
+//     console.log("ca")
+//     const { TeamName, LeaderName, TeamMembers } = req.body;
+//     console.log("team",TeamMembers.split(',').map(member=>member.trim()))
+//     const newTeam = new TeamsData({
+//       TeamName,
+//       LeaderName,
+//       TeamMembers,
+//     });
+//     newTeam.save();
+//     res.status(200).json("newTeam");
+//   } catch (e) {
+//     res.status(500).json({ error: e.message });
+//   }
+// });
+
 
 router.put("/EditTeams/:id", async (req, res) => {
   try {

@@ -50,7 +50,8 @@ const TeamsDataSchema = new mongoose.Schema({
         required:true
     },
     LeaderName:{
-        type:String,
+        type:ObjectId,
+        ref:'StudentData',
         required:true
     },
     TeamMembers:{
