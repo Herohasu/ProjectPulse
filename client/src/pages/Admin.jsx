@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import './Admin.css';
 import { FaBell, FaCalendar, FaHome, FaUsers, FaTasks } from 'react-icons/fa';
+import { IoMenu, IoCloseCircle } from 'react-icons/io5';
 import AdminDashboard from '../components/AdminModules/AdminDashboard.jsx';
 import AdminMentor from '../components/AdminModules/AdminMentor.jsx';
 import AdminProject from '../components/AdminModules/AdminProject.jsx';
@@ -119,9 +120,12 @@ export function Admin({ loggedInAdmin }) {
     <>
       {/* Top Navbar */}
       <div className="top-navbar">
-        <div className="logo" onClick={toggleSidebar}>
+        <div className="logo">
           <img src="./logo.jpeg" alt="Project Pulse Logo" className="logo-img" />
           <span className="project-name">ProjectPulse</span>
+        </div>
+        <div className="menu-icon" onClick={toggleSidebar}>
+          {isSidebarOpen ? <IoCloseCircle size={30} /> : <IoMenu size={30} />}
         </div>
 
         <div className="actions">
