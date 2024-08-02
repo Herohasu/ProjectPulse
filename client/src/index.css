@@ -2,12 +2,27 @@
 #043544 
 #B5DFD5 */
 
+/* trial
+Dark classic blue (#0A1828), turquoise (#178582), gold (#BFA181) */
+
 /* :root {
     --primary-color: #043544;
     --secondary-color:  #56adb7;
     --background-color: #b5dfd5;
     background-color: white;
   } */
+
+  /* :root {
+    --primary-color:  #178582 ;
+    --secondary-color: #BFA181;
+    --background-color: #0A1828 ;
+    background-color: white;
+  } */
+
+
+
+
+  /* main root  */
 
   :root {
     --primary-color: #193956;
