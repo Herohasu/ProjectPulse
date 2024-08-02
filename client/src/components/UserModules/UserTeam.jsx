@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './UserTeam.css';
+import toast from 'react-hot-toast';
+import axios from 'axios'
 
 const UserTeam = ({ user }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,6 +24,23 @@ const UserTeam = ({ user }) => {
             return;
         }
         const memberList = membersDetails.split(',').map(member => member.trim());
+        for (let i=0;i<memberList.length;i++){
+            console.log("fdf",memberList[i]);
+            axios.get('http://localhost:4000/CheckForEmail',{
+                params: { email: memberList[i] },
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            })
+            .then(result=>{
+                console.log(result.data.message)
+                toast(result.data.message)
+            }
+            )
+            .catch((err)=>{
+                console.log(err)
+            })
+        }
         const newTeam = {
             teamName,
             teamMembers,

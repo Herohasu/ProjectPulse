@@ -61,6 +61,20 @@ router.post("/StudentDetailByEmail",async (req,res)=>{
   }
 })
 
+router.get('/CheckForEmail', async (req,res)=>{
+  try{
+    const {email} = req.query;
+    console.log("sdfgs",email)
+    const StuEmailFound = await StudentData.findOne({email:email})
+    if(!StuEmailFound){
+      res.status(200).json({message: "Email Not Found ",email})
+    } 
+    else{
+      res.status(200).json({message: "Email Found   ",email})
+    }
+  }catch(err){console.log(err)}
+})
+
 router.get("/ShowStudent", async (req, res) => {
   try {
     const AllStudent = await StudentData.find();
@@ -161,7 +175,7 @@ router.put("/EditStudent/:id",upload.single('image'), async (req, res) => {
       updateData.image = `upload/${req.file.filename}`
       console.log("done")
     }
-    const EditStudent = await StudentData.findByIdAndUpdate(StdId, updateData);
+    const EditStudent = await StudentData.findByIdAndUpdate(StdId, updateData,{new:true});
     res.status(200).json(EditStudent);
   } catch (e) {
     console.log(e)
@@ -215,7 +229,7 @@ router.put("/EditTeams/:id", async (req, res) => {
       MentorName,
       LeaderName,
       TeamMembers,
-    });
+    },{new:true});
     res.status(200).json(EditTeamEvent);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -272,7 +286,7 @@ router.put("/EditProjects/:id", async (req, res) => {
       Mentorid,
       Teamid,
       Year,
-    });
+    },{new:true});
     res.status(200).json(EditProject);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -388,7 +402,7 @@ router.put("/EditNotification/:id", async (req, res) => {
       message,
       deadlineDate,
       forWhom,
-    });
+    },{new:true});
     res.status(200).json(EditNotifi);
   } catch (error) {
     res.status(500).json({ error: error.message });
