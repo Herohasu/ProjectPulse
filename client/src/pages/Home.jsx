@@ -5,6 +5,7 @@ import { Logout, updateUser } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import { FaBell, FaCalendar, FaHome, FaTasks, FaUser } from 'react-icons/fa';
 import { RiTeamFill } from "react-icons/ri";
+import { IoMenu, IoCloseCircle } from 'react-icons/io5';
 import './Home.css';
 import UserDashboard from '../components/UserModules/UserDashboard';
 import UserNotification from '../components/UserModules/UserNotification';
@@ -82,7 +83,7 @@ const Home = () => {
     <>
       {/* Top Navbar */}
       <div className="top-navbar">
-        <div className="logo" onClick={toggleSidebar}>
+        <div className="logo">
           <img src="./logo.jpeg" alt="Project Pulse Logo" className="logo-img" />
           <span className="project-name">ProjectPulse</span>
         </div>
@@ -102,6 +103,10 @@ const Home = () => {
         </div>
 
         <button className="logout-button" onClick={handleLogout}>Logout</button>
+
+        <button className="sidebar-toggle" onClick={toggleSidebar}>
+          {isSidebarOpen ? <IoCloseCircle size={20} /> : <IoMenu size={20} />}
+        </button>
       </div>
 
       {/* Sidebar */}
