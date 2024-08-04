@@ -51,7 +51,7 @@ const PublicLayout = () => {
                   <Link to="/login">Sign In</Link>
                 </button>
               </div>
-            <p>
+            <p id="p-public-layout">
               Final year project is like a hectic stuff to do,
               gather everyone around, collect all the information from group members,
               communicate and get guided by faculty.

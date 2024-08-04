@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+#p-public-layout{
+  color: black;
+}
+
 #span_id {
   color: #19938f;
 }
