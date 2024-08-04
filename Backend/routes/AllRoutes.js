@@ -452,21 +452,6 @@ router.get('/ShowProjectsByEmail/:email',async (req,res)=>{
 
     const AllProjectsData = await Promise.all(
       TeamsId.map(async (teamId)=>{
-        // const EachProjectData = await ProjectData.find({Teamid : teamId})
-        
-        // if (EachProjectData) {
-        //   // Fetch the team and mentor details
-        //   const team = await TeamsData.findById(teamId).exec();
-        //   const mentor = await FacultyData.findById(EachProjectData.Mentorid).exec();
-          
-        //   // Combine project data with additional details
-        //   return {
-        //     ...EachProjectData.toObject(),
-        //     TeamName: team ? team.TeamName : 'Unknown Team',
-        //     MentorName: mentor ? mentor.name : 'Unknown Mentor'
-        //   };
-        // }
-        // return null;
 
          // Fetch all projects for the current teamId
          const projects = await ProjectData.find({ Teamid: teamId }).exec();
@@ -489,11 +474,7 @@ router.get('/ShowProjectsByEmail/:email',async (req,res)=>{
       })
     )
     const flattenedProjects = AllProjectsData.flat();
-    console.log("sallproject",flattenedProjects)
-    // const filteredProjectsData = AllProjectsData.filter(project => project !== null);
-    // console.log(AllProjectsData)
     res.status(200).json(flattenedProjects)
-    
   }catch(err){console.log(err) 
     res.status(500).json({error : err.message })}
 })
