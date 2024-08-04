@@ -1,8 +1,8 @@
 import React from 'react'
 
-const UserModalProject = (isModalOpen,
-    ProjectsData,
-    handleDelete) => {
+const UserModalProject = ({ isModalOpen, ProjectsData, handleDelete }) => {
+
+    if (isModalOpen) return null;
   return (
     
     
