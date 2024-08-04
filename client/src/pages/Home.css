@@ -1,12 +1,12 @@
-/* General Styles */
 body {
   background-color: white;
 }
 
-/* Top Navbar */
 .top-navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 10px 20px;
   background-color: var(--background-color);
   position: fixed;
   top: 0;
@@ -16,7 +16,6 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Adjust logo and actions spacing */
 .top-navbar .logo {
   display: flex;
   align-items: center;
@@ -25,25 +24,32 @@ body {
 }
 
 .logo-img {
-  width: 40px;
+  width: 50px;
   height: 40px;
   margin-right: 10px;
 }
 
-.top-navbar .actions {
+.top-navbar .center-actions {
   display: flex;
   align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .top-navbar .notifications,
 .top-navbar .calendar {
-  margin-right: 20px;
+  margin-right: 10px;
   color: var(--primary-color);
   cursor: pointer;
 }
 
 .top-navbar .admin-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   color: var(--primary-color);
+  padding-left: 20px;
+  margin-left: 20px;
 }
 
 .top-navbar .logout-button {
@@ -53,6 +59,7 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 /* Sidebar */
@@ -61,7 +68,7 @@ body {
   width: 250px;
   height: 100%;
   position: fixed;
-  top: 45px; 
+  top: 75px;
   left: -250px;
   transition: left 0.3s ease;
   overflow-y: auto;
@@ -75,6 +82,7 @@ body {
 
 .side-navbar a {
   display: block;
+  padding: 15px 20px;
   color: var(--secondary-color);
   text-decoration: none;
   transition: background-color 0.3s ease;
@@ -90,22 +98,45 @@ body {
   color: var(--secondary-color);
 }
 
-/* Main Content */
 .admin-container {
   margin-left: 0;
   padding: 20px;
-  padding-top: 110px; /* Adjust this value to add space below the top navbar */
+  padding-top: 80px;
   transition: margin-left 0.3s ease;
 }
 
 .admin-container.sidebar-open {
-  margin-left: 250px; /* Sidebar width */
+  margin-left: 250px;
 }
 
-/* Adjustments for smaller screens */
 @media screen and (max-width: 768px) {
   .admin-container {
-    padding-top: 90px; /* Adjust this value for smaller screens */
+    padding-top: 60px;
+  }
+
+  .top-navbar {
+    padding: 10px 20px;
+  }
+
+  .icon-button {
+    margin-right: 10px; 
+  }
+
+  .top-navbar .logo {
+    font-size: 1.2rem;
+  }
+
+  .side-navbar {
+    width: 250px;
+    left: -250px;
+  }
+
+  .side-navbar.open {
+    left: 0;
+  }
+
+  .admin-container {
+    padding-top: 60px;
   }
 }
 
@@ -114,7 +145,31 @@ body {
     font-size: 0;
   }
 
+  .logo {
+    font-size: 0;
+  }
+
+  .logo-img {
+    margin-right: 0;
+  }
+
   .top-navbar .logo-img {
     margin-right: 0;
   }
+
+  .top-navbar .admin-profile {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.icon-button {
+  background-color: #F9F6E5;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background-color: #E0E0E0;
 }
