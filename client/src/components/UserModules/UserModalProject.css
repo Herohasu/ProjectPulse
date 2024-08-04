@@ -106,3 +106,11 @@
 .go-to-button:hover {
     background: var(--primary-color);
 }
+
+.project-card.green-bg{
+    background-color: lightgreen;
+}
+
+.project-card.green-bg:hover{
+    background-color: var(--background-color);
+}
