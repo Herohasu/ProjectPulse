@@ -577,9 +577,7 @@ router.post("/AddFaculty", async (req, res) => {
 
 router.put("/EditFaculty/:id",upload.single('image'), async (req, res) => {
   try {
-    console.log("acacsn")
     const Facultyid = req.params.id;
-    console.log(Facultyid)
     const {
       name,
       gender,
@@ -609,7 +607,6 @@ router.put("/EditFaculty/:id",upload.single('image'), async (req, res) => {
     const EditFaculty = await FacultyData.findByIdAndUpdate(Facultyid, updateData, {
       new: true,
     });
-    console.log(EditFaculty)
     res.status(200).json(EditFaculty);
   } catch (e) {
     console.log(e);
