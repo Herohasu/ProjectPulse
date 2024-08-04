@@ -13,8 +13,14 @@ const UserProject = ({user}) => {
   const [TeamId,setTeamId] = useState('') ;
   const [currentYear] = useState(new Date().getFullYear());
 
-  // const [ProjectsData,setProjectsData] = useState([])
+  const [ProjectsData,setProjectsData] = useState([])
 
+  useEffect(()=>{
+    axios.get(`http://localhost:4000/ShowProjectsByEmail/${user.email}`)
+    .then(result=>{
+      setProjectsData(result.data)
+    })
+  })
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -54,6 +60,12 @@ const UserProject = ({user}) => {
     .then(result=>{
       toast("Project Created Successfully")
     })
+  }
+
+  const handleDelete = (id)=>{
+    axios.delete(`http://localhost:4000/DeleteProjects/${id}`)
+    .then(result=>{toast("Project Deleted Successfully")})
+    .catch(err=>{console.log(err)})
   }
 
 

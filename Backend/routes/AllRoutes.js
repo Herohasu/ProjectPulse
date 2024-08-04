@@ -21,7 +21,7 @@ import {
   TeamsData,
   FacultyData,
   ProjectData,
-  NotificationData,
+  NotificationData
 } from "../models/Schemas.js";
 
 //==============StudentData================================================
@@ -433,6 +433,34 @@ router.get("/ShowProjects", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+router.get('/ShowProjectsByEmail/:email',async (req,res)=>{
+  try{
+    const StEmail = req.params.email
+    const StData = await StudentData.findOne({email:StEmail}).exec()
+    const StId = StData._id
+    
+    const AllTeams = await TeamsData.find({
+      TeamMembers: StId
+    }).exec();
+
+    const TeamsId = AllTeams.map(team => team._id);
+    
+    // const AllProjectsData = await ProjectData.find({
+    //   Teamid: { $in: TeamsId }
+    // }).exec();
+
+    const AllProjectsData = await Promise.all(
+      TeamsId.map(async (teamId)=>{
+        const EachProjectData = await ProjectData.findOne({Teamid : teamId})
+        return EachProjectData
+      })
+    )
+
+    res.status(200).json(AllProjectsData)
+  }catch(err){console.log(err) 
+    res.status(500).json({error : err.message })}
+})
 
 router.post("/AddProjects", async (req, res) => {
   try {
