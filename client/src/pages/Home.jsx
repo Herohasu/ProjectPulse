@@ -83,7 +83,7 @@ const Home = () => {
 
   const sectionComponents = {
     dashboard: <UserDashboard />,
-    project: <UserProject />,
+    project: <UserProject user={user} />,
     myteam: <UserTeam user={user} />,
     notifications: <UserNotification />,
     calendar: <UserCalender />,

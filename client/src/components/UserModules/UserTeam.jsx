@@ -85,7 +85,7 @@ const UserTeam = ({ user }) => {
     }
 
     const getTeamMembersList = () => {
-        return membersDetails.split(',').map(member => member.trim()).concat(user.name);
+        return membersDetails.split(',').map(member => member.trim()).concat(user.email);
     };
 
     return (

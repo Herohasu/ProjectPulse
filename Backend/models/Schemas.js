@@ -1,3 +1,4 @@
+import { request } from "express";
 import mongoose, { model, Schema } from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -86,6 +87,14 @@ const ProjectDataSchema = new mongoose.Schema({
         type: ObjectId,
         ref:"TeamsData",
         required:true
+    },
+    approval:{
+        type:String,
+        enum:["yes","no"]
+    },
+    comment:{
+        type:String,
+        required:false
     },
     Year:{
         type:Number,

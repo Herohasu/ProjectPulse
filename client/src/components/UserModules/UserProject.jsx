@@ -1,12 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 import './UserProject.css';
+import toast from 'react-hot-toast';
 
-const UserProject = () => {
+const UserProject = ({user}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [Facultylist, setFacultylist] = useState([]);
+  const [TeamsList, setTeamsList] = useState([]);
+  const [ProjectTitle,setProjectTitle] = useState('');
+  const [ProjectDescription,setProjectDescription] = useState('');
+  const [MentorId,setMentorId] = useState('');
+  const [TeamId,setTeamId] = useState('') ;
+  const [currentYear] = useState(new Date().getFullYear());
+
+  // const [ProjectsData,setProjectsData] = useState([])
 
   const openModal = () => {
     setIsModalOpen(true);
   };
+
+  const getFacultyDetails = () => {
+    axios.get('http://localhost:4000/ShowFacultysData')
+      .then(result => {
+        console.log(result.data)
+        setFacultylist(result.data)
+      })
+      .catch(err => { console.log(err) })
+  }
+
+  const getTeamsData = () => {
+    axios.get(`http://localhost:4000/ShowTeamsByEmail/${user.email}`)
+      .then(result => {
+        setTeamsList(result.data)
+      })
+      .catch(err => { console.log(err) })
+  }
+
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    const newProject = {
+      ProjectTitle : ProjectTitle,
+      ProjectDescription : ProjectDescription,
+      Mentorid : MentorId,
+      Teamid : TeamId,
+      Year : currentYear
+    }
+
+    axios.post('http://localhost:4000/AddProjects',newProject,{
+      headers:{
+        'Content-Type':'application/json'
+      }
+    })
+    .then(result=>{
+      toast("Project Created Successfully")
+    })
+  }
+
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -30,40 +79,50 @@ const UserProject = () => {
               <form>
                 <div className="form-group">
                   <label htmlFor="projectTitle">Project Title</label>
-                  <input type="text" id="projectTitle" name="projectTitle" required className="modal-input"/>
+                  <input type="text" id="projectTitle" name="projectTitle" required className="modal-input" onChange={(e)=> setProjectTitle(e.target.value)}/>
                 </div>
                 <div className="form-group">
                   <label htmlFor="projectDescription">Project Description</label>
-                  <textarea id="projectDescription" name="projectDescription" required className="modal-input"></textarea>
+                  <textarea id="projectDescription" name="projectDescription" required className="modal-input" onChange={(e)=> setProjectDescription(e.target.value)}></textarea>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="mentorId">Mentor ID</label>
-                  <input type="text" id="mentorId" name="mentorId" required className="modal-input"/>
+                  <label htmlFor="mentorId">Mentor Name</label>
+                  <select onClick={() => getFacultyDetails()} onChange={(e)=> setMentorId(e.target.value)} id="mentorId" name="mentorId" required className="modal-input">
+                    <option value="">Select The Mentor</option>
+                    {Facultylist.map((faculty, index) => (
+                      <option key={index} value={faculty._id}>{faculty.name}</option>
+                    ))}
+                  </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="teamId">Team ID</label>
-                  <input type="text" id="teamId" name="teamId" required className="modal-input"/>
+                  <select onClick={() => getTeamsData()} onChange={(e)=>setTeamId(e.target.value)} id='teamId' name='teamId' required className='modal-input'>
+                    <option value="">Select The Team</option>
+                    {TeamsList.map((team, index) => (
+                      <option key={index} value={team._id}>{team.TeamName}</option>
+                    ))}
+                  </select>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="approvalForMentor">Approval For Mentor</label>
                   <select id="approvalForMentor" name="approvalForMentor" className="modal-input">
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                   </select>
-                </div>
-                <div className="form-group">
+                </div> */}
+                {/* <div className="form-group">
                   <label htmlFor="comment">Comment</label>
                   <textarea id="comment" name="comment" className="modal-input"></textarea>
-                </div>
+                </div> */}
                 <div className="form-group">
                   <label htmlFor="year">Year</label>
-                  <input type="number" id="year" name="year" required className="modal-input"/>
+                  <input type="number" id="year" name="year" value={currentYear} readOnly required className="modal-input"/>
                 </div>
               </form>
             </div>
             <div className="modal-footer">
               <button type="button" className="modal-footer-button" onClick={closeModal}>Cancel</button>
-              <button type="submit" className="modal-footer-button">Submit</button>
+              <button type="submit" className="modal-footer-button" onClick={(e)=> handleSubmit(e)} >Submit</button>
             </div>
           </div>
         </div>

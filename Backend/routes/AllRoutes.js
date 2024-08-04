@@ -441,9 +441,11 @@ router.post("/AddProjects", async (req, res) => {
       ProjectTitle,
       ProjectDescription,
       Mentorid,
-      Teamid,
-      Year,
+      Teamid
     });
+    if(Year){
+      newProject.Year = Year
+    }
     newProject.save();
     res.status(200).json("newProject");
   } catch (error) {
@@ -486,8 +488,9 @@ router.delete("/DeleteProjects/:id", async (req, res) => {
 //==============FacultyData================================================
 router.get("/ShowFacultysData", async (req, res) => {
   try {
+    // console.log("fac")
     const AllFacultys = await FacultyData.find();
-    res.status(200).json(AllFacultys);
+    res.status(200).json(AllFacultys); 
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
