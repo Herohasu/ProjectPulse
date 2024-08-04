@@ -452,27 +452,29 @@ router.get('/ShowProjectsByEmail/:email',async (req,res)=>{
 
     const AllProjectsData = await Promise.all(
       TeamsId.map(async (teamId)=>{
-        const EachProjectData = await ProjectData.findOne({Teamid : teamId})
-        
-        if (EachProjectData) {
-          // Fetch the team and mentor details
-          const team = await TeamsData.findById(teamId).exec();
-          const mentor = await FacultyData.findById(EachProjectData.Mentorid).exec();
-          
-          // Combine project data with additional details
-          return {
-            ...EachProjectData.toObject(),
-            TeamName: team ? team.TeamName : 'Unknown Team',
-            MentorName: mentor ? mentor.name : 'Unknown Mentor'
-          };
-        }
-        return null;
+
+         // Fetch all projects for the current teamId
+         const projects = await ProjectData.find({ Teamid: teamId }).exec();
+                
+         // Process each project
+         const projectDetails = await Promise.all(projects.map(async (project) => {
+             // Fetch the team and mentor details
+             const team = await TeamsData.findById(teamId).exec();
+             const mentor = await FacultyData.findById(project.Mentorid).exec();
+             
+             // Combine project data with additional details
+             return {
+                 ...project.toObject(), // Convert Mongoose document to plain object
+                 TeamName: team ? team.TeamName : 'Unknown Team',
+                 MentorName: mentor ? mentor.name : 'Unknown Mentor'
+             };
+         }));
+         
+         return projectDetails;
       })
     )
-    const filteredProjectsData = AllProjectsData.filter(project => project !== null);
-    // console.log(AllProjectsData)
-    res.status(200).json(filteredProjectsData)
-    
+    const flattenedProjects = AllProjectsData.flat();
+    res.status(200).json(flattenedProjects)
   }catch(err){console.log(err) 
     res.status(500).json({error : err.message })}
 })
@@ -521,10 +523,12 @@ router.put("/EditProjects/:id", async (req, res) => {
 
 router.delete("/DeleteProjects/:id", async (req, res) => {
   try {
-    const ProjectId = res.params.id;
+    // console.log("del")
+    const ProjectId = req.params.id;
     const DeleteProject = await ProjectData.findByIdAndDelete(ProjectId);
     res.status(200).json(DeleteProject);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });

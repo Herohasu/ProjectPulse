@@ -75,8 +75,8 @@ const Home = () => {
 
   const sideNavItems = [
     { name: 'Dashboard', icon: <FaHome />, path: 'dashboard' },
-    { name: 'Project', icon: <FaTasks />, path: 'project' },
     { name: 'My Team', icon: <RiTeamFill />, path: 'myteam' },
+    { name: 'Project', icon: <FaTasks />, path: 'project' },
     { name: 'Notifications', icon: <FaBell />, path: 'notifications' },
     { name: 'Calendar', icon: <FaCalendar />, path: 'calendar' },
     { name: 'My Profile', icon: <FaUser />, path: 'myprofile' },
