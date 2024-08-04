@@ -5,14 +5,15 @@ import Table from 'react-bootstrap/Table'
 
 const AdminDashboard = ({ users, handleDelete,handleEdit }) => {
 
-  const handleEditSubmit = (e) => {
-    e.preventdefault();
-    const formData = new FormData()
-    formData.append('name', name)
-    formData.append('email', email)
-    formData.append('role', role)
-    formData.append('id',selectedUser._id)
-    handleEdit(formData)
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+      name:name,
+      email:email,
+      role:role
+    }
+    await handleEdit(selectedUser._id,formData)
+    setShow(false)
   }
 
   const [selectedUser,setSeclectedUser] = useState(null)

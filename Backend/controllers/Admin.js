@@ -13,7 +13,7 @@ const editUser = async (req, res) => {
   try{
     const userId = req.params.id;
     const {name,email,role} = req.body;
-    const editevent = await UserModel.findByIdAndUpdate(userId,{name,email,role})
+    const editevent = await UserModel.findByIdAndUpdate(userId,{name,email,role},{new:true})
     res.status(200).json(editevent)
   }catch(error){
     res.status(500).json({ message: "Internal Server Error" });
@@ -40,4 +40,4 @@ const deleteUser = async (req, res) => {
     console.log(error);
   }
 };
-export { Getuser, deleteUser };
+export { Getuser, deleteUser,editUser };

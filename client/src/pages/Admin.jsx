@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { deleteUser, get } from '../services/ApiEndpoint';
+import { deleteUser, get,put } from '../services/ApiEndpoint';
 import { Logout, updateUser } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import toast from 'react-hot-toast';
@@ -22,9 +22,9 @@ const mapDispatchToProps = {};
 
 const IconButton = ({ isSidebarOpen, onClick }) => (
   <button onClick={onClick} className="icon-button">
-    {isSidebarOpen ? 
-      <FaWindowClose size={20} color='#193956' /> : 
-      <FaBarsStaggered size={20} color='#193956' style={{ transform: 'rotate(180deg)'}}/>
+    {isSidebarOpen ?
+      <FaWindowClose size={20} color='#193956' /> :
+      <FaBarsStaggered size={20} color='#193956' style={{ transform: 'rotate(180deg)' }} />
     }
   </button>
 );
@@ -55,7 +55,33 @@ export function Admin({ loggedInAdmin }) {
     getUsers();
   }, []);
 
-  const handleEdit = async (id) => {};
+  const handleEdit = async (id,data) => {
+    try {
+      console.log(data)
+      const res = await put(`/api/admin/editUser/${id}`,data,{
+        headers:{
+          'Content-Type':'multipart/form-data'
+        }
+      })
+      const response = res.data
+      if (res.status === 200) {
+        toast.success("Edited Successfully")
+        try {
+          const request = await get('/api/admin/getuser');
+          const response = request.data;
+          if (request.status === 200) {
+            setUsers(response.users)
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      }
+    }
+  };
 
   const handleDelete = async (id) => {
     try {
