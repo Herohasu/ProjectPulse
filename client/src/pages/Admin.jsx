@@ -34,7 +34,11 @@ export function Admin({ loggedInAdmin }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [currentSection, setCurrentSection] = useState('dashboard');
+  const [currentSection, setCurrentSection] = useState(localStorage.getItem('adminCurrentSection') || 'dashboard');
+
+  useEffect(() => {
+    localStorage.setItem('adminCurrentSection', currentSection);
+  }, [currentSection]);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -126,7 +130,7 @@ export function Admin({ loggedInAdmin }) {
       {/* Top Navbar */}
       <div className="top-navbar">
         <div className="logo">
-        <IconButton isSidebarOpen={isSidebarOpen} onClick={toggleSidebar} />
+          <IconButton isSidebarOpen={isSidebarOpen} onClick={toggleSidebar} />
           <img src="./logo.jpeg" alt="Project Pulse Logo" className="logo-img" />
           <span className="project-name">ProjectPulse</span>
         </div>
