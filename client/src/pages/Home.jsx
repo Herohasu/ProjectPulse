@@ -31,7 +31,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [currentSection, setCurrentSection] = useState('dashboard');
+  const [currentSection, setCurrentSection] = useState(localStorage.getItem('currentSection') || 'dashboard');
 
   useEffect(() => {
     if (!user) {
@@ -70,6 +70,7 @@ const Home = () => {
       closeSidebar();
     }
     setCurrentSection(path);
+    localStorage.setItem('currentSection', path);
   };
 
   const sideNavItems = [
