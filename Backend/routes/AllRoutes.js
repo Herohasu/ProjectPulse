@@ -124,8 +124,6 @@ router.post("/AddStudent", upload.single("image"), async (req, res) => {
 
 router.put("/EditStudent/:id", upload.single("image"), async (req, res) => {
   try {
-    console.log("put called", req.body);
-    console.log(req.file);
     const StdId = req.params.id;
     const {
       name,
@@ -534,9 +532,23 @@ router.delete("/DeleteProjects/:id", async (req, res) => {
 });
 
 //==============FacultyData================================================
+
+router.get("/FacultyDetailByEmail", async (req, res) => {
+  try {
+    const {email} = req.query;
+    const FacData = await FacultyData.findOne({email:email});
+    if (!FacData) {
+      return res.status(404).json("Faculty Not Found");
+    }
+    res.status(200).json(FacData);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ eroor: e.message });
+  }
+});
+
 router.get("/ShowFacultysData", async (req, res) => {
   try {
-    // console.log("fac")
     const AllFacultys = await FacultyData.find();
     res.status(200).json(AllFacultys); 
   } catch (error) {
@@ -563,30 +575,45 @@ router.post("/AddFaculty", async (req, res) => {
   }
 });
 
-router.put("/EditFaculty/:id", async (req, res) => {
+router.put("/EditFaculty/:id",upload.single('image'), async (req, res) => {
   try {
+    console.log("acacsn")
     const Facultyid = req.params.id;
-    const { name, facultyid, email, mobilenumber, projectsid } = req.body;
-    const updateData = {
+    console.log(Facultyid)
+    const {
       name,
+      gender,
       facultyid,
       email,
-      mobilenumber,
+      mobilenumber
+    } = req.body;
+
+    const updateData = {
+      name,
+      email,
     };
-    if (projectsid) {
-      updateData.projectsid = projectsid;
+    if (gender) {
+      updateData.gender = gender;
     }
-    const EditFaculty = await FacultyData.findByIdAndUpdate(
-      Facultyid,
-      updateData,
-      { new: true }
-    );
-    if (!EditFaculty) {
-      return res.status(404).json({ error: "Faculty not found" });
+    if (mobilenumber) {
+      updateData.mobilenumber = mobilenumber;
     }
+    if (facultyid) {
+      updateData.facultyid = facultyid;
+    }
+    if (req.file) {
+      updateData.image = `upload/${req.file.filename}`;
+      console.log(updateData)
+      console.log("done");
+    }
+    const EditFaculty = await FacultyData.findByIdAndUpdate(Facultyid, updateData, {
+      new: true,
+    });
+    console.log(EditFaculty)
     res.status(200).json(EditFaculty);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ error: e.message });
   }
 });
 

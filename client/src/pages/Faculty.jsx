@@ -4,12 +4,13 @@ import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import { useNavigate } from 'react-router-dom';
 import './Faculty.css';
-import { FaBell, FaCalendar, FaHome, FaTasks, FaWindowClose } from 'react-icons/fa';
+import { FaBell, FaCalendar, FaHome, FaTasks, FaWindowClose,FaUser } from 'react-icons/fa';
 import { FaBarsStaggered } from "react-icons/fa6";
 import FacultyDashboard from '../components/FacultyModules/FacultyDashboard.jsx';
 import FacultyProject from '../components/FacultyModules/FacultyProject.jsx';
 import FacultyNotification from '../components/FacultyModules/FacultyNotification';
 import FacultyCalendar from '../components/FacultyModules/FacultyCalendar.jsx';
+import FacultyProfile from '../components/FacultyModules/FacultyProfile.jsx';
 
 const mapStateToProps = (state) => ({
   loggedInFaculty: state.Auth.user,
@@ -71,6 +72,7 @@ export function Faculty({ loggedInFaculty }) {
     { name: 'Projects', icon: <FaTasks />, path: 'projects' },
     { name: 'Notifications', icon: <FaBell />, path: 'notifications' },
     { name: 'Calendar', icon: <FaCalendar />, path: 'calendar' },
+    { name: 'My Profile', icon: <FaUser />, path: 'myprofile' }
   ];
 
   const sectionComponents = {
@@ -78,6 +80,7 @@ export function Faculty({ loggedInFaculty }) {
     projects: <FacultyProject />,
     notifications: <FacultyNotification />,
     calendar: <FacultyCalendar />,
+    myprofile : <FacultyProfile/>
   };
 
   return (
