@@ -71,6 +71,7 @@ const ProfilePage = () => {
             }
         })
         .then(result => {
+            toast("edited Successfully")
             setStuData(result.data);
             setStuImage(result.data.image);
             // No need to update individual states here if you use StuData
@@ -99,11 +100,11 @@ const ProfilePage = () => {
                 <div>
                     <div className="form-group-top">
                         <label>Name</label>
-                        <input type="text" value={name} onChange={(e) => setStuData(prev => ({ ...prev, name: e.target.value }))} name="name" required />
+                        <input type="text" value={name} name="name" readOnly required />
                     </div>
                     <div className="form-group-top">
                         <label>Email</label>
-                        <input type="email" value={email} onChange={(e) => setStuData(prev => ({ ...prev, email: e.target.value }))} name="email" required />
+                        <input type="email" value={email} name="email" readOnly required />
                     </div>
                 </div>
             </div>
