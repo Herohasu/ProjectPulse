@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import './UserProject.css';
 import toast from 'react-hot-toast';
 
@@ -32,16 +32,16 @@ const UserProject = ({ user }) => {
         // console.log(result.data)
         setFacultylist(result.data)
       })
-      .catch(err => { console.log(err) })
-  }
+      .catch(err => console.log(err));
+  };
 
   const getTeamsData = () => {
     axios.get(`http://localhost:4000/ShowTeamsByEmail/${user.email}`)
       .then(result => {
-        setTeamsList(result.data)
+        setTeamsList(result.data);
       })
-      .catch(err => { console.log(err) })
-  }
+      .catch(err => console.log(err));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,6 +75,7 @@ const UserProject = ({ user }) => {
   };
 
   return (
+    
     <div className="user-project-wrapper">
       <div className="user-project-container">
         <button className="create-project-button" onClick={openModal}>
@@ -116,17 +117,6 @@ const UserProject = ({ user }) => {
                     ))}
                   </select>
                 </div>
-                {/* <div className="form-group">
-                  <label htmlFor="approvalForMentor">Approval For Mentor</label>
-                  <select id="approvalForMentor" name="approvalForMentor" className="modal-input">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                  </select>
-                </div> */}
-                {/* <div className="form-group">
-                  <label htmlFor="comment">Comment</label>
-                  <textarea id="comment" name="comment" className="modal-input"></textarea>
-                </div> */}
                 <div className="form-group">
                   <label htmlFor="year">Year</label>
                   <input type="number" id="year" name="year" value={currentYear} readOnly required className="modal-input" />
@@ -161,6 +151,6 @@ const UserProject = ({ user }) => {
 
     </div>
   );
-}
+};
 
 export default UserProject;
