@@ -521,10 +521,12 @@ router.put("/EditProjects/:id", async (req, res) => {
 
 router.delete("/DeleteProjects/:id", async (req, res) => {
   try {
-    const ProjectId = res.params.id;
+    // console.log("del")
+    const ProjectId = req.params.id;
     const DeleteProject = await ProjectData.findByIdAndDelete(ProjectId);
     res.status(200).json(DeleteProject);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });

@@ -88,7 +88,7 @@ const UserProject = ({ user }) => {
       isModalOpen={isModalOpen}
       ProjectsData={ProjectsData}
       handleDelete={handleDelete}/>
-      
+
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
