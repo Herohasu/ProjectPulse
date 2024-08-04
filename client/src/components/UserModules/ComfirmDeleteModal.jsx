@@ -8,7 +8,7 @@ const ConfirmDeleteModal = ({ show, handleClose, handleConfirm }) => {
       <Modal.Header >
         <Modal.Title>Confirm Deletion</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Are you sure you want to delete the team?</Modal.Body>
+      <Modal.Body>Are you sure you want to DELETE?</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           No
