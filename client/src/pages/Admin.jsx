@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { deleteUser, get } from '../services/ApiEndpoint';
+import { deleteUser, get,put } from '../services/ApiEndpoint';
 import { Logout, updateUser } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import './Admin.css';
-import { FaBell, FaCalendar, FaHome, FaUsers, FaTasks } from 'react-icons/fa';
+import { FaBell, FaCalendar, FaHome, FaUsers, FaTasks, FaWindowClose } from 'react-icons/fa';
+import { FaBarsStaggered } from "react-icons/fa6";
 import AdminDashboard from '../components/AdminModules/AdminDashboard.jsx';
 import AdminMentor from '../components/AdminModules/AdminMentor.jsx';
 import AdminProject from '../components/AdminModules/AdminProject.jsx';
 import AdminNotification from '../components/AdminModules/AdminNotification';
 import AdminCalendar from '../components/AdminModules/AdminCalendar.jsx';
-
 
 const mapStateToProps = (state) => ({
   loggedInAdmin: state.Auth.user,
@@ -20,12 +20,25 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {};
 
+const IconButton = ({ isSidebarOpen, onClick }) => (
+  <button onClick={onClick} className="icon-button">
+    {isSidebarOpen ?
+      <FaWindowClose size={20} color='#193956' /> :
+      <FaBarsStaggered size={20} color='#193956' style={{ transform: 'rotate(180deg)' }} />
+    }
+  </button>
+);
+
 export function Admin({ loggedInAdmin }) {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [currentSection, setCurrentSection] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [currentSection, setCurrentSection] = useState(localStorage.getItem('adminCurrentSection') || 'dashboard');
+
+  useEffect(() => {
+    localStorage.setItem('adminCurrentSection', currentSection);
+  }, [currentSection]);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -42,9 +55,33 @@ export function Admin({ loggedInAdmin }) {
     getUsers();
   }, []);
 
-  const handleEdit = async (id) => {
-
-  }
+  const handleEdit = async (id,data) => {
+    try {
+      console.log(data)
+      const res = await put(`/api/admin/editUser/${id}`,data,{
+        headers:{
+          'Content-Type':'multipart/form-data'
+        }
+      })
+      const response = res.data
+      if (res.status === 200) {
+        toast.success("Edited Successfully")
+        try {
+          const request = await get('/api/admin/getuser');
+          const response = request.data;
+          if (request.status === 200) {
+            setUsers(response.users)
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      }
+    }
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -69,7 +106,6 @@ export function Admin({ loggedInAdmin }) {
       }
     }
   };
-
 
   const handleLogout = async () => {
     try {
@@ -119,27 +155,23 @@ export function Admin({ loggedInAdmin }) {
     <>
       {/* Top Navbar */}
       <div className="top-navbar">
-        <div className="logo" onClick={toggleSidebar}>
+        <div className="logo">
+          <IconButton isSidebarOpen={isSidebarOpen} onClick={toggleSidebar} />
           <img src="./logo.jpeg" alt="Project Pulse Logo" className="logo-img" />
           <span className="project-name">ProjectPulse</span>
         </div>
-
         <div className="actions">
           <div className="notifications" onClick={() => handleNavItemClicked('notifications')}>
             <FaBell size={20} />
-            {/* Replace with actual notification content */}
           </div>
           <div className="calendar" onClick={() => handleNavItemClicked('calendar')}>
             <FaCalendar size={20} />
-            {/* Replace with actual calendar content */}
           </div>
         </div>
-
         <div className="admin-profile">
           <h3>Welcome</h3>
           <p>{loggedInAdmin.name}</p>
         </div>
-
         <button className="logout-button" onClick={handleLogout}>Logout</button>
       </div>
 

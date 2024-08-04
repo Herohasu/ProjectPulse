@@ -1,0 +1,154 @@
+.user-project-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.user-project-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-project-button {
+    position: relative;
+    background-color: #1DABFF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    overflow: hidden;
+}
+
+.create-project-button::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: conic-gradient(#ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+    border-radius: 10px;
+    z-index: -1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: scale(1.1);
+    opacity: 0;
+}
+
+.create-project-button:hover::after {
+    transform: scale(1);
+    opacity: 1;
+} 
+
+
+/* Modal styles */
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.3s ease;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease;
+}
+
+.modal-header,
+.modal-footer {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-footer {
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.modal-body {
+    overflow-y: auto;
+    padding: 20px;
+    flex: 1;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* Buttons in Modal */
+.modal-footer-button {
+    background-color: #1DABFF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-left: 10px;
+}
+
+.modal-footer-button:hover {
+    background-color: #152F46;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modal-footer-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Input Styles */
+.modal-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: #1DABFF;
+    box-shadow: 0 0 4px rgba(29, 171, 255, 0.3);
+}

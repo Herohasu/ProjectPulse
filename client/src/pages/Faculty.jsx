@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import { useNavigate } from 'react-router-dom';
 import './Faculty.css';
-import { FaBell, FaCalendar, FaHome, FaTasks } from 'react-icons/fa';
+import { FaBell, FaCalendar, FaHome, FaTasks, FaWindowClose,FaUser } from 'react-icons/fa';
+import { FaBarsStaggered } from "react-icons/fa6";
 import FacultyDashboard from '../components/FacultyModules/FacultyDashboard.jsx';
-
 import FacultyProject from '../components/FacultyModules/FacultyProject.jsx';
 import FacultyNotification from '../components/FacultyModules/FacultyNotification';
 import FacultyCalendar from '../components/FacultyModules/FacultyCalendar.jsx';
+import FacultyProfile from '../components/FacultyModules/FacultyProfile.jsx';
 
 const mapStateToProps = (state) => ({
   loggedInFaculty: state.Auth.user,
@@ -17,16 +18,31 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {};
 
+const IconButton = ({ isSidebarOpen, onClick }) => (
+  <button 
+    onClick={onClick} 
+    className="icon-button"
+  >
+    {isSidebarOpen ? 
+      <FaWindowClose size={20} color='#193956' /> : 
+      <FaBarsStaggered size={20} color='#193956' style={{ transform: 'rotate(180deg)'}}/>
+    }
+  </button>
+);
+
 export function Faculty({ loggedInFaculty }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [currentSection, setCurrentSection] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [currentSection, setCurrentSection] = useState(localStorage.getItem('facultyCurrentSection') || 'dashboard');
+
+  useEffect(() => {
+    localStorage.setItem('facultyCurrentSection', currentSection);
+  }, [currentSection]);
 
   const handleLogout = async () => {
     try {
       const request = await post('/api/auth/logout');
-      const response = request.data;
       if (request.status === 200) {
         dispatch(Logout());
         navigate('/');
@@ -56,6 +72,7 @@ export function Faculty({ loggedInFaculty }) {
     { name: 'Projects', icon: <FaTasks />, path: 'projects' },
     { name: 'Notifications', icon: <FaBell />, path: 'notifications' },
     { name: 'Calendar', icon: <FaCalendar />, path: 'calendar' },
+    { name: 'My Profile', icon: <FaUser />, path: 'myprofile' }
   ];
 
   const sectionComponents = {
@@ -63,36 +80,33 @@ export function Faculty({ loggedInFaculty }) {
     projects: <FacultyProject />,
     notifications: <FacultyNotification />,
     calendar: <FacultyCalendar />,
+    myprofile : <FacultyProfile/>
   };
 
   return (
     <>
       {/* Top Navbar */}
       <div className="top-navbar">
-        <div className="logo" onClick={toggleSidebar}>
+        <IconButton isSidebarOpen={isSidebarOpen} onClick={toggleSidebar} />
+        <div className="logo">
           <img src="./logo.jpeg" alt="Project Pulse Logo" className="logo-img" />
-          <span className="project-name">ProjectPulse</span>
+          <span className="project-name"><h3>ProjectPulse</h3></span>
         </div>
-
-        <div className="actions">
+        <div className="center-actions">
           <div className="notifications" onClick={() => handleNavItemClicked('notifications')}>
             <FaBell size={20} />
-          
           </div>
           <div className="calendar" onClick={() => handleNavItemClicked('calendar')}>
             <FaCalendar size={20} />
-            
+          </div>
+          <div className="faculty-profile">
+            <h3>Welcome</h3>
+            <p>{loggedInFaculty.name}</p>
           </div>
         </div>
-
-        <div className="faculty-profile">
-          <h3>Welcome</h3>
-          <p>{loggedInFaculty.name}</p>
-        </div>
-
         <button className="logout-button" onClick={handleLogout}>Logout</button>
       </div>
-
+  
       {/* Sidebar */}
       <div className={`side-navbar ${isSidebarOpen ? 'open' : ''}`} onClick={closeSidebar}>
         <ul className="navbar-items">
@@ -106,9 +120,9 @@ export function Faculty({ loggedInFaculty }) {
           ))}
         </ul>
       </div>
-
+  
       {/* Main Content */}
-      <div className={`faculty-container ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+      <div className={`faculty-container ${isSidebarOpen ? 'sidebar-open' : ''}`} onClick={closeSidebar}>
         {sectionComponents[currentSection]}
       </div>
     </>
@@ -116,3 +130,5 @@ export function Faculty({ loggedInFaculty }) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Faculty);
+
+

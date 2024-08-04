@@ -9,10 +9,14 @@ const PasswordReset = ({ match }) => {
     const { token } = useParams()
     const navigate = useNavigate()
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (password !== confirmPassword) {
+            toast('Passwords do not match')
+            return;
+        }
         try {
             await axios.post(`http://localhost:4000/api/auth/reset-password/${token}`, { password });
             toast.success("Password has been reset successfully")
@@ -20,26 +24,32 @@ const PasswordReset = ({ match }) => {
                 navigate('/login')
             }, 3000);
         } catch (error) {
-            setMessage('Error resetting password');
+            toast("Error resetting password")
         }
     };
 
     return (
-        <div className='reseting-container'>
-            <div className='reseting-image'></div>
-            <div>
-            <form id='reseta' onSubmit={handleSubmit}>
-                <h2>Its good to change your password</h2>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter new password"
-                />
+        <div>
+            <h2>Reset Password</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="input-group">
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter new password"
+                    />
+                </div>
+                <div className="input-group">
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Confirm new password"
+                    />
+                </div>
                 <button type="submit">Reset Password</button>
             </form>
-            {message && <p>{message}</p>}
-            </div>
         </div>
     );
 };

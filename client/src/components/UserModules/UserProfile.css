@@ -8,7 +8,7 @@
   font-family: Arial, sans-serif;
 }
 
-.top-profilr-container {
+.top-profile-container {
   margin-bottom: 20px;
   border-bottom: 1px solid #152f46;
   height: max-content;
@@ -125,4 +125,13 @@
 
 form {
   margin-top: 20px;
+}
+
+#gender {
+  font-size: medium;
+  width: 150px;
+  height: 41.6px;
+  color: #152f46;
+  border-radius: 5px;
+  border: 2px solid #152f46;
 }

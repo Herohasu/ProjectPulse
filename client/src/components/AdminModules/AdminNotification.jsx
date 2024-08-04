@@ -31,8 +31,8 @@ const AdminNotification = () => {
   }
 
   return (
-    <div className="container mt-5">
-      <div className="card">
+    <div className="container">
+      <div className="cardadd">
         <div className="card-header bg-primary text-white">
           <h2>Admin Notification</h2>
         </div>
@@ -88,7 +88,7 @@ const AdminNotification = () => {
       </div>
 
       {/* Notifications List */}
-      <div className="card mt-4">
+      <div className="cardshow">
         <div className="card-header bg-primary text-white">
           <h2>Existing Notifications</h2>
         </div>

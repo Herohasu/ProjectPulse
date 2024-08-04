@@ -1,0 +1,219 @@
+.user-team-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.user-team-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.create-team-button {
+    position: relative;
+    background-color: #1DABFF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    overflow: hidden;
+}
+
+.create-team-button::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: conic-gradient(#ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+    border-radius: 10px;
+    z-index: -1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: scale(1.1);
+    opacity: 0;
+}
+
+.create-team-button:hover::after {
+    transform: scale(1);
+    opacity: 1;
+} 
+
+
+
+/* Modal styles */
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease;
+}
+
+.modal-header,
+.modal-footer {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-footer {
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.modal-body {
+    overflow-y: auto;
+    padding: 20px;
+    flex: 1;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* Buttons in Modal */
+.modal-footer button {
+    background-color: #1DABFF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-left: 10px;
+}
+
+.modal-footer button:hover {
+    background-color: #152F46;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modal-footer button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Input Styles */
+.modal-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: #1DABFF;
+    box-shadow: 0 0 4px rgba(29, 171, 255, 0.3);
+}
+
+/* Team Details Card */
+.team-details-card {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.team-details-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.team-details-card p {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.team-delete-btn {
+    background-color: #ff1d1d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+}
+
+/* Members Container */
+.members-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.member-item {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f0f0f0;
+    font-size: 16px;
+}
+
+.captain {
+    border-color: #1DABFF;
+    background-color: #e0f4ff;
+    color: #152F46;
+    font-weight: bold;
+}
+
+  
