@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './UserTeam.css';
 import toast from 'react-hot-toast';
-import axios from 'axios'
+import axios from 'axios';
+import ConfirmDeleteModal from '../UserModules/ComfirmDeleteModal.jsx'; 
 
 const UserTeam = ({ user }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,6 +11,8 @@ const UserTeam = ({ user }) => {
     const [membersDetails, setMembersDetails] = useState('');
     const [teamLeader, setTeamLeader] = useState('');
     const [teams, setTeams] = useState([]);
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false); 
+    const [teamToDelete, setTeamToDelete] = useState(null); 
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -17,10 +20,10 @@ const UserTeam = ({ user }) => {
     useEffect(() => {
         axios.get(`http://localhost:4000/ShowTeamsByEmail/${user.email}`)
             .then(result => {
-                setTeams(result.data)
+                setTeams(result.data);
             })
-            .catch(err => { console.log(err) })
-    })
+            .catch(err => { console.log(err); });
+    } );
 
     const handleSave = () => {
         if (parseInt(teamMembers) === 3 && membersDetails.split(',').length > 2) {
@@ -33,59 +36,60 @@ const UserTeam = ({ user }) => {
         }
         const memberList = membersDetails.split(',').map(member => member.trim());
         for (let i = 0; i < memberList.length; i++) {
-            console.log("fdf", memberList[i]);
             axios.get('http://localhost:4000/CheckForEmail', {
                 params: { email: memberList[i] },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers: { 'Content-Type': 'application/json' }
             })
                 .then(result => {
                     if (result.data.email) {
-                        console.log(result.data.message)
-                        toast(result.data.email + result.data.message)
+                        toast(result.data.email + result.data.message);
                     }
-                }
-                )
-                .catch((err) => {
-                    console.log(err)
                 })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
 
-        // =================== db storing ==============
-        const formData = new FormData()
-        const dataformembers = membersDetails + "," + user.email
-        formData.append('TeamName', teamName)
-        formData.append('LeaderName', teamLeader)
-        formData.append('TeamMembers', dataformembers)
+        // DB storing
+        const formData = new FormData();
+        const dataformembers = membersDetails + "," + user.email;
+        formData.append('TeamName', teamName);
+        formData.append('LeaderName', teamLeader);
+        formData.append('TeamMembers', dataformembers);
         axios.post('http://localhost:4000/AddTeams', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+            headers: { 'Content-Type': 'multipart/form-data' }
         })
             .then((result) => {
-                toast("Team Added Successfully")
-                // console.log(result.data)
+                toast("Team Added Successfully");
             })
-            .catch((err) => { console.log(err) })
-
+            .catch((err) => { console.log(err); });
 
         closeModal();
     };
 
-    const handleDelete = (id)=>{
-        console.log("ifd:",id)
+    const handleDelete = (id) => {
         axios.delete(`http://localhost:4000/DeleteTeams/${id}`)
-        .then(result=>{
-            toast(result.data.message)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-    }
+            .then(result => {
+                toast(result.data.message);
+                setTeams(teams.filter(team => team._id !== id));
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
     const getTeamMembersList = () => {
         return membersDetails.split(',').map(member => member.trim()).concat(user.email);
+    };
+
+    const handleDeleteButtonClick = (teamId) => {
+        setTeamToDelete(teamId);
+        setShowConfirmDelete(true);
+    };
+
+    const handleConfirmDelete = () => {
+        handleDelete(teamToDelete);
+        setShowConfirmDelete(false);
     };
 
     return (
@@ -167,12 +171,18 @@ const UserTeam = ({ user }) => {
                                     </div>
                                 ))}
                             </div>
-                            <br></br>
-                            <button onClick={()=> handleDelete(team._id)}>Delete</button>
+                            <br />
+                            <button className='team-delete-btn'  onClick={() => handleDeleteButtonClick(team._id)}>Delete Team</button>
                         </div>
                     ))}
                 </div>
             )}
+
+            <ConfirmDeleteModal
+                show={showConfirmDelete}
+                handleClose={() => setShowConfirmDelete(false)}
+                handleConfirm={handleConfirmDelete}
+            />
         </>
     );
 };

@@ -31,7 +31,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [currentSection, setCurrentSection] = useState('dashboard');
+  const [currentSection, setCurrentSection] = useState(localStorage.getItem('currentSection') || 'dashboard');
 
   useEffect(() => {
     if (!user) {
@@ -70,6 +70,7 @@ const Home = () => {
       closeSidebar();
     }
     setCurrentSection(path);
+    localStorage.setItem('currentSection', path);
   };
 
   const sideNavItems = [
@@ -100,6 +101,9 @@ const Home = () => {
           <span className="project-name"><h3>ProjectPulse</h3></span>
         </div>
         <div className="center-actions">
+        <div className="myprofile" onClick={() => handleNavItemClicked('myprofile')}>
+            <FaUser size={20} />
+          </div>
           <div className="notifications" onClick={() => handleNavItemClicked('notifications')}>
             <FaBell size={20} />
           </div>

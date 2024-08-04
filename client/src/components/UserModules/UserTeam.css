@@ -163,6 +163,20 @@
     margin: 5px 0;
 }
 
+.team-delete-btn {
+    background-color: #ff1d1d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+}
+
 /* Members Container */
 .members-container {
     display: flex;

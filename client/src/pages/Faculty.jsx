@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
@@ -33,7 +33,11 @@ export function Faculty({ loggedInFaculty }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [currentSection, setCurrentSection] = useState('dashboard');
+  const [currentSection, setCurrentSection] = useState(localStorage.getItem('facultyCurrentSection') || 'dashboard');
+
+  useEffect(() => {
+    localStorage.setItem('facultyCurrentSection', currentSection);
+  }, [currentSection]);
 
   const handleLogout = async () => {
     try {
