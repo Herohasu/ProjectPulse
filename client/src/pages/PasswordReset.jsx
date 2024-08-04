@@ -12,7 +12,7 @@ const PasswordReset = ({ match }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            setMessage('Passwords do not match');
+            toast('Passwords do not match')
             return;
         }
         try {
