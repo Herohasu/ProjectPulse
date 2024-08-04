@@ -13,7 +13,9 @@
     align-items: center;
 }
 
+
 .create-team-button {
+    position: relative;
     background-color: #1DABFF;
     color: #fff;
     border: none;
@@ -24,18 +26,31 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    overflow: hidden;
 }
 
-.create-team-button:hover {
-    background-color: #152F46;
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+.create-team-button::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: conic-gradient(#ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+    border-radius: 10px;
+    z-index: -1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: scale(1.1);
+    opacity: 0;
 }
 
-.create-team-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
-}
+.create-team-button:hover::after {
+    transform: scale(1);
+    opacity: 1;
+} 
+
+
 
 /* Modal styles */
 .modal {
