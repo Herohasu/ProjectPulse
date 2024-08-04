@@ -269,7 +269,7 @@ router.get("/ShowTeamsByEmail/:email", async (req, res) => {
     }).exec();
 
     if (AllTeams.length === 0) {
-      console.log("no")
+      // console.log("no")
       return res.status(200).json({ message: "No Teams" });
     }
 
@@ -321,6 +321,7 @@ async function getObjectIdsByEmails(emails) {
 router.post("/AddTeams", upload.none(), async (req, res) => {
   try {
     const { TeamName, LeaderName, TeamMembers } = req.body;
+    console.log("add teams")
 
     // Convert emails to ObjectIds
     const emails = [
