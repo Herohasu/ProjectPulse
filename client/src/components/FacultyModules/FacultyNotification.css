@@ -1,0 +1,110 @@
+body {
+    background-color: white;
+  }
+  
+  .card {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card + .card {
+    margin-top: 50px;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .cardadd .card-header {
+    background-color: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .cardadd .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem; 
+    background: #f9f9f9;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden; 
+  }
+  
+  .cardadd .form-group {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 1rem;
+  }
+  
+  .cardadd .form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 0.5rem; 
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .cardadd .form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(29, 171, 255, 0.25);
+  }
+  
+  .cardadd .btn-primary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    border-radius: 5px;
+    padding: 0.5rem 1rem; 
+    font-size: 0.875rem; 
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .cardadd .btn-primary:hover {
+    background-color: #1b8fdf;
+    border-color: #1b8fdf;
+  }
+  
+  .cardshow .card-header {
+    background-color: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .cardshow .card-body {
+    padding: 1.5rem; 
+    background: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .cardshow .list-group-item {
+    margin-bottom: 0.75rem; 
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: background-color 0.3s;
+  }
+  
+  .cardshow .list-group-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  @media (max-width: 768px) {
+    .cardadd .card-body {
+      padding: 0.5rem; 
+    }
+  
+    .cardadd .form-group,
+    .cardadd .btn-primary {
+      width: 100%;
+      max-width: none;
+      margin-bottom: 1rem; 
+    }
+  }
+  
