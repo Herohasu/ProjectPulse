@@ -520,7 +520,7 @@ router.put("/EditProjects/:id", async (req, res) => {
 
 router.delete("/DeleteProjects/:id", async (req, res) => {
   try {
-    const ProjectId = rea.params.id;
+    const ProjectId = res.params.id;
     const DeleteProject = await ProjectData.findByIdAndDelete(ProjectId);
     res.status(200).json(DeleteProject);
   } catch (error) {
