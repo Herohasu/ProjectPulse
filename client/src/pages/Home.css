@@ -37,7 +37,8 @@ body {
 }
 
 .top-navbar .notifications,
-.top-navbar .calendar {
+.top-navbar .calendar,
+.top-navbar .myprofile {
   margin-right: 10px;
   color: var(--primary-color);
   cursor: pointer;

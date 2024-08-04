@@ -101,6 +101,9 @@ const Home = () => {
           <span className="project-name"><h3>ProjectPulse</h3></span>
         </div>
         <div className="center-actions">
+        <div className="myprofile" onClick={() => handleNavItemClicked('myprofile')}>
+            <FaUser size={20} />
+          </div>
           <div className="notifications" onClick={() => handleNavItemClicked('notifications')}>
             <FaBell size={20} />
           </div>
