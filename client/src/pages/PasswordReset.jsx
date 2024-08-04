@@ -8,12 +8,11 @@ const PasswordReset = ({ match }) => {
     const navigate = useNavigate()
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            setMessage('Passwords do not match');
+            toast('Passwords do not match')
             return;
         }
         try {
@@ -23,7 +22,7 @@ const PasswordReset = ({ match }) => {
                 navigate('/login')
             }, 3000);
         } catch (error) {
-            setMessage('Error resetting password');
+            toast("Error resetting password")
         }
     };
 
@@ -49,7 +48,6 @@ const PasswordReset = ({ match }) => {
                 </div>
                 <button type="submit">Reset Password</button>
             </form>
-            {message && <p>{message}</p>}
         </div>
     );
 };
