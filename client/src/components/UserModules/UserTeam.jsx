@@ -26,6 +26,7 @@ const UserTeam = ({ user }) => {
     } );
 
     const handleSave = () => {
+        // e.preventDefault()
         if (parseInt(teamMembers) === 3 && membersDetails.split(',').length > 2) {
             alert('Please select only 2 members. One will be the creator.');
             return;
@@ -115,7 +116,6 @@ const UserTeam = ({ user }) => {
                                     id="teamName"
                                     className="modal-input"
                                     placeholder="Enter the team name"
-                                    value={teamName}
                                     onChange={(e) => setTeamName(e.target.value)}
                                 />
                                 <label htmlFor="teamMembers">Number of Team Members:</label>
@@ -124,7 +124,6 @@ const UserTeam = ({ user }) => {
                                     id="teamMembers"
                                     className="modal-input"
                                     placeholder="Enter number of team members"
-                                    value={teamMembers}
                                     onChange={(e) => setTeamMembers(e.target.value)}
                                 />
                                 <label htmlFor="membersDetails">Members to Add Details:</label>
@@ -133,14 +132,12 @@ const UserTeam = ({ user }) => {
                                     id="membersDetails"
                                     className="modal-input"
                                     placeholder="Enter details of members to add (comma-separated)"
-                                    value={membersDetails}
                                     onChange={(e) => setMembersDetails(e.target.value)}
                                 />
                                 <label htmlFor="teamLeader">Team Leader:</label>
                                 <select
                                     id="teamLeader"
                                     className="modal-input"
-                                    value={teamLeader}
                                     onChange={(e) => setTeamLeader(e.target.value)}
                                 >
                                     <option value="">Select Team Leader</option>
