@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchNotifications, addNotification } from '../../redux/NotificationSlice';
-//import './FacultyNotification.css';
+import './FacultyNotification.css';
 
 const FacultyNotification = () => {
   const [subject, setSubject] = useState('');
@@ -31,7 +31,7 @@ const FacultyNotification = () => {
 
   return (
     <div className="container mt-5">
-      <div className="card">
+      <div className="cardadd">
         <div className="card-header bg-primary text-white">
           <h2>Faculty Notification</h2>
         </div>
@@ -85,7 +85,7 @@ const FacultyNotification = () => {
       </div>
 
       {/* Notifications List */}
-      <div className="card mt-4">
+      <div className="cardshow">
         <div className="card-header bg-primary text-white">
           <h2>Existing Notifications</h2>
         </div>
