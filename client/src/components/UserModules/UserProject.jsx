@@ -76,19 +76,13 @@ const UserProject = ({ user }) => {
   };
 
   return (
-    
+    <>
     <div className="user-project-wrapper">
       <div className="user-project-container">
         <button className="create-project-button" onClick={openModal}>
           Create Project
         </button>
       </div>
-
-      <UserModalProject
-      isModalOpen={isModalOpen}
-      ProjectsData={ProjectsData}
-      handleDelete={handleDelete}/>
-      
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
@@ -137,10 +131,14 @@ const UserProject = ({ user }) => {
           </div>
         </div>
       )}
-
-
-
     </div>
+<br />
+
+    <UserModalProject
+    isModalOpen={isModalOpen}
+    ProjectsData={ProjectsData}
+    handleDelete={handleDelete}/>
+    </>
   );
 };
 

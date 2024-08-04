@@ -1,4 +1,5 @@
 import React from 'react'
+import './UserModalProject.css'
 
 const UserModalProject = ({ isModalOpen, ProjectsData, handleDelete }) => {
 
@@ -10,7 +11,7 @@ const UserModalProject = ({ isModalOpen, ProjectsData, handleDelete }) => {
       <div className="projects-list">
         {ProjectsData.map((project, index) => (
           <div key={index} className="project-card">
-            <h3>{project.ProjectTitle}</h3>
+            <center><h2>{project.ProjectTitle}</h2></center>
             <p><strong>Description:</strong> {project.ProjectDescription}</p>
             <p><strong>Mentor ID:</strong> {project.MentorName}</p>
             <p><strong>Team ID:</strong> {project.TeamName}</p>
