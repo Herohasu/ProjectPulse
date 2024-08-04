@@ -466,7 +466,9 @@ router.get('/ShowProjectsByEmail/:email',async (req,res)=>{
              return {
                  ...project.toObject(), // Convert Mongoose document to plain object
                  TeamName: team ? team.TeamName : 'Unknown Team',
-                 MentorName: mentor ? mentor.name : 'Unknown Mentor'
+                 MentorName: mentor ? mentor.name : 'Unknown Mentor',
+                 Status: project.approval || 'Pending'
+            
              };
          }));
          
