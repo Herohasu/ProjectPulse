@@ -2,9 +2,11 @@ import React from 'react';
 import './UserGoToProject.css';
 
 const UserGoToProject = ({ project, onClose }) => {
+  const cardBackgroundClass = project.Status === 'Yes' ? 'bg-green' : '';
+
   return (
     <div className="user-go-to-overlay">
-      <div className="user-go-to-container">
+      <div className={`user-go-to-container ${cardBackgroundClass}`}>
         <button className="close-button" onClick={onClose}>Close</button>
         <div className="user-go-to-container1">
           <h2>{project.ProjectTitle}</h2>
@@ -26,3 +28,4 @@ const UserGoToProject = ({ project, onClose }) => {
 };
 
 export default UserGoToProject;
+
