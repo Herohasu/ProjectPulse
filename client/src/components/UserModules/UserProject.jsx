@@ -3,32 +3,33 @@ import axios from 'axios'
 import './UserProject.css';
 import toast from 'react-hot-toast';
 
-const UserProject = ({user}) => {
+const UserProject = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [Facultylist, setFacultylist] = useState([]);
   const [TeamsList, setTeamsList] = useState([]);
-  const [ProjectTitle,setProjectTitle] = useState('');
-  const [ProjectDescription,setProjectDescription] = useState('');
-  const [MentorId,setMentorId] = useState('');
-  const [TeamId,setTeamId] = useState('') ;
+  const [ProjectTitle, setProjectTitle] = useState('');
+  const [ProjectDescription, setProjectDescription] = useState('');
+  const [MentorId, setMentorId] = useState('');
+  const [TeamId, setTeamId] = useState('');
   const [currentYear] = useState(new Date().getFullYear());
 
-  const [ProjectsData,setProjectsData] = useState([])
+  const [ProjectsData, setProjectsData] = useState([])
 
-  useEffect(()=>{
+  useEffect(() => {
     axios.get(`http://localhost:4000/ShowProjectsByEmail/${user.email}`)
-    .then(result=>{
-      setProjectsData(result.data)
-    })
+      .then(result => {
+        setProjectsData(result.data)
+      })
   })
   const openModal = () => {
     setIsModalOpen(true);
   };
 
+
   const getFacultyDetails = () => {
     axios.get('http://localhost:4000/ShowFacultysData')
       .then(result => {
-        console.log(result.data)
+        // console.log(result.data)
         setFacultylist(result.data)
       })
       .catch(err => { console.log(err) })
@@ -42,30 +43,30 @@ const UserProject = ({user}) => {
       .catch(err => { console.log(err) })
   }
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     const newProject = {
-      ProjectTitle : ProjectTitle,
-      ProjectDescription : ProjectDescription,
-      Mentorid : MentorId,
-      Teamid : TeamId,
-      Year : currentYear
+      ProjectTitle: ProjectTitle,
+      ProjectDescription: ProjectDescription,
+      Mentorid: MentorId,
+      Teamid: TeamId,
+      Year: currentYear
     }
 
-    axios.post('http://localhost:4000/AddProjects',newProject,{
-      headers:{
-        'Content-Type':'application/json'
+    axios.post('http://localhost:4000/AddProjects', newProject, {
+      headers: {
+        'Content-Type': 'application/json'
       }
     })
-    .then(result=>{
-      toast("Project Created Successfully")
-    })
+      .then(result => {
+        toast("Project Created Successfully")
+      })
   }
 
-  const handleDelete = (id)=>{
+  const handleDelete = (id) => {
     axios.delete(`http://localhost:4000/DeleteProjects/${id}`)
-    .then(result=>{toast("Project Deleted Successfully")})
-    .catch(err=>{console.log(err)})
+      .then(result => { toast("Project Deleted Successfully") })
+      .catch(err => { console.log(err) })
   }
 
 
@@ -91,15 +92,15 @@ const UserProject = ({user}) => {
               <form>
                 <div className="form-group">
                   <label htmlFor="projectTitle">Project Title</label>
-                  <input type="text" id="projectTitle" name="projectTitle" required className="modal-input" onChange={(e)=> setProjectTitle(e.target.value)}/>
+                  <input type="text" id="projectTitle" name="projectTitle" required className="modal-input" onChange={(e) => setProjectTitle(e.target.value)} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="projectDescription">Project Description</label>
-                  <textarea id="projectDescription" name="projectDescription" required className="modal-input" onChange={(e)=> setProjectDescription(e.target.value)}></textarea>
+                  <textarea id="projectDescription" name="projectDescription" required className="modal-input" onChange={(e) => setProjectDescription(e.target.value)}></textarea>
                 </div>
                 <div className="form-group">
                   <label htmlFor="mentorId">Mentor Name</label>
-                  <select onClick={() => getFacultyDetails()} onChange={(e)=> setMentorId(e.target.value)} id="mentorId" name="mentorId" required className="modal-input">
+                  <select onClick={() => getFacultyDetails()} onChange={(e) => setMentorId(e.target.value)} id="mentorId" name="mentorId" required className="modal-input">
                     <option value="">Select The Mentor</option>
                     {Facultylist.map((faculty, index) => (
                       <option key={index} value={faculty._id}>{faculty.name}</option>
@@ -108,7 +109,7 @@ const UserProject = ({user}) => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="teamId">Team ID</label>
-                  <select onClick={() => getTeamsData()} onChange={(e)=>setTeamId(e.target.value)} id='teamId' name='teamId' required className='modal-input'>
+                  <select onClick={() => getTeamsData()} onChange={(e) => setTeamId(e.target.value)} id='teamId' name='teamId' required className='modal-input'>
                     <option value="">Select The Team</option>
                     {TeamsList.map((team, index) => (
                       <option key={index} value={team._id}>{team.TeamName}</option>
@@ -128,17 +129,36 @@ const UserProject = ({user}) => {
                 </div> */}
                 <div className="form-group">
                   <label htmlFor="year">Year</label>
-                  <input type="number" id="year" name="year" value={currentYear} readOnly required className="modal-input"/>
+                  <input type="number" id="year" name="year" value={currentYear} readOnly required className="modal-input" />
                 </div>
               </form>
             </div>
             <div className="modal-footer">
               <button type="button" className="modal-footer-button" onClick={closeModal}>Cancel</button>
-              <button type="submit" className="modal-footer-button" onClick={(e)=> handleSubmit(e)} >Submit</button>
+              <button type="submit" className="modal-footer-button" onClick={(e) => handleSubmit(e)} >Submit</button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Project Cards */}
+      {/* {ProjectsData.length > 0 ? (
+        <div className="projects-list">
+          {ProjectsData.map(project => (
+            <div key={project._id} className="project-card">
+              <h3>{project.ProjectTitle}</h3>
+              <p><strong>Description:</strong> {project.ProjectDescription}</p>
+              <p><strong>Mentor Name:</strong> {project.MentorName}</p>
+              <p><strong>Team Name:</strong> {project.TeamName}</p>
+              <p><strong>Year:</strong> {project.Year}</p>
+              <button className="delete-project-button" onClick={() => handleDelete(project._id)}>Delete</button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No projects available.</p>
+      )} */}
+
     </div>
   );
 }
