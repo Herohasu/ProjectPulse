@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './UserProject.css';
 import toast from 'react-hot-toast';
+import UserModalProject from './UserModalProject';
 
 const UserProject = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,6 +83,11 @@ const UserProject = ({ user }) => {
           Create Project
         </button>
       </div>
+
+      <UserModalProject
+      isModalOpen={isModalOpen}
+      ProjectsData={ProjectsData}
+      handleDelete={handleDelete}/>
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
@@ -131,23 +137,7 @@ const UserProject = ({ user }) => {
         </div>
       )}
 
-      {/* Project Cards */}
-      {/* {ProjectsData.length > 0 ? (
-        <div className="projects-list">
-          {ProjectsData.map(project => (
-            <div key={project._id} className="project-card">
-              <h3>{project.ProjectTitle}</h3>
-              <p><strong>Description:</strong> {project.ProjectDescription}</p>
-              <p><strong>Mentor Name:</strong> {project.MentorName}</p>
-              <p><strong>Team Name:</strong> {project.TeamName}</p>
-              <p><strong>Year:</strong> {project.Year}</p>
-              <button className="delete-project-button" onClick={() => handleDelete(project._id)}>Delete</button>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>No projects available.</p>
-      )} */}
+
 
     </div>
   );
