@@ -14,13 +14,13 @@ const UserTeam = ({ user }) => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
-    useEffect(()=>{
-        axios.get('http://localhost:4000/ShowTeams')
-        .then(result=>{
-            setTeams(result.data)
-        })
-        .catch(err=>{console.log(err)})
-    }) 
+    useEffect(() => {
+        axios.get(`http://localhost:4000/ShowTeamsByEmail/${user.email}`)
+            .then(result => {
+                setTeams(result.data)
+            })
+            .catch(err => { console.log(err) })
+    })
 
     const handleSave = () => {
         if (parseInt(teamMembers) === 3 && membersDetails.split(',').length > 2) {
@@ -32,46 +32,57 @@ const UserTeam = ({ user }) => {
             return;
         }
         const memberList = membersDetails.split(',').map(member => member.trim());
-        for (let i=0;i<memberList.length;i++){
-            console.log("fdf",memberList[i]);
-            axios.get('http://localhost:4000/CheckForEmail',{
+        for (let i = 0; i < memberList.length; i++) {
+            console.log("fdf", memberList[i]);
+            axios.get('http://localhost:4000/CheckForEmail', {
                 params: { email: memberList[i] },
-                headers:{
-                    'Content-Type':'application/json'
+                headers: {
+                    'Content-Type': 'application/json'
                 }
             })
-            .then(result=>{
-                if(result.data.email){
-                    console.log(result.data.message)
-                    toast(result.data.email + result.data.message)
+                .then(result => {
+                    if (result.data.email) {
+                        console.log(result.data.message)
+                        toast(result.data.email + result.data.message)
+                    }
                 }
-            }
-            )
-            .catch((err)=>{
-                console.log(err)
-            })
+                )
+                .catch((err) => {
+                    console.log(err)
+                })
         }
-        
+
         // =================== db storing ==============
         const formData = new FormData()
-        const dataformembers = membersDetails+","+user.email
-        formData.append('TeamName',teamName)
-        formData.append('LeaderName',teamLeader)
-        formData.append('TeamMembers',dataformembers)
-        axios.post('http://localhost:4000/AddTeams',formData,{
-            headers:{
-                'Content-Type':'multipart/form-data'
+        const dataformembers = membersDetails + "," + user.email
+        formData.append('TeamName', teamName)
+        formData.append('LeaderName', teamLeader)
+        formData.append('TeamMembers', dataformembers)
+        axios.post('http://localhost:4000/AddTeams', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
             }
         })
-        .then((result)=>{
-            toast("Team Added Successfully")
-            // console.log(result.data)
-        })
-        .catch((err)=>{console.log(err)})
+            .then((result) => {
+                toast("Team Added Successfully")
+                // console.log(result.data)
+            })
+            .catch((err) => { console.log(err) })
 
 
         closeModal();
     };
+
+    const handleDelete = (id)=>{
+        console.log("ifd:",id)
+        axios.delete(`http://localhost:4000/DeleteTeams/${id}`)
+        .then(result=>{
+            toast(result.data.message)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
 
     const getTeamMembersList = () => {
         return membersDetails.split(',').map(member => member.trim()).concat(user.name);
@@ -148,7 +159,6 @@ const UserTeam = ({ user }) => {
                         <div key={index} className="team-details-card">
                             <h3>Team Details:</h3>
                             <p><strong>Team Name:</strong> {team.TeamName}</p>
-                            {/* <p><strong>Number of Team Members:</strong> {team.teamMembers}</p> */}
                             <div><strong>Name of Team Members: </strong></div>
                             <div className="members-container">
                                 {team.MemberName.map((member, index) => (
@@ -157,6 +167,8 @@ const UserTeam = ({ user }) => {
                                     </div>
                                 ))}
                             </div>
+                            <br></br>
+                            <button onClick={()=> handleDelete(team._id)}>Delete</button>
                         </div>
                     ))}
                 </div>

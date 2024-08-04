@@ -1,25 +1,20 @@
 import express from "express";
-import multer from 'multer';
+import multer from "multer";
 const router = express.Router();
-import path from 'path'
-
-
+import path from "path";
 
 const storage = multer.diskStorage({
-  destination:(req,file,cb)=>{
-    cb(null,'public/upload/');
+  destination: (req, file, cb) => {
+    cb(null, "public/upload/");
   },
-  filename:(req,file,cb)=>{
-    cb(null, Date.now()+ path.extname(file.originalname));
-  }
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
 });
 const upload = multer({
-  storage:storage,
-  limits: {fileSize: 2*1024*1024}
+  storage: storage,
+  limits: { fileSize: 2 * 1024 * 1024 },
 });
-
-
-
 
 import {
   StudentData,
@@ -44,29 +39,31 @@ router.get("/StudentDetail/:id", async (req, res) => {
   }
 });
 
-router.get('/StudentDetailById',async (req,res)=>{
-  try{
-    const {id} = req.query
-    console.log(req.query)
-    const Studata  = await StudentData.findById({id})
-    const email = Studata.email
-    res.status(200).json(email) 
-  }catch(e){res.status(500).json({message : e})}
-})
+router.get("/StudentDetailById", async (req, res) => {
+  try {
+    const { id } = req.query;
+    console.log(req.query);
+    const Studata = await StudentData.findById({ id });
+    const email = Studata.email;
+    res.status(200).json(email);
+  } catch (e) {
+    res.status(500).json({ message: e });
+  }
+});
 
-
-router.get('/CheckForEmail', async (req,res)=>{
-  try{
-    const {email} = req.query;
-    const StuEmailFound = await StudentData.findOne({email:email})
-    if(!StuEmailFound){
-      res.status(200).json({message: "Email Not Found ",email})
-    } 
-    else{
-      res.status(200).json({message: "Email Found   ",email})
+router.get("/CheckForEmail", async (req, res) => {
+  try {
+    const { email } = req.query;
+    const StuEmailFound = await StudentData.findOne({ email: email });
+    if (!StuEmailFound) {
+      res.status(200).json({ message: "Email Not Found ", email });
+    } else {
+      res.status(200).json({ message: "Email Found   ", email });
     }
-  }catch(err){console.log(err)}
-})
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 router.get("/ShowStudent", async (req, res) => {
   try {
@@ -78,9 +75,9 @@ router.get("/ShowStudent", async (req, res) => {
   }
 });
 
-router.post("/AddStudent",upload.single('image'), async (req, res) => {
+router.post("/AddStudent", upload.single("image"), async (req, res) => {
   try {
-    console.log(req.body)
+    console.log(req.body);
     const {
       name,
       email,
@@ -90,32 +87,32 @@ router.post("/AddStudent",upload.single('image'), async (req, res) => {
       branch,
       semester,
       division,
-      image
+      image,
     } = req.body;
     const newStudent = new StudentData({
       name,
-      email
+      email,
     });
-    if (gender){
+    if (gender) {
       newStudent.gender = gender;
     }
-    if (enrollmentnumber){
+    if (enrollmentnumber) {
       newStudent.enrollmentnumber = enrollmentnumber;
     }
-    if (mobilenumber){
+    if (mobilenumber) {
       newStudent.mobilenumber = mobilenumber;
     }
-    if (branch){
+    if (branch) {
       newStudent.branch = branch;
     }
-    if (semester){
+    if (semester) {
       newStudent.semester = semester;
     }
-    if (division){
+    if (division) {
       newStudent.division = division;
     }
-    if (image){
-      newStudent.image = `upload/${req.file.filename}`
+    if (image) {
+      newStudent.image = `upload/${req.file.filename}`;
     }
     newStudent.save();
     res.json(newStudent);
@@ -125,10 +122,10 @@ router.post("/AddStudent",upload.single('image'), async (req, res) => {
   }
 });
 
-router.put("/EditStudent/:id",upload.single('image'), async (req, res) => {
+router.put("/EditStudent/:id", upload.single("image"), async (req, res) => {
   try {
-    console.log("put called",req.body)
-    console.log(req.file)
+    console.log("put called", req.body);
+    console.log(req.file);
     const StdId = req.params.id;
     const {
       name,
@@ -139,39 +136,41 @@ router.put("/EditStudent/:id",upload.single('image'), async (req, res) => {
       branch,
       semester,
       division,
-      image
+      image,
     } = req.body;
     const updateData = {
       name,
-      email
+      email,
     };
-   
-    if (gender){
+
+    if (gender) {
       updateData.gender = gender;
     }
-    if (enrollmentnumber){
+    if (enrollmentnumber) {
       updateData.enrollmentnumber = enrollmentnumber;
     }
-    if (mobilenumber){
+    if (mobilenumber) {
       updateData.mobilenumber = mobilenumber;
     }
-    if (branch){
+    if (branch) {
       updateData.branch = branch;
     }
-    if (semester){
+    if (semester) {
       updateData.semester = semester;
     }
-    if (division){
+    if (division) {
       updateData.division = division;
     }
-    if (req.file){
-      updateData.image = `upload/${req.file.filename}`
-      console.log("done")
+    if (req.file) {
+      updateData.image = `upload/${req.file.filename}`;
+      console.log("done");
     }
-    const EditStudent = await StudentData.findByIdAndUpdate(StdId, updateData,{new:true});
+    const EditStudent = await StudentData.findByIdAndUpdate(StdId, updateData, {
+      new: true,
+    });
     res.status(200).json(EditStudent);
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(500).json({ error: e.message });
   }
 });
@@ -188,28 +187,26 @@ router.delete("/DeleteStudent/:id", async (req, res) => {
 
 //==============TeamsData================================================
 
-
-router.post("/StudentDetailByEmail",async (req,res)=>{
-  try{
-    const {email} = req.body;
+router.post("/StudentDetailByEmail", async (req, res) => {
+  try {
+    const { email } = req.body;
     if (!email) {
       return res.status(400).json({ message: "Email is required" });
     }
-    const StuData = await StudentData.findOne({email:email})
-    if (!StuData){
+    const StuData = await StudentData.findOne({ email: email });
+    if (!StuData) {
       return res.status(404).json({ message: "Student not found" });
     }
     res.status(200).json(StuData);
-    console.log(StuData)
-  }catch(err){
-    res.status(500).json({message:err.message})
+    console.log(StuData);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-})
-
+});
 
 async function getStudentDataById(ids) {
   // Map IDs to promises that fetch the email data
-  const emailPromises = ids.map(async id => {
+  const emailPromises = ids.map(async (id) => {
     const details = await StudentData.findById(id);
     return details ? details.email : null; // Return email or null if not found
   });
@@ -218,9 +215,8 @@ async function getStudentDataById(ids) {
   const emails = await Promise.all(emailPromises);
 
   // Filter out any null values (in case some IDs didn't exist)
-  return emails.filter(email => email !== null);
+  return emails.filter((email) => email !== null);
 }
-
 
 router.get("/ShowTeams", async (req, res) => {
   try {
@@ -228,26 +224,29 @@ router.get("/ShowTeams", async (req, res) => {
     const AllTeams = await TeamsData.find();
     // console.log("all",AllTeams)
 
-    const allTeamData = await Promise.all(AllTeams.map(async (team) => {
-      const leaderId = team.LeaderName;
+    const allTeamData = await Promise.all(
+      AllTeams.map(async (team) => {
+        const leaderId = team.LeaderName;
 
-      // Fetch leader's data
-      const leaderData = await StudentData.findById(leaderId);
-      if (!leaderData) {
-        throw new Error(`Leader with ID ${leaderId} not found.`);
-      }
-      const leaderEmail = leaderData.email;
+        // Fetch leader's data
+        const leaderData = await StudentData.findById(leaderId);
+        if (!leaderData) {
+          throw new Error(`Leader with ID ${leaderId} not found.`);
+        }
+        const leaderEmail = leaderData.email;
 
-      // Fetch team members' data
-      const memberIds = team.TeamMembers;
-      const memberEmails = await getStudentDataById(memberIds);
+        // Fetch team members' data
+        const memberIds = team.TeamMembers;
+        const memberEmails = await getStudentDataById(memberIds);
 
-      return {
-        TeamName: team.TeamName,
-        LeaderName: leaderEmail,
-        MemberName: memberEmails,
-      };
-    }));
+        return {
+          _id:team._id,
+          TeamName: team.TeamName,
+          LeaderName: leaderEmail,
+          MemberName: memberEmails,
+        };
+      })
+    );
     // console.log(allTeamData)
 
     res.status(200).json(allTeamData);
@@ -256,10 +255,59 @@ router.get("/ShowTeams", async (req, res) => {
   }
 });
 
+router.get("/ShowTeamsByEmail/:email", async (req, res) => {
+  try {
+    const Stemail = req.params.email;
+    // console.log(Stemail)
+    const student = await StudentData.findOne({email:Stemail}).exec()
+    const StId = student._id
+    // console.log(student)
+
+
+    const AllTeams = await TeamsData.find({
+      TeamMembers: StId
+    }).exec();
+
+    if (AllTeams.length === 0) {
+      console.log("no")
+      return res.status(200).json({ message: "No Teams" });
+    }
+
+    const allTeamsData = await Promise.all(
+      AllTeams.map(async (team) => {
+        const leaderId = team.LeaderName;
+
+        // Fetch leader's data
+        const leaderData = await StudentData.findById(leaderId);
+        if (!leaderData) {
+          throw new Error(`Leader with ID ${leaderId} not found.`);
+        }
+        const leaderEmail = leaderData.email;
+
+        // Fetch team members' data
+        const memberIds = team.TeamMembers;
+        const memberEmails = await getStudentDataById(memberIds);
+
+        return {
+          _id:team._id,
+          TeamName: team.TeamName,
+          LeaderName: leaderEmail,
+          MemberName: memberEmails,
+        };
+      })
+    );
+    res.status(200).json(allTeamsData);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: err.message });
+  }
+});
 
 async function getObjectIdsByEmails(emails) {
-  const results = await StudentData.find({ email: { $in: emails } }).select('_id email').lean();
-  const emailToIdMap = new Map(results.map(item => [item.email, item._id]));
+  const results = await StudentData.find({ email: { $in: emails } })
+    .select("_id email")
+    .lean();
+  const emailToIdMap = new Map(results.map((item) => [item.email, item._id]));
   return emailToIdMap;
 }
 
@@ -270,21 +318,30 @@ async function getObjectIdsByEmails(emails) {
 //   return ids.every(id => validIds.includes(id.toString()));
 // }
 
-
 router.post("/AddTeams", upload.none(), async (req, res) => {
   try {
     const { TeamName, LeaderName, TeamMembers } = req.body;
 
     // Convert emails to ObjectIds
-    const emails = [LeaderName, ...TeamMembers.split(',').map(email => email.trim())];
+    const emails = [
+      LeaderName,
+      ...TeamMembers.split(",").map((email) => email.trim()),
+    ];
     const emailToIdMap = await getObjectIdsByEmails(emails);
 
     // Convert email addresses to ObjectIds
     const leaderId = emailToIdMap.get(LeaderName);
-    const teamMembersArray = TeamMembers.split(',').map(email => email.trim()).map(email => emailToIdMap.get(email)).filter(id => id);
+    const teamMembersArray = TeamMembers.split(",")
+      .map((email) => email.trim())
+      .map((email) => emailToIdMap.get(email))
+      .filter((id) => id);
 
     if (!leaderId) {
-      return res.status(400).json({ error: 'Leader email is invalid or not found in StudentData.' });
+      return res
+        .status(400)
+        .json({
+          error: "Leader email is invalid or not found in StudentData.",
+        });
     }
 
     // Include the leader's ID in the team members array if not already present
@@ -296,7 +353,7 @@ router.post("/AddTeams", upload.none(), async (req, res) => {
     // const allIds = teamMembersArray; // All team members including leader
     // const allIdsValid = await validateObjectIds(allIds);
 
-    console.log(teamMembersArray)
+    console.log(teamMembersArray);
 
     // if (!allIdsValid) {
     //   return res.status(400).json({ error: 'One or more IDs are invalid or do not exist in StudentData.' });
@@ -336,17 +393,20 @@ router.post("/AddTeams", upload.none(), async (req, res) => {
 //   }
 // });
 
-
 router.put("/EditTeams/:id", async (req, res) => {
   try {
     const TeamId = req.params.id;
     const { TeamName, MentorName, LeaderName, TeamMembers } = req.body;
-    const EditTeamEvent = await TeamsData.findByIdAndUpdate(TeamId, {
-      TeamName,
-      MentorName,
-      LeaderName,
-      TeamMembers,
-    },{new:true});
+    const EditTeamEvent = await TeamsData.findByIdAndUpdate(
+      TeamId,
+      {
+        TeamName,
+        MentorName,
+        LeaderName,
+        TeamMembers,
+      },
+      { new: true }
+    );
     res.status(200).json(EditTeamEvent);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -357,7 +417,7 @@ router.delete("/DeleteTeams/:id", async (req, res) => {
   try {
     const TeamId = req.params.id;
     const DeleteTeam = await TeamsData.findByIdAndDelete(TeamId);
-    res.status(200).json(DeleteTeam);
+    res.status(200).json({message:"Team Deleted Successfully"});
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -372,7 +432,6 @@ router.get("/ShowProjects", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
 
 router.post("/AddProjects", async (req, res) => {
   try {
@@ -397,13 +456,17 @@ router.put("/EditProjects/:id", async (req, res) => {
     const ProjectId = rea.params.id;
     const { ProjectTitle, ProjectDescription, Mentorid, Teamid, Year } =
       req.body;
-    const EditProject = await ProjectData.findByIdAndUpdate(ProjectId, {
-      ProjectTitle,
-      ProjectDescription,
-      Mentorid,
-      Teamid,
-      Year,
-    },{new:true});
+    const EditProject = await ProjectData.findByIdAndUpdate(
+      ProjectId,
+      {
+        ProjectTitle,
+        ProjectDescription,
+        Mentorid,
+        Teamid,
+        Year,
+      },
+      { new: true }
+    );
     res.status(200).json(EditProject);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -515,11 +578,15 @@ router.put("/EditNotification/:id", async (req, res) => {
   try {
     const NotifId = req.params.id;
     const { message, deadlineDate, forWhom } = req.body;
-    const EditNotifi = await NotificationData.findByIdAndUpdate(NotifId, {
-      message,
-      deadlineDate,
-      forWhom,
-    },{new:true});
+    const EditNotifi = await NotificationData.findByIdAndUpdate(
+      NotifId,
+      {
+        message,
+        deadlineDate,
+        forWhom,
+      },
+      { new: true }
+    );
     res.status(200).json(EditNotifi);
   } catch (error) {
     res.status(500).json({ error: error.message });
