@@ -39,7 +39,10 @@ export default function App() {
         </Route>
 
           <Route path='/' element={<PublicLayout />} />
+          
           <Route path='/reset-password/:token' element={<PasswordReset />} />
+          <Route path="/reset-password" element={<PasswordReset/>} />
+
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />

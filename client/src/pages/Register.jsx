@@ -100,8 +100,8 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("name",name);
-    formData.append("email",email);
+    formData.append("name", name);
+    formData.append("email", email);
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
       return;
@@ -120,7 +120,7 @@ export default function Register() {
         })
       }
 
-      
+
     } catch (error) {
       console.log(error);
       toast.error('Registration failed');
@@ -137,14 +137,16 @@ export default function Register() {
           <div className="input-group">
             <label htmlFor="name">Name</label>
             <input
+              required
               type="text"
               id="name"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value.toUpperCase())}
             />
           </div>
           <div className="input-group">
             <label htmlFor="email">Email</label>
             <input
+              required
               type="email"
               id="email"
               onChange={(e) => setEmail(e.target.value)}
@@ -153,6 +155,7 @@ export default function Register() {
           <div className="input-group">
             <label htmlFor="password">Password</label>
             <input
+              required
               type="password"
               id="password"
               onChange={(e) => setPassword(e.target.value)}
@@ -161,6 +164,7 @@ export default function Register() {
           <div className="input-group">
             <label htmlFor="confirm-password">Confirm Password</label>
             <input
+              required
               type="password"
               id="confirm-password"
               onChange={(e) => setConfirmPassword(e.target.value)}
