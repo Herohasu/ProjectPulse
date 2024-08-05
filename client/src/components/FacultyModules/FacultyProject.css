@@ -1,0 +1,105 @@
+
+  .faculty-project-page-wrapper {   padding: 20px;
+  }
+  
+  .faculty-projects-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .faculty-project-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+  }
+  
+  .faculty-project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .faculty-project-title {
+    font-size: 1.5em;
+    margin-bottom: 0;
+  }
+  
+  .faculty-project-item p {
+    margin: 5px 0;
+  }
+  
+  .faculty-go-to-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #1DABFF;
+    color: white;
+  }
+  
+  .faculty-go-to-button:hover {
+    opacity: 0.8;
+  }
+  
+  .faculty-project-details-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .faculty-close-details-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .faculty-close-details-button:hover {
+    opacity: 0.8;
+  }
+  
+  #approved-btn-faculty {
+    background-color: #1dff83;
+    color: white;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #reject-btn-faculty {
+    background-color: #ff4e1d;
+    color: white;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #comment-btn-faculty {
+    background-color: #1da8ff;
+    color: white;
+    margin-left: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

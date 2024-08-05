@@ -1,51 +1,67 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import UserModalProject from '../UserModules/UserModalProject'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import './FacultyProject.css';
 
 const FacultyProject = () => {
   const user = useSelector((state) => state.Auth.user);
-  const [ProjectsData, setProjectsData] = useState([])
+  const [ProjectsData, setProjectsData] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
       .then(result => {
-        setProjectsData(result.data)
-      })
-  })
+        setProjectsData(result.data);
+      });
+  }, [user.email]);
+
+  const handleGoToClick = (project) => {
+    setSelectedProject(project);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedProject(null);
+  };
 
   return (
-    <div>
-      <div className="project-page-wrapper">
-        <div className="projects-list">
-          {ProjectsData.map((project, index) => (
-            <div key={index} className="project-card">
-              <center><h2>{project.ProjectTitle}</h2></center>
-              <p><strong>Description:</strong> {project.ProjectDescription}</p>
-              <p><strong>Mentor Name:</strong> {user.name}</p>
-              <p><strong>Team Name:</strong> {project.TeamName}</p>
-              <p><strong>Approval:</strong> {project.Approval}</p>
-              <p><strong>Year:</strong> {project.Year}</p>
-              <div className="button-container">
-                <button className="go-to-button">GO TO</button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleShowConfirmModal(project._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* <ConfirmDeleteModal
-        show={showConfirmModal}
-        handleClose={handleCloseConfirmModal}
-        handleConfirm={handleConfirmDelete}
-      /> */}
+    <div className="faculty-project-page-wrapper">
+      <div className="project-faculty-header bg-primary text-white">
+        <h2 style={{ backgroundColor: "var(--primary-color)", color: "white", alignItems: "center", padding: "10px 20px", marginBottom: "30px", textAlign: "center", border: "2px solid Black" }}>Projects To Watch Out</h2>
       </div>
-    </div>
-  )
-}
+      <ul className="faculty-projects-list">
+        {ProjectsData.map((project, index) => (
+          <li key={index} className="faculty-project-item">
+            <div className="faculty-project-header">
+              <h2 className="faculty-project-title">{project.ProjectTitle}</h2>
+              <button
+                className="faculty-go-to-button"
+                onClick={() => handleGoToClick(project)}
+              >
+                GO TO
+              </button>
+            </div>
+            <p><strong>Team Name:</strong> {project.TeamName}</p>
+          </li>
+        ))}
+      </ul>
 
-export default FacultyProject
+      {selectedProject && (
+        <div className="faculty-project-details-container">
+          <h2 className="faculty-project-title">{selectedProject.ProjectTitle}</h2>
+          <p><strong>Description:</strong> {selectedProject.ProjectDescription}</p>
+          <p><strong>Mentor Name:</strong> {user.name}</p>
+          <p><strong>Team Name:</strong> {selectedProject.TeamName}</p>
+          <p><strong>Year:</strong> {selectedProject.Year}</p>
+          <button id="approved-btn-faculty">Approved</button>
+          <button id="reject-btn-faculty">Reject</button>
+          <button id="comment-btn-faculty">Comment</button>
+          <button className="faculty-close-details-button" onClick={handleCloseDetails}>
+            Close
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default FacultyProject;
