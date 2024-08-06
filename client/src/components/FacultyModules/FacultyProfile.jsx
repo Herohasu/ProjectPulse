@@ -7,6 +7,9 @@ import toast from 'react-hot-toast';
 
 const FacultyProfile = () => {
   const user = useSelector((state) => state.Auth.user);
+  if(!user){
+    return
+  }
   const [FacutlyData, setFacutlyData] = useState([]);
   const [FacImage, setFacImage] = useState(null);
 

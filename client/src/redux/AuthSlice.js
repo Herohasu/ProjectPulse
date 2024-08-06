@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { get } from "../services/ApiEndpoint";
-
+import { useNavigate } from "react-router-dom";
 export const updateUser = createAsyncThunk('auth/updateUser', async () => {
   try {
     const request = await get('/api/auth/checkuser');

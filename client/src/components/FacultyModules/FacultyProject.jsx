@@ -82,6 +82,9 @@ import './FacultyProject.css';
 
 const FacultyProject = () => {
   const user = useSelector((state) => state.Auth.user);
+  if(!user){
+    return
+  }
   const [ProjectsData, setProjectsData] = useState([]);
   const [statusPendingProject, setstatusPendingProject] = useState([])
   const [selectedProject, setSelectedProject] = useState(null);

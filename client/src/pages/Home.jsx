@@ -41,7 +41,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate('/');
     }
   }, [user, navigate]);
 
@@ -50,7 +50,7 @@ const Home = () => {
       const request = await post('/api/auth/logout');
       if (request.status === 200) {
         dispatch(Logout());
-        navigate('/');
+        navigate('/')
       }
     } catch (error) {
       console.log(error);

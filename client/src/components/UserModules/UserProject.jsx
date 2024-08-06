@@ -5,6 +5,9 @@ import toast from 'react-hot-toast';
 import UserModalProject from './UserModalProject';
 
 const UserProject = ({ user }) => {
+  if(!user){
+    return
+  }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [Facultylist, setFacultylist] = useState([]);
   const [TeamsList, setTeamsList] = useState([]);
@@ -46,7 +49,7 @@ const UserProject = ({ user }) => {
   };
 
   const handleSubmit = (e) => {
-    
+
     e.preventDefault();
     const newProject = {
       ProjectTitle: ProjectTitle,

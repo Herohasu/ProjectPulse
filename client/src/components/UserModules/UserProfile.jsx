@@ -7,6 +7,9 @@ import toast from 'react-hot-toast';
 
 const ProfilePage = () => {
     const user = useSelector((state) => state.Auth.user);
+    if(!user){
+        return
+      }
     const [StuData, setStuData] = useState(null);
 
     useEffect(() => {

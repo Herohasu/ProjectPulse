@@ -5,6 +5,9 @@ import axios from 'axios';
 import ConfirmDeleteModal from '../UserModules/ComfirmDeleteModal.jsx'; 
 
 const UserTeam = ({ user }) => {
+    if(!user){
+        return
+      }
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [teamName, setTeamName] = useState('');
     const [teamMembers, setTeamMembers] = useState('');
