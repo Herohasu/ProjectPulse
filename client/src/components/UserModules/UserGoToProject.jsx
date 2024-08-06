@@ -15,13 +15,18 @@ const UserGoToProject = ({ project, onClose }) => {
           <p><strong>Team Name:</strong> {project.TeamName}</p>
           <p><strong>Year:</strong> {project.Year}</p>
           <p><strong>Status:</strong> {project.Status}</p>
+          <p><strong>Comment:</strong> {project.Comment}</p>
         </div>
-        <div className="user-go-to-container2">
-          <p>Additional details or actions can go here.</p>
-        </div>
-        <div className="user-go-to-container3">
-          <p>More details or actions can go here.</p>
-        </div>
+        {project.Status == "yes" && (
+          <>
+            <div className="user-go-to-container2">
+              <p>Additional details or actions can go here.</p>
+            </div>
+            <div className="user-go-to-container3">
+              <p>More details or actions can go here.</p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

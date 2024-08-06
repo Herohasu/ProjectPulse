@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './UserModalProject.css';
 import ConfirmDeleteModal from '../UserModules/ComfirmDeleteModal.jsx';
 import UserGoToProject from '../UserModules/UserGoToProject.jsx';
+import toast from 'react-hot-toast';
 
 const UserModalProject = ({ isModalOpen, ProjectsData, handleDelete }) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);

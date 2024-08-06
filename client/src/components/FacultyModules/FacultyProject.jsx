@@ -65,7 +65,7 @@
 //           <h2 style={{ backgroundColor: "var(--primary-color)", color: "white", alignItems: "center", padding: "10px 20px", marginBottom: "30px", textAlign: "center", border: "2px solid Black" }}>Approved Projects</h2>
 //         </div>
 
-        
+
 
 //       </div>
 //     </div>
@@ -77,11 +77,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import toast from 'react-hot-toast'
 import './FacultyProject.css';
 
 const FacultyProject = () => {
   const user = useSelector((state) => state.Auth.user);
   const [ProjectsData, setProjectsData] = useState([]);
+  const [statusPendingProject, setstatusPendingProject] = useState([])
   const [selectedProject, setSelectedProject] = useState(null);
   const [approvedProjects, setApprovedProjects] = useState([]);
   const [rejectedProjects, setRejectedProjects] = useState([]);
@@ -93,8 +95,18 @@ const FacultyProject = () => {
     axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
       .then(result => {
         setProjectsData(result.data);
+        console.log(result.data)
       });
-  });
+  }, [user.email]);
+
+  useEffect(() => {
+    const projectpendingData = ProjectsData.filter(project => project.Approval == "pending")
+    const approved = ProjectsData.filter(project => project.Approval === 'yes');
+    const rejected = ProjectsData.filter(project => project.Approval == 'no');
+    setstatusPendingProject(projectpendingData)
+    setApprovedProjects(approved);
+    setRejectedProjects(rejected);
+  }, [ProjectsData]);
 
   const handleGoToClick = (project) => {
     setSelectedProject(project);
@@ -104,17 +116,17 @@ const FacultyProject = () => {
     setSelectedProject(null);
   };
 
-  const handleApproveProject = (project) => {
-    setApprovedProjects([...approvedProjects, { ...project, Status: 'yes' }]);
-    setProjectsData(ProjectsData.filter(p => p !== project));
-    setSelectedProject(null);
-  };
+  // const handleApproveProject = (project) => {
+  //   setApprovedProjects([...approvedProjects, { ...project, Status: 'yes' }]);
+  //   setProjectsData(ProjectsData.filter(p => p !== project));
+  //   setSelectedProject(null);
+  // };
 
-  const handleRejectProject = (project) => {
-    setRejectedProjects([...rejectedProjects, { ...project, Status: 'no' }]);
-    setProjectsData(ProjectsData.filter(p => p !== project));
-    setSelectedProject(null);
-  };
+  // const handleRejectProject = (project) => {
+  //   setRejectedProjects([...rejectedProjects, { ...project, Status: 'no' }]);
+  //   setProjectsData(ProjectsData.filter(p => p !== project));
+  //   setSelectedProject(null);
+  // };
 
   const handleCommentClick = () => {
     setIsModalOpen(true);
@@ -126,13 +138,21 @@ const FacultyProject = () => {
   };
 
   const handleCommentSubmit = () => {
-    if (commentType === 'approve') {
-      handleApproveProject({ ...selectedProject, Comment: comment });
-    } else if (commentType === 'reject') {
-      handleRejectProject({ ...selectedProject, Comment: comment });
-    } else {
-      
+    if (selectedProject) {
+      selectedProject.Approval = commentType
+      selectedProject.comment = comment
     }
+    console.log("egrfhj", selectedProject)
+    axios.put(`http://localhost:4000/EditProjects/${selectedProject._id}`, selectedProject)
+      .then(result => {
+        axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
+        .then(result => {
+          setProjectsData(result.data);
+          console.log(result.data)
+        });
+      })
+      .catch(err => console.log(err))
+    setSelectedProject(null);
     handleModalClose();
   };
 
@@ -142,7 +162,7 @@ const FacultyProject = () => {
         <h2 style={{ backgroundColor: "var(--primary-color)", color: "white", alignItems: "center", padding: "10px 20px", marginBottom: "30px", textAlign: "center", border: "2px solid Black" }}>Projects To Watch Out</h2>
       </div>
       <ul className="faculty-projects-list">
-        {ProjectsData.map((project, index) => (
+        {statusPendingProject.map((project, index) => (
           <li key={index} className="faculty-project-item">
             <div className="faculty-project-header">
               <h2 className="faculty-project-title">{project.ProjectTitle}</h2>
@@ -173,7 +193,8 @@ const FacultyProject = () => {
           </button>
         </div>
       )}
-      
+
+      {/* Approved Projects */}
       <div className='project-approved-byfaculty'>
         <div className="project-faculty-header bg-primary text-white">
           <h2 style={{ backgroundColor: "var(--primary-color)", color: "white", alignItems: "center", padding: "10px 20px", marginBottom: "30px", textAlign: "center", border: "2px solid Black" }}>Approved Projects</h2>
@@ -183,13 +204,14 @@ const FacultyProject = () => {
             <li key={index} className="faculty-approved-project-item">
               <h2 className="faculty-project-title">{project.ProjectTitle}</h2>
               <p><strong>Team Name:</strong> {project.TeamName}</p>
-              <p><strong>Status:</strong> {project.Status}</p>
+              <p><strong>Status:</strong> {project.Approval}</p>
               <p><strong>Comment:</strong> {project.Comment}</p>
             </li>
           ))}
         </ul>
       </div>
 
+      {/* Rejected Projects */}
       <div className='project-rejected-byfaculty'>
         <div className="project-faculty-header bg-primary text-white">
           <h2 style={{ backgroundColor: "var(--primary-color)", color: "white", alignItems: "center", padding: "10px 20px", marginBottom: "30px", textAlign: "center", border: "2px solid Black" }}>Rejected Projects</h2>
@@ -199,13 +221,14 @@ const FacultyProject = () => {
             <li key={index} className="faculty-rejected-project-item">
               <h2 className="faculty-project-title">{project.ProjectTitle}</h2>
               <p><strong>Team Name:</strong> {project.TeamName}</p>
-              <p><strong>Status:</strong> {project.Status}</p>
+              <p><strong>Status:</strong> {project.Approval}</p>
               <p><strong>Comment:</strong> {project.Comment}</p>
             </li>
           ))}
         </ul>
       </div>
 
+      {/* To Approve or Reject  */}
       {isModalOpen && (
         <div className="modal" id='modal-faculty-comment'>
           <div className="modal-content" id='modal-content-faculty-comment'>
@@ -215,8 +238,7 @@ const FacultyProject = () => {
               <input
                 type="radio"
                 name="commentType"
-                value="approve"
-                onChange={() => setCommentType('approve')}
+                onChange={() => setCommentType('yes')}
               />
               Approve With Comment
             </label>
@@ -224,8 +246,7 @@ const FacultyProject = () => {
               <input
                 type="radio"
                 name="commentType"
-                value="reject"
-                onChange={() => setCommentType('reject')}
+                onChange={() => setCommentType('no')}
               />
               Reject With Comment
             </label>

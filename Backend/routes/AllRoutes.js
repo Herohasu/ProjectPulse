@@ -462,8 +462,9 @@ router.get("/ShowProjectsByEmail/:email", async (req, res) => {
               ...project.toObject(), // Convert Mongoose document to plain object
               TeamName: team ? team.TeamName : "Unknown Team",
               MentorName: mentor ? mentor.name : "Unknown Mentor",
-              Status: project.approval || 'Pending',
-              Completion : project.completionrate ? project.completionrate : 0
+              Status: project.approval || "Pending",
+              Comment: project.comment || 'N/A',
+              Completion: project.completionrate ? project.completionrate : 0,
             };
           })
         );
@@ -501,22 +502,41 @@ router.post("/AddProjects", async (req, res) => {
 
 router.put("/EditProjects/:id", async (req, res) => {
   try {
-    const ProjectId = rea.params.id;
-    const { ProjectTitle, ProjectDescription, Mentorid, Teamid, Year } =
-      req.body;
+    const ProjectId = req.params.id;
+    const {
+      ProjectTitle,
+      ProjectDescription,
+      Mentorid,
+      Approval,
+      comment,
+      Teamid,
+      Year,
+    } = req.body;
+
+    const updateData = {
+      ProjectTitle,
+      ProjectDescription,
+      Teamid,
+      Year,
+    };
+    if (Mentorid) {
+      updateData.Mentorid = Mentorid;
+    }
+    if (Approval) {
+      updateData.approval = Approval;
+    }
+    if (comment) {
+      updateData.comment = comment;
+    }
     const EditProject = await ProjectData.findByIdAndUpdate(
       ProjectId,
-      {
-        ProjectTitle,
-        ProjectDescription,
-        Mentorid,
-        Teamid,
-        Year,
-      },
+      updateData,
       { new: true }
     );
     res.status(200).json(EditProject);
   } catch (error) {
+    console.log(error)
+ 
     res.status(500).json({ error: error.message });
   }
 });
@@ -549,17 +569,19 @@ router.get("/ProjectDetailByFaculty/:email", async (req, res) => {
     const Prdetails = await Promise.all(
       ProjectDetails.map(async (project) => {
         const team = await TeamsData.findById(project.Teamid);
-        console.log(team);
+        // console.log(team);
         const teamname = team.TeamName;
 
         return {
+          _id: project._id,
           ProjectTitle: project.ProjectTitle,
           ProjectDescription: project.ProjectDescription,
           TeamId: team._id,
           TeamName: teamname,
-          Approval:project.approval || "pending",
-          Year:project.Year,
-          Completion : project.completionrate ? project.completionrate : 0
+          Comment:project.comment,
+          Approval: project.approval || "pending",
+          Year: project.Year,
+          Completion: project.completionrate ? project.completionrate : 0,
         };
       })
     );

@@ -46,6 +46,7 @@ const UserProject = ({ user }) => {
   };
 
   const handleSubmit = (e) => {
+    
     e.preventDefault();
     const newProject = {
       ProjectTitle: ProjectTitle,
