@@ -98,7 +98,11 @@ const ProjectDataSchema = new mongoose.Schema(
     },
     comment: {
       type: String,
-      required: false,
+      required: false
+    },
+    completionrate:{
+      type:Number,
+      required:false
     },
     Year: {
       type: Number,

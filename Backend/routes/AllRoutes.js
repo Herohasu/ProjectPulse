@@ -462,8 +462,8 @@ router.get("/ShowProjectsByEmail/:email", async (req, res) => {
               ...project.toObject(), // Convert Mongoose document to plain object
               TeamName: team ? team.TeamName : "Unknown Team",
               MentorName: mentor ? mentor.name : "Unknown Mentor",
-                 Status: project.approval || 'Pending'
-            
+              Status: project.approval || 'Pending',
+              Completion : project.completionrate ? project.completionrate : 0
             };
           })
         );
@@ -543,10 +543,8 @@ router.get("/ProjectDetailByFaculty/:email", async (req, res) => {
     }
 
     const FacDetail = await FacultyData.findOne({ email: FacEmail });
-    console.log(FacDetail._id);
 
     const ProjectDetails = await ProjectData.find({ Mentorid: FacDetail._id });
-    console.log(ProjectDetails);
 
     const Prdetails = await Promise.all(
       ProjectDetails.map(async (project) => {
@@ -560,11 +558,11 @@ router.get("/ProjectDetailByFaculty/:email", async (req, res) => {
           TeamId: team._id,
           TeamName: teamname,
           Approval:project.approval || "pending",
-          Year:project.Year
+          Year:project.Year,
+          Completion : project.completionrate ? project.completionrate : 0
         };
       })
     );
-    // console.log(Prdetails)
     res.status(200).json(Prdetails);
   } catch (er) {
     console.log(er);
