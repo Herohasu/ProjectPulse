@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const UserFileUpload = ({project}) => {
+  const user = useSelector((state) => state.Auth.user);
+  if (!user) {
+    return
+  }
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState('');
   const [commentOnFileByStudent, setCommentOnFileByStudent] = useState('');
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData();
     formData.append('file', file);
     formData.append('fileName', fileName);
     formData.append('commentOnFileByStudent', commentOnFileByStudent);
+    formData.append('projectId',project._id)
 
     try {
-      const response = await axios.post('/api/upload', formData, {
+      axios.post(`http://localhost:4000/AddProjectFilesByStudent`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      });
-      console.log('File uploaded successfully', response.data);
+      })
+      .then(tost("Uploaded Successfully"))
     } catch (error) {
       console.error('Error uploading file', error);
     }
@@ -36,12 +41,11 @@ const UserFileUpload = ({project}) => {
       <h2>Upload File</h2>
       <form onSubmit={handleSubmit}>
 
-      <div>
+        <div>
           <label htmlFor="fileName">File Name:</label>
           <input
             type="text"
             id="fileName"
-            value={fileName}
             onChange={(e) => setFileName(e.target.value)}
             required
           />

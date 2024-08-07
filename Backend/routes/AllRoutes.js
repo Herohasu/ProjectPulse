@@ -22,6 +22,7 @@ import {
   FacultyData,
   ProjectData,
   NotificationData,
+  FilesData,
 } from "../models/Schemas.js";
 
 //==============StudentData================================================
@@ -463,7 +464,7 @@ router.get("/ShowProjectsByEmail/:email", async (req, res) => {
               TeamName: team ? team.TeamName : "Unknown Team",
               MentorName: mentor ? mentor.name : "Unknown Mentor",
               Status: project.approval || "Pending",
-              Comment: project.comment || 'N/A',
+              Comment: project.comment || "N/A",
               Completion: project.completionrate ? project.completionrate : 0,
             };
           })
@@ -535,8 +536,8 @@ router.put("/EditProjects/:id", async (req, res) => {
     );
     res.status(200).json(EditProject);
   } catch (error) {
-    console.log(error)
- 
+    console.log(error);
+
     res.status(500).json({ error: error.message });
   }
 });
@@ -578,7 +579,7 @@ router.get("/ProjectDetailByFaculty/:email", async (req, res) => {
           ProjectDescription: project.ProjectDescription,
           TeamId: team._id,
           TeamName: teamname,
-          Comment:project.comment,
+          Comment: project.comment,
           Approval: project.approval || "pending",
           Year: project.Year,
           Completion: project.completionrate ? project.completionrate : 0,
@@ -738,5 +739,25 @@ router.delete("/DeleteNotification/:id", async (req, res) => {
 });
 export default router;
 
-
 // ==========================Project Files Storage===========================
+
+router.post(
+  "/AddProjectFilesByStudent",
+  upload.single("file"),
+  async (req, res) => {
+    try {
+      const {projectId, fileName, commentOnFileByStudent } = req.body;
+      const file = `upload/${req.file.filename}`;
+      const AddEvent = await new FilesData({
+        projectId,
+        fileName,
+        file,
+        commentOnFileByStudent
+      });
+      AddEvent.save();
+      res.status(200).json(AddEvent);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ err: err.message });
+    }
+});
