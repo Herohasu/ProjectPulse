@@ -1,5 +1,6 @@
 import React from 'react';
 import './UserGoToProject.css';
+import UserFileUpload from './UserFileUpload';
 
 const UserGoToProject = ({ project, onClose }) => {
   const cardBackgroundClass = project.Status === 'Yes' ? 'bg-green' : '';
@@ -20,6 +21,7 @@ const UserGoToProject = ({ project, onClose }) => {
         {project.Status == "yes" && (
           <>
             <div className="user-go-to-container2">
+              <UserFileUpload/>
               <p>Additional details or actions can go here.</p>
             </div>
             <div className="user-go-to-container3">
