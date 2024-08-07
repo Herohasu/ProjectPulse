@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const UserFileUpload = () => {
+const UserFileUpload = ({project}) => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState('');
   const [commentOnFileByStudent, setCommentOnFileByStudent] = useState('');

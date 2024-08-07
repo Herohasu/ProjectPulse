@@ -1,0 +1,137 @@
+.user-go-to-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .user-go-to-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bg-green {
+    background-color: #d4edda;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .user-go-to-container1,
+  .user-go-to-container2,
+  .user-go-to-container3 {
+    margin: 10px 0;
+  }
+  
+  .user-go-to-container h2 {
+    margin-top: 0;
+  }
+  
+  .user-go-to-container p {
+    margin: 5px 0;
+  }
+  
+  .user-go-to-container2 {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .user-go-to-container3 {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+
+  .user-go-to-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .user-go-to-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh; /* Ensures the modal does not exceed 80% of the viewport height */
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .bg-green {
+    background-color: #d4edda;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .user-go-to-content {
+    overflow-y: auto; /* Makes the content scrollable */
+    flex-grow: 1; /* Ensures the content takes up available space */
+  }
+  
+  .user-go-to-container1,
+  .user-go-to-container2,
+  .user-go-to-container3 {
+    margin: 10px 0;
+  }
+  
+  .user-go-to-container h2 {
+    margin-top: 0;
+  }
+  
+  .user-go-to-container p {
+    margin: 5px 0;
+  }
+  
+  .user-go-to-container2 {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .user-go-to-container3 {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
