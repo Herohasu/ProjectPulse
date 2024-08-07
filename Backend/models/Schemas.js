@@ -174,4 +174,33 @@ const NotificationData = mongoose.model(
   NotificationDataSchema
 );
 
-export { StudentData, TeamsData, ProjectData, FacultyData, NotificationData };
+const FilesDataSchema = new mongoose.Schema({
+  projectid:{
+    type:ObjectId,
+    ref:'ProjectData'
+  },
+  fileName:{
+    type:String,
+    required:true
+  },
+  file:{
+    type:String,
+    required:true
+  },
+  commentOnFileByStudent:{
+    type:String,
+    required:false
+  },
+  commentOnFileByFaculty:{
+    type:String,
+    required:false
+  },
+  approval:{
+    type:String,
+    enum:['yes','no'],
+    required:false
+  }
+},{timestamps:true})
+const FilesData = mongoose.model('FilesData',FilesDataSchema)
+
+export { StudentData, TeamsData, ProjectData, FacultyData, NotificationData, FilesData };
