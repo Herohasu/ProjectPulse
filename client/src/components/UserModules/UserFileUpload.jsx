@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import './UserFileUpload.css';
 
-const UserFileUpload = ({project}) => {
+const UserFileUpload = ({ project }) => {
   const user = useSelector((state) => state.Auth.user);
   if (!user) {
-    return
+    return null;
   }
+
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState('');
   const [commentOnFileByStudent, setCommentOnFileByStudent] = useState('');
@@ -22,25 +24,24 @@ const UserFileUpload = ({project}) => {
     formData.append('file', file);
     formData.append('fileName', fileName);
     formData.append('commentOnFileByStudent', commentOnFileByStudent);
-    formData.append('projectId',project._id)
+    formData.append('projectId', project._id);
 
     try {
-      axios.post(`http://localhost:4000/AddProjectFilesByStudent`, formData, {
+      await axios.post(`http://localhost:4000/AddProjectFilesByStudent`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      })
-      .then(tost("Uploaded Successfully"))
+      });
+      alert("Uploaded Successfully");
     } catch (error) {
       console.error('Error uploading file', error);
     }
   };
 
   return (
-    <div>
+    <div className="user-file-upload-container">
       <h2>Upload File</h2>
       <form onSubmit={handleSubmit}>
-
         <div>
           <label htmlFor="fileName">File Name:</label>
           <input
