@@ -22,7 +22,6 @@ const UserGoToProject = ({ project, onClose }) => {
           <>
             <div className="user-go-to-container2">
               <UserFileUpload/>
-              <p>Additional details or actions can go here.</p>
             </div>
             <div className="user-go-to-container3">
               <p>More details or actions can go here.</p>
