@@ -26,7 +26,7 @@ const UserGoToProject = ({ project, onClose }) => {
                 <UserFileUpload project={project}/>
               </div>
               <div className="user-go-to-container3">
-                <UserWeeklyReport/>
+                <UserWeeklyReport project={project}/>
               </div>
             </>
           )}

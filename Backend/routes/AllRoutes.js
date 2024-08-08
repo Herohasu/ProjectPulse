@@ -23,7 +23,7 @@ import {
   ProjectData,
   NotificationData,
   FilesData,
-  WeeklyReportsData
+  WeeklyReportsData,
 } from "../models/Schemas.js";
 
 //==============StudentData================================================
@@ -742,20 +742,50 @@ export default router;
 
 // ==========================Project Files Storage===========================
 
+router.get("/ShowFilesToStudnet/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    console.log(projectId);
+    const files = await FilesData.find({ projectId: projectId }).exec();
+    console.log(files);
+    // const extname = path.extname(files);
+    // let contentType = "application/octet-stream";
+
+    // switch (extname) {
+    //   case ".pdf":
+    //     contentType = "application/pdf";
+    //     break;
+    //   case ".jpg":
+    //   case ".jpeg":
+    //     contentType = "image/jpeg";
+    //     break;
+    //   case ".png":
+    //     contentType = "image/png";
+    //     break;
+    //   // Add more file types as needed
+    // }
+    // res.setHeader("Content-Type", contentType);
+    res.status(200).json(files);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: err.message });
+  }
+});
+
 router.post(
   "/AddProjectFilesByStudent",
   upload.single("file"),
   async (req, res) => {
     try {
-      const {projectId, fileName, commentOnFileByStudent } = req.body;
+      const { projectId, fileName, commentOnFileByStudent } = req.body;
       const file = `upload/${req.file.filename}`;
       const AddEvent = new FilesData({
         projectId,
         fileName,
-        file
+        file,
       });
-      if(commentOnFileByStudent){
-        AddEvent.commentOnFileByStudent = commentOnFileByStudent
+      if (commentOnFileByStudent) {
+        AddEvent.commentOnFileByStudent = commentOnFileByStudent;
       }
       AddEvent.save();
       res.status(200).json(AddEvent);
@@ -763,26 +793,31 @@ router.post(
       console.log(err);
       res.status(500).json({ err: err.message });
     }
-});
+  }
+);
 
 // ========================WeeklyReportsData =======================
 
-router.post('/AddWeeklyReportByStudent',upload.single('file'),async(req,res)=>{
-  try{  
-    const {projectId,fileName,commentOnFileByStudent,submissionDate} = req.body
-    const file = `upload/${req.file.filename}`
-    const AddEvent = new WeeklyReportsData({
-      projectId,
-      fileName,
-      file,
-      submissionDate
-    });
-    if(commentOnFileByStudent){
-      AddEvent.commentOnFileByStudent = commentOnFileByStudent
+router.post(
+  "/AddWeeklyReportByStudent",
+  upload.single("file"),
+  async (req, res) => {
+    try {
+      const { projectId, commentOnFileByStudent, submissionDate } = req.body;
+      const file = `upload/${req.file.filename}`;
+      const AddEvent = new WeeklyReportsData({
+        projectId,
+        file,
+        submissionDate,
+      });
+      if (commentOnFileByStudent) {
+        AddEvent.commentOnFileByStudent = commentOnFileByStudent;
+      }
+      AddEvent.save();
+      res.status(200).json(AddEvent);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ err: err.message });
     }
-    AddEvent.save()
-    res.status(200).json(AddEvent)
-  }catch(err){console.log(err)
-    res.status(500).json({ err: err.message });
   }
-})
+);

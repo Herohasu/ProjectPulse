@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './UserWeeklyReport.css';
+import toast from 'react-hot-toast';
 
 const UserWeeklyReport = ({ project }) => {
   const [report, setReport] = useState('');
@@ -8,6 +9,9 @@ const UserWeeklyReport = ({ project }) => {
   const [file, setFile] = useState(null);
 
   const handleFileChange = (e) => {
+    if(e.target.files[0].size > 2000000){
+      toast.error("File Size Exceeds the limit (2MB)")
+    }
     setFile(e.target.files[0]);
   };
 
@@ -16,19 +20,24 @@ const UserWeeklyReport = ({ project }) => {
 
     const formData = new FormData();
     formData.append('projectId', project._id);
-    formData.append('report', report);
+    formData.append('commentOnFileByStudent', report);
     formData.append('submissionDate', submissionDate);
     if (file) {
       formData.append('file', file);
     }
 
     try {
-      const response = await axios.post('/api/weekly-report', formData, {
+      axios.post('http://localhost:4000/AddWeeklyReportByStudent', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      });
-      console.log('Report submitted successfully', response.data);
+      })
+      .then(()=>{
+        setReport('')
+        setFile(null)
+        setSubmissionDate('')
+        toast.success("Weekly Report Submitted Successfully")
+      })
     } catch (error) {
       console.error('Error submitting report', error);
     }
