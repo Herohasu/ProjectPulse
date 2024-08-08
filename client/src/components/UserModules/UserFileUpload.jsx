@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import './UserFileUpload.css';
+import toast from 'react-hot-toast'
 
 const UserFileUpload = ({ project }) => {
   const user = useSelector((state) => state.Auth.user);
@@ -31,8 +32,13 @@ const UserFileUpload = ({ project }) => {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      });
-      alert("Uploaded Successfully");
+      })
+        .then(() => {
+          setFile(null)
+          setFileName('')
+          setCommentOnFileByStudent('')
+          toast("Uploaded Successfully")
+        })
     } catch (error) {
       console.error('Error uploading file', error);
     }
@@ -47,13 +53,14 @@ const UserFileUpload = ({ project }) => {
           <input
             type="text"
             id="fileName"
+            value={fileName}
             onChange={(e) => setFileName(e.target.value)}
             required
           />
         </div>
         <div>
           <label htmlFor="file">File:</label>
-          <input type="file" id="file" onChange={handleFileChange} required />
+          <input type="file" id="file"  onChange={handleFileChange} required />
         </div>
         <div>
           <label htmlFor="commentOnFileByStudent">Comment by Student:</label>

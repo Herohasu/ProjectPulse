@@ -175,7 +175,7 @@ const NotificationData = mongoose.model(
 );
 
 const FilesDataSchema = new mongoose.Schema({
-  projectid:{
+  projectId:{
     type:ObjectId,
     ref:'ProjectData'
   },
@@ -203,4 +203,33 @@ const FilesDataSchema = new mongoose.Schema({
 },{timestamps:true})
 const FilesData = mongoose.model('FilesData',FilesDataSchema)
 
-export { StudentData, TeamsData, ProjectData, FacultyData, NotificationData, FilesData };
+const WeeklyReportsDataSchema = new mongoose.Schema({
+  projectId:{
+    type:ObjectId,
+    ref:'ProjectData'
+  },
+  file:{
+    type:String,
+    required:true
+  },
+  commentOnFileByStudent:{
+    type:String,
+    required:false
+  },
+  commentOnFileByFaculty:{
+    type:String,
+    required:false
+  },
+  approval:{
+    type:String,
+    enum:['yes','no'],
+    required:false
+  },
+  submissionDate:{
+    type:String,
+    required:true
+  }
+},{timestamps:true})
+const WeeklyReportsData = mongoose.model('WeeklyReportsData',WeeklyReportsDataSchema)
+
+export { StudentData, TeamsData, ProjectData, FacultyData, NotificationData, FilesData, WeeklyReportsData};

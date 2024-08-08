@@ -23,6 +23,7 @@ import {
   ProjectData,
   NotificationData,
   FilesData,
+  WeeklyReportsData
 } from "../models/Schemas.js";
 
 //==============StudentData================================================
@@ -748,12 +749,14 @@ router.post(
     try {
       const {projectId, fileName, commentOnFileByStudent } = req.body;
       const file = `upload/${req.file.filename}`;
-      const AddEvent = await new FilesData({
+      const AddEvent = new FilesData({
         projectId,
         fileName,
-        file,
-        commentOnFileByStudent
+        file
       });
+      if(commentOnFileByStudent){
+        AddEvent.commentOnFileByStudent = commentOnFileByStudent
+      }
       AddEvent.save();
       res.status(200).json(AddEvent);
     } catch (err) {
@@ -761,3 +764,25 @@ router.post(
       res.status(500).json({ err: err.message });
     }
 });
+
+// ========================WeeklyReportsData =======================
+
+router.post('/AddWeeklyReportByStudent',upload.single('file'),async(req,res)=>{
+  try{  
+    const {projectId,fileName,commentOnFileByStudent,submissionDate} = req.body
+    const file = `upload/${req.file.filename}`
+    const AddEvent = new WeeklyReportsData({
+      projectId,
+      fileName,
+      file,
+      submissionDate
+    });
+    if(commentOnFileByStudent){
+      AddEvent.commentOnFileByStudent = commentOnFileByStudent
+    }
+    AddEvent.save()
+    res.status(200).json(AddEvent)
+  }catch(err){console.log(err)
+    res.status(500).json({ err: err.message });
+  }
+})
