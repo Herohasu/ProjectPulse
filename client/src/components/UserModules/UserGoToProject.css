@@ -25,15 +25,6 @@
     background-color: #d4edda;
   }
   
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
   
   .user-go-to-container1,
   .user-go-to-container2,
@@ -81,8 +72,8 @@
     padding: 20px;
     border-radius: 8px;
     width: 80%;
-    max-width: 800px;
-    max-height: 80vh; 
+    max-width: 950px;
+    max-height: 85vh; 
     position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -90,18 +81,22 @@
   }
   
   .bg-green {
-    background-color: #d4edda;
+    background-color: #d4edda; 
   }
-  
   .close-button {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: none;
+    background: #FF6F61;
+    color: #fff;
     border: none;
-    font-size: 20px;
+    border-radius: 4px;
+    padding: 8px 12px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
   }
+  
   
   .user-go-to-content {
     overflow-y: auto; 
@@ -133,5 +128,44 @@
     padding: 10px;
     border-radius: 4px;
     margin-top: 10px;
+  }
+  
+
+  .file-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .file-viewer iframe {
+    width: 80%;
+    height: 80%;
+    border: none;
+    background: #fff;
+  }
+  
+  .close-button-file-upload {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #ff5100;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 1001;
+  }
+  
+  .close-button:hover {
+    background: #0056b3;
   }
   
