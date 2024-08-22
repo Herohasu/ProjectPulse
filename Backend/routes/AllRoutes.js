@@ -742,7 +742,7 @@ export default router;
 
 // ==========================Project Files Storage===========================
 
-router.get("/ShowFilesToStudnet/:id", async (req, res) => {
+router.get("/ShowFilesToStudent/:id", async (req, res) => {
   try {
     const projectId = req.params.id;
     console.log(projectId);

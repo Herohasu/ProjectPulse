@@ -15,7 +15,8 @@ const UserFileUpload = ({ project }) => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState('');
   const [commentOnFileByStudent, setCommentOnFileByStudent] = useState('');
-  const [viewFileUrl, setViewFileUrl] = useState(null); // New state
+  const [viewFileUrl, setViewFileUrl] = useState(null);
+  const [showFiles, setShowFiles] = useState(false); 
 
   const handleFileChange = (e) => {
     if (e.target.files[0].size > 2000000) {
@@ -41,7 +42,7 @@ const UserFileUpload = ({ project }) => {
 
   const fetchFiles = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/ShowFilesToStudnet/${project._id}`);
+      const response = await axios.get(`http://localhost:4000/ShowFilesToStudent/${project._id}`);
       setFiles(response.data);
     } catch (error) {
       console.error('Error fetching files', error);
@@ -49,11 +50,10 @@ const UserFileUpload = ({ project }) => {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      fetchFiles();
-    }
-  }, [user]);
+  const handleShowFiles = () => {
+    setShowFiles(true);
+    fetchFiles();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,26 +84,34 @@ const UserFileUpload = ({ project }) => {
 
   return (
     <>
-      <div className="user-files-container">
-        <h2>Your Uploaded Files</h2>
-        <ul>
-          {Files.length ? (
-            Files.map((file) => (
-              <li key={file._id} className="file-item">
-                <p><strong>File Name:</strong> {file.fileName}</p>
-                <p><strong>Comment By Student:</strong> {file.commentOnFileByStudent}</p>
-                <p><strong>Comment By Faculty:</strong> {file.commentOnFileByFaculty}</p>
-                <div className="file-actions">
-                  <button onClick={() => handleView(file.file)}>View</button>
-                  <button onClick={() => handleDownload(file.file)}>Download</button>
-                </div>
-              </li>
-            ))
-          ) : (
-            <p>No files uploaded yet.</p>
-          )}
-        </ul>
+      <div className="documents-button-container">
+        <button className="documents-button" onClick={handleShowFiles}>
+          Uploaded Documents
+        </button>
       </div>
+
+      {showFiles && (
+        <div className="user-files-container">
+          <h2>Your Uploaded Files</h2>
+          <ul>
+            {Files.length ? (
+              Files.map((file) => (
+                <li key={file._id} className="file-item">
+                  <p><strong>File Name:</strong> {file.fileName}</p>
+                  <p><strong>Comment By Student:</strong> {file.commentOnFileByStudent}</p>
+                  <p><strong>Comment By Faculty:</strong> {file.commentOnFileByFaculty}</p>
+                  <div className="file-actions">
+                    <button onClick={() => handleView(file.file)}>View</button>
+                    <button onClick={() => handleDownload(file.file)}>Download</button>
+                  </div>
+                </li>
+              ))
+            ) : (
+              <p>No files uploaded yet.</p>
+            )}
+          </ul>
+        </div>
+      )}
 
       <div className="user-file-upload-container">
         <h2>Upload File</h2>
@@ -146,4 +154,3 @@ const UserFileUpload = ({ project }) => {
 };
 
 export default UserFileUpload;
-
