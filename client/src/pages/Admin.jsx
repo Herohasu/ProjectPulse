@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { deleteUser, get,put } from '../services/ApiEndpoint';
-import { Logout, updateUser } from '../redux/AuthSlice';
+import { deleteUser, get, put } from '../services/ApiEndpoint';
+import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -18,8 +18,6 @@ const mapStateToProps = (state) => ({
   loggedInAdmin: state.Auth.user,
 });
 
-const mapDispatchToProps = {};
-
 const IconButton = ({ isSidebarOpen, onClick }) => (
   <button onClick={onClick} className="icon-button">
     {isSidebarOpen ?
@@ -33,12 +31,34 @@ export function Admin({ loggedInAdmin }) {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(localStorage.getItem('adminSidebarOpen') === 'true');
   const [currentSection, setCurrentSection] = useState(localStorage.getItem('adminCurrentSection') || 'dashboard');
+
+  useEffect(() => {
+
+    if (!loggedInAdmin) {
+      navigate('/login');
+      return;
+    }
+
+    if (loggedInAdmin && localStorage.getItem('adminSidebarOpen') === null) {
+      setIsSidebarOpen(true);
+      localStorage.setItem('adminSidebarOpen', 'true');
+    }
+
+    if (loggedInAdmin && !localStorage.getItem('adminCurrentSection')) {
+      localStorage.setItem('adminCurrentSection', 'dashboard');
+      setCurrentSection('dashboard');
+    }
+  }, [loggedInAdmin, navigate]);
 
   useEffect(() => {
     localStorage.setItem('adminCurrentSection', currentSection);
   }, [currentSection]);
+
+  useEffect(() => {
+    localStorage.setItem('adminSidebarOpen', isSidebarOpen.toString());
+  }, [isSidebarOpen]);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -55,25 +75,19 @@ export function Admin({ loggedInAdmin }) {
     getUsers();
   }, []);
 
-  const handleEdit = async (id,data) => {
+  const handleEdit = async (id, data) => {
     try {
-      console.log(data)
-      const res = await put(`/api/admin/editUser/${id}`,data,{
-        headers:{
-          'Content-Type':'multipart/form-data'
+      const res = await put(`/api/admin/editUser/${id}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-      })
-      const response = res.data
+      });
       if (res.status === 200) {
-        toast.success("Edited Successfully")
-        try {
-          const request = await get('/api/admin/getuser');
-          const response = request.data;
-          if (request.status === 200) {
-            setUsers(response.users)
-          }
-        } catch (error) {
-          console.log(error);
+        toast.success("Edited Successfully");
+        const request = await get('/api/admin/getuser');
+        const response = request.data;
+        if (request.status === 200) {
+          setUsers(response.users);
         }
       }
     } catch (error) {
@@ -86,18 +100,12 @@ export function Admin({ loggedInAdmin }) {
   const handleDelete = async (id) => {
     try {
       const request = await deleteUser(`/api/admin/delete/${id}`);
-      const response = request.data;
-
       if (request.status === 200) {
-        toast.success(response.message);
-        try {
-          const request = await get('/api/admin/getuser');
-          const response = request.data;
-          if (request.status === 200) {
-            setUsers(response.users);
-          }
-        } catch (error) {
-          console.log(error);
+        toast.success(request.data.message);
+        const request = await get('/api/admin/getuser');
+        const response = request.data;
+        if (request.status === 200) {
+          setUsers(response.users);
         }
       }
     } catch (error) {
@@ -110,10 +118,11 @@ export function Admin({ loggedInAdmin }) {
   const handleLogout = async () => {
     try {
       const request = await post('/api/auth/logout');
-      const response = request.data;
       if (request.status === 200) {
         dispatch(Logout());
-        navigate('/');
+        localStorage.removeItem('adminCurrentSection');
+        localStorage.removeItem('adminSidebarOpen');
+        navigate('/login');
       }
     } catch (error) {
       console.log(error);
@@ -197,4 +206,4 @@ export function Admin({ loggedInAdmin }) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Admin);
+export default connect(mapStateToProps)(Admin);

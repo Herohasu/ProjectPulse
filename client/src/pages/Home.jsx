@@ -36,8 +36,16 @@ const Home = () => {
   useEffect(() => {
     if (!user) {
       dispatch(updateUser());
+    } else {
+
+      setIsSidebarOpen(true);
+
+      if (!localStorage.getItem('currentSection')) {
+        navigate('/home#dashboard');
+        setCurrentSection('dashboard');
+      }
     }
-  }, [dispatch, user]);
+  }, [user, dispatch, navigate]);
 
   useEffect(() => {
     if (!user) {
@@ -50,7 +58,8 @@ const Home = () => {
       const request = await post('/api/auth/logout');
       if (request.status === 200) {
         dispatch(Logout());
-        navigate('/')
+        localStorage.removeItem('currentSection'); 
+        navigate('/');
       }
     } catch (error) {
       console.log(error);
@@ -71,6 +80,7 @@ const Home = () => {
     }
     setCurrentSection(path);
     localStorage.setItem('currentSection', path);
+    navigate(`/home#${path}`);
   };
 
   const sideNavItems = [
@@ -101,7 +111,7 @@ const Home = () => {
           <span className="project-name"><h3>ProjectPulse</h3></span>
         </div>
         <div className="center-actions">
-        <div className="myprofile" onClick={() => handleNavItemClicked('myprofile')}>
+          <div className="myprofile" onClick={() => handleNavItemClicked('myprofile')}>
             <FaUser size={20} />
           </div>
           <div className="notifications" onClick={() => handleNavItemClicked('notifications')}>
