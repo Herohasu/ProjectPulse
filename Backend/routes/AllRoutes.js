@@ -821,3 +821,15 @@ router.post(
     }
   }
 );
+
+
+router.get("/ShowWeeklyReports/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const weeklyReports = await WeeklyReportsData.find({ projectId }).exec();
+    res.status(200).json(weeklyReports);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: err.message });
+  }
+});
