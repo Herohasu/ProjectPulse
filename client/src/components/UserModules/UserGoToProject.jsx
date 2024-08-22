@@ -1,9 +1,16 @@
 import React from 'react';
 import './UserGoToProject.css';
+import { useNavigate } from 'react-router-dom';
 import UserFileUpload from './UserFileUpload';
 import UserWeeklyReport from './UserWeeklyReport';
 
 const UserGoToProject = ({ project, onClose }) => {
+
+  const navigate = useNavigate();
+
+  const handleNavigateToUploadedDocs = () => {
+    navigate('/uploaded-docs'); 
+  };
   const cardBackgroundClass = project.Status === 'Yes' ? 'bg-green' : '';
 
   return (
@@ -22,6 +29,11 @@ const UserGoToProject = ({ project, onClose }) => {
           </div>
           {project.Status === "yes" && (
             <>
+           <div className="documents-button-container">
+                <button className="documents-button" onClick={handleNavigateToUploadedDocs}>
+                  Uploaded Documents
+                </button>
+              </div>
               <div className="user-go-to-container2">
                 <UserFileUpload project={project}/>
               </div>

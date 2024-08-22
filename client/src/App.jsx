@@ -14,6 +14,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import FacultyLayout from './Layouts/FacultyLayout'
 import PasswordReset from './pages/PasswordReset'
 import Faculty from './pages/Faculty'
+import UserUploadedDoc from './components/UserModules/UserUploadedDoc'
 
 export default function App() {
   const dispatch = useDispatch();
@@ -46,6 +47,8 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+
+          <Route path="/uploaded-docs" element={<UserUploadedDoc />} />
         </Routes>
       </BrowserRouter>
     </>
