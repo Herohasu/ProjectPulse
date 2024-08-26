@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './UserWeeklyReport.css';
 import toast from 'react-hot-toast';
+import './UserWeeklyReport.css';
 
-const UserWeeklyReport = ({ project }) => {
+const WeeklyReportForm = ({ project, fetchWeeklyReports }) => {
   const [report, setReport] = useState('');
   const [submissionDate, setSubmissionDate] = useState(new Date().toISOString().substr(0, 10));
   const [file, setFile] = useState(null);
-  const [weeklyReports, setWeeklyReports] = useState([]);
-  const [modalFile, setModalFile] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showReports, setShowReports] = useState(false); // New state for managing visibility
 
   const handleFileChange = (e) => {
     if (e.target.files[0].size > 2000000) {
@@ -47,6 +43,50 @@ const UserWeeklyReport = ({ project }) => {
       toast.error("Error submitting report");
     }
   };
+
+  return (
+    <div className="user-weekly-report-container">
+      <h2>Submit Weekly Report</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="report">Weekly Report:</label>
+          <textarea
+            id="report"
+            value={report}
+            onChange={(e) => setReport(e.target.value)}
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label htmlFor="submissionDate">Date of Submission:</label>
+          <input
+            type="date"
+            id="submissionDate"
+            value={submissionDate}
+            onChange={(e) => setSubmissionDate(e.target.value)}
+            required
+            readOnly
+          />
+        </div>
+        <div>
+          <label htmlFor="file">Upload File:</label>
+          <input
+            type="file"
+            id="file"
+            onChange={handleFileChange}
+          />
+        </div>
+        <button type="submit">Submit Weekly Report</button>
+      </form>
+    </div>
+  );
+};
+
+const UploadedReports = ({ project }) => {
+  const [weeklyReports, setWeeklyReports] = useState([]);
+  const [modalFile, setModalFile] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showReports, setShowReports] = useState(false);
 
   const fetchWeeklyReports = async () => {
     try {
@@ -86,26 +126,28 @@ const UserWeeklyReport = ({ project }) => {
       </button>
 
       {showReports && weeklyReports.length > 0 && (
-        <div className="uploaded-reports">
-          <h3>Uploaded Weekly Reports</h3>
-          <ul>
-            {weeklyReports.map((report, index) => (
-              <li key={index} className="report-item">
-                <p><strong>Submitted on:</strong> {new Date(report.submissionDate).toLocaleDateString()}</p>
-                {report.commentOnFileByStudent && (
-                  <p><strong>Description:</strong> {report.commentOnFileByStudent}</p>
-                )}
-                {report.file && (
-                  <p>
-                    <strong>File:</strong> 
-                    <button className="view-file-modal-btn" onClick={() => openModal(report.file)}>
-                      View Uploaded Report
-                    </button>
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
+        <div className="uploaded-reports-container">
+          <div className="uploaded-reports">
+            <h3>Uploaded Weekly Reports</h3>
+            <ul>
+              {weeklyReports.map((report, index) => (
+                <li key={index} className="report-item">
+                  <p><strong>Submitted on:</strong> {new Date(report.submissionDate).toLocaleDateString()}</p>
+                  {report.commentOnFileByStudent && (
+                    <p><strong>Description:</strong> {report.commentOnFileByStudent}</p>
+                  )}
+                  {report.file && (
+                    <p>
+                      <strong>File:</strong> 
+                      <button className="view-file-modal-btn" onClick={() => openModal(report.file)}>
+                        View Uploaded Report
+                      </button>
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
 
@@ -121,41 +163,15 @@ const UserWeeklyReport = ({ project }) => {
           </div>
         </div>
       )}
+    </>
+  );
+};
 
-      <div className="user-weekly-report-container">
-        <h2>Submit Weekly Report</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="report">Weekly Report:</label>
-            <textarea
-              id="report"
-              value={report}
-              onChange={(e) => setReport(e.target.value)}
-              required
-            ></textarea>
-          </div>
-          <div>
-            <label htmlFor="submissionDate">Date of Submission:</label>
-            <input
-              type="date"
-              id="submissionDate"
-              value={submissionDate}
-              onChange={(e) => setSubmissionDate(e.target.value)}
-              required
-              readOnly
-            />
-          </div>
-          <div>
-            <label htmlFor="file">Upload File:</label>
-            <input
-              type="file"
-              id="file"
-              onChange={handleFileChange}
-            />
-          </div>
-          <button type="submit">Submit Weekly Report</button>
-        </form>
-      </div>
+const UserWeeklyReport = ({ project }) => {
+  return (
+    <>
+      <WeeklyReportForm project={project} />
+      <UploadedReports project={project} />
     </>
   );
 };

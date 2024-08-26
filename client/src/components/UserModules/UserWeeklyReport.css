@@ -73,8 +73,6 @@
   background-color: #0056b3;
 }
 
-
-
 /* User Weekly Report */
 .user-weekly-report-container {
   background: #fff;
@@ -115,29 +113,22 @@
   border: 1px solid #ccc;
   font-size: 16px;
   background-color: #f9f9f9;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.user-weekly-report-container textarea {
-  resize: vertical;
-  min-height: 100px;
 }
 
 .user-weekly-report-container button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
   background-color: #007bff;
-  color: white;
-  font-size: 16px;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
   cursor: pointer;
+  font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
 .user-weekly-report-container button:hover {
   background-color: #0056b3;
 }
-
 
 /* Modal Styles */
 .modal {
@@ -148,18 +139,17 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 1000;
+  align-items: center;
 }
 
 .modal-content {
   background: #fff;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 900px;
   padding: 20px;
+  border-radius: 8px;
   position: relative;
+  width: 80%;
+  max-width: 800px;
 }
 
 .close {
@@ -168,14 +158,4 @@
   right: 10px;
   font-size: 24px;
   cursor: pointer;
-}
-
-.view-file-modal-btn{
-  background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
 }
