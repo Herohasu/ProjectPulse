@@ -69,3 +69,78 @@
   background: var(--hover-color);
 }
 
+
+.approved-projects-section-faculty-dash {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: var(--section-bg-color);
+  position: relative;
+}
+
+.approved-projects-section-faculty-dash h2 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  transition: color 0.3s ease;
+}
+
+.approved-projects-section-faculty-dash:hover h2 {
+  color: var(--hover-primary-color);
+}
+
+.approved-projects-list-faculty-dash {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.approved-project-item-faculty-dash {
+  background-color: var(--card-bg-color);
+  padding: 10px;
+  border-radius: var(--card-border-radius);
+  margin-bottom: 20px;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.approved-project-item-faculty-dash:hover {
+  transform: translateY(-5px) rotateY(5deg);
+  box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.3);
+  background-color: var(--card-hover-bg-color);
+}
+
+.approved-project-item-faculty-dash::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--primary-color);
+  border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+  transform-origin: bottom;
+  transition: height 0.5s ease, background 0.5s ease;
+}
+
+.approved-project-item-faculty-dash:hover::before {
+  height: 100%;
+  background: var(--hover-primary-color);
+}
+
+.approved-project-item-faculty-dash h3 {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.approved-project-item-faculty-dash p {
+  color: var(--secondary-color);
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.approved-project-item-faculty-dash strong {
+  color: var(--primary-color);
+}

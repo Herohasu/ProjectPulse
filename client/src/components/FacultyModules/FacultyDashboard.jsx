@@ -30,7 +30,7 @@ const FacultyDashboard = () => {
         const approvedProjects = projectsData.filter(project => project.Approval === 'yes');
         setApprovedProjectsCount(approvedProjects.length);
 
-        // Set approved projects for display in the Supervised Projects section
+        // Set approved projects for display in the dashboard
         setApprovedProjects(approvedProjects);
 
         // Calculate total projects count
@@ -63,6 +63,23 @@ const FacultyDashboard = () => {
         </div>
       </div>
 
+      {/* Approved Projects Details */}
+      <div className="approved-projects-section-faculty-dash">
+        <h2>Approved Projects</h2>
+        {approvedProjects.length === 0 ? (
+          <p>No approved projects yet.</p>
+        ) : (
+          <ul className="approved-projects-list-faculty-dash">
+            {approvedProjects.map((project, index) => (
+              <li key={index} className="approved-project-item-faculty-dash">
+                <h3>{project.ProjectTitle}</h3>
+                <p><strong>Description:</strong> {project.ProjectDescription}</p>
+                <p><strong>Team Name:</strong> {project.TeamName}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
