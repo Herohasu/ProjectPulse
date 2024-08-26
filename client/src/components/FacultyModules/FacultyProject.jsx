@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import './FacultyProject.css';
+import UserFileUpload from '../UserModules/UserFileUpload';
+import UserWeeklyReport from '../UserModules/UserWeeklyReport';
+import Modal from 'react-modal';
 
 const FacultyProject = () => {
   const user = useSelector((state) => state.Auth.user);
@@ -16,13 +19,12 @@ const FacultyProject = () => {
   const [rejectedProjects, setRejectedProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [reportFile, setReportFile] = useState(null);
+  const [modalContent, setModalContent] = useState(null);
 
   useEffect(() => {
     axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
       .then(result => {
         setProjectsData(result.data);
-        console.log(result.data);
       });
   }, [user.email]);
 
@@ -43,14 +45,27 @@ const FacultyProject = () => {
     setSelectedProject(null);
   };
 
-  const handleModalOpen = (file) => {
-    setReportFile(file);
+  const handleModalOpen = (content) => {
+    setModalContent(content);
     setIsModalOpen(true);
   };
+  
+  const handleViewUploadedFiles = (project) => {
+    handleModalOpen(
+      <UserFileUpload project={project} showOnlyUploadedFiles={true} />
+    );
+  };
+  
+  const handleViewWeeklyReport = (project) => {
+    handleModalOpen(
+      <UserWeeklyReport project={project} showOnlyReports={true} />
+    );
+  };
+  
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    setReportFile(null);
+    setModalContent(null);
   };
 
   return (
@@ -89,34 +104,42 @@ const FacultyProject = () => {
       )}
 
       {/* Approved Projects */}
-      <div className='project-approved-byfaculty'>
-        <div className="project-faculty-header bg-primary text-white">
-          <h2 className="section-title">Approved Projects</h2>
-        </div>
-        <ul className="faculty-approved-projects-list">
-          {approvedProjects.map((project, index) => (
-            <li key={index} className="faculty-approved-project-item">
-              <h2 className="faculty-project-title">{project.ProjectTitle}</h2>
-              <p><strong>Team Name:</strong> {project.TeamName}</p>
-              <p><strong>Status:</strong> {project.Approval}</p>
-              <p><strong>Comment:</strong> {project.Comment}</p>
-              <div className="faculty-approved-buttons">
-                <button className="report-btn-facultyproject" onClick={() => handleModalOpen(project.ReportFile)}>
-                  Report
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+    <div className='project-approved-byfaculty'>
+      <div className="project-faculty-header bg-primary text-white">
+        <h2 className="section-title">Approved Projects</h2>
       </div>
+      <ul className="faculty-approved-projects-list">
+        {approvedProjects.map((project, index) => (
+          <li key={index} className="faculty-approved-project-item">
+            <h2 className="faculty-project-title">{project.ProjectTitle}</h2>
+            <p><strong>Team Name:</strong> {project.TeamName}</p>
+            <p><strong>Status:</strong> {project.Approval}</p>
+            <p><strong>Comment:</strong> {project.Comment}</p>
+            <div className="faculty-approved-buttons">
+              <button
+                className="documents-report-file-btn-facultyproject"
+                onClick={() => handleModalOpen(
+                  <>
+                    <UserWeeklyReport project={project} showOnlyReports={true} />
+                    <UserFileUpload project={project} showOnlyUploadedFiles={true} />
+                  </>
+                )}
+              >
+                Documents
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
 
-       {/* Rejected Projects */}
-       <div className='project-rejected-byfaculty'>
-         <div className="project-faculty-header bg-primary text-white">
-           <h2 className="section-title">Rejected Projects</h2>
+      {/* Rejected Projects */}
+      <div className='project-rejected-byfaculty'>
+        <div className="project-faculty-header bg-primary text-white">
+          <h2 className="section-title">Rejected Projects</h2>
         </div>
         <ul className="faculty-rejected-projects-list">
-           {rejectedProjects.map((project, index) => (
+          {rejectedProjects.map((project, index) => (
             <li key={index} className="faculty-rejected-project-item">
               <h2 className="faculty-project-title">{project.ProjectTitle}</h2>
               <p><strong>Team Name:</strong> {project.TeamName}</p>
@@ -127,21 +150,21 @@ const FacultyProject = () => {
         </ul>
       </div>
 
-      {/* Modal for Viewing Report */}
-      {isModalOpen && reportFile && (
-        <div className="modal" onClick={handleModalClose}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <span className="close" onClick={handleModalClose}>&times;</span>
-            <iframe 
-              src={`http://localhost:4000/${reportFile}`} 
-              style={{ width: '100%', height: '80vh', border: 'none' }} 
-              title="Uploaded Report"
-            ></iframe>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+      {/* Modal for UserWeeklyReport or UserFileUpload */}
+      <Modal
+      isOpen={isModalOpen}
+      onRequestClose={handleModalClose}
+      contentLabel="Project Details"
+      className="faculty-project-modal-uploaded"
+      overlayClassName="faculty-project-modal-overlay"
+    >
+      <button className="close-modal-button-faculty-project" onClick={handleModalClose}>Close</button>
+      <div className="faculty-project-modal-uploaded-content">
+        {modalContent}
+      </div>
+    </Modal>
+  </div>
+);
 };
 
 export default FacultyProject;
