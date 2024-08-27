@@ -7,6 +7,7 @@ import UserFileUpload from '../UserModules/UserFileUpload';
 import UserWeeklyReport from '../UserModules/UserWeeklyReport';
 import Modal from 'react-modal';
 import FacultyProgressBar from './FacultyProgressBar';
+import CircularProgressBar from './CircularProgressBar';
 
 const FacultyProject = () => {
   const user = useSelector((state) => state.Auth.user);
@@ -120,6 +121,7 @@ const FacultyProject = () => {
               <p><strong>Status:</strong> {project.Approval}</p>
               <p><strong>Comment:</strong> {project.Comment}</p>
               <div className="faculty-approved-buttons">
+              <CircularProgressBar progress={project.Progress || 0} />
                 <button
                   className='Progress-of-project-faculty'
                   onClick={() => handleModalOpen(<FacultyProgressBar />)}

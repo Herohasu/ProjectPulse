@@ -21,6 +21,7 @@
     "fortawesome": "^0.0.1-security",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.4",
+    "react-circular-progressbar": "^2.1.0",
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
