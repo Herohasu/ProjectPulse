@@ -16,7 +16,6 @@ const FacultyProgressBar = () => {
         <input
           type="number"
           id="progress-input"
-          value={progress}
           onChange={handleProgressChange}
           min="0"
           max="100"
