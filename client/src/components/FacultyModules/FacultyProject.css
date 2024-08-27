@@ -29,6 +29,7 @@
   margin-bottom: 15px;
   padding: 15px;
   background-color: #f9f9f9;
+  position: relative;
 }
 
 .faculty-project-header {
@@ -105,6 +106,18 @@
   opacity: 0.8;
 }
 
+.Progress-of-project-faculty{
+  background-color: #1591d0; 
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 1200px;
+  position: absolute; 
+  bottom: 50px; 
+  right: 10px;
+}
 .documents-report-file-btn-facultyproject {
   background-color: #1DABFF; 
   color: white;
@@ -112,9 +125,14 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 1200px;
+  position: absolute; 
+  bottom: 10px; 
+  right: 10px;
 }
 
+.Progress-of-project-faculty:hover,
+.documents-report-file-btn-facultyproject:hover,
 .document-btn-facultyproject:hover,
 .report-btn-facultyproject:hover {
   opacity: 0.8;

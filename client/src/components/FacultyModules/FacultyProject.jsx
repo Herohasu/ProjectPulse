@@ -6,6 +6,7 @@ import './FacultyProject.css';
 import UserFileUpload from '../UserModules/UserFileUpload';
 import UserWeeklyReport from '../UserModules/UserWeeklyReport';
 import Modal from 'react-modal';
+import FacultyProgressBar from './FacultyProgressBar';
 
 const FacultyProject = () => {
   const user = useSelector((state) => state.Auth.user);
@@ -49,19 +50,22 @@ const FacultyProject = () => {
     setModalContent(content);
     setIsModalOpen(true);
   };
-  
+
   const handleViewUploadedFiles = (project) => {
     handleModalOpen(
       <UserFileUpload project={project} showOnlyUploadedFiles={true} />
     );
   };
-  
+
   const handleViewWeeklyReport = (project) => {
     handleModalOpen(
       <UserWeeklyReport project={project} showOnlyReports={true} />
     );
   };
-  
+
+  const handleViewProgress = (project) => {
+    handleModalOpen(<FacultyProgressBar project={project} />);
+  };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -104,34 +108,40 @@ const FacultyProject = () => {
       )}
 
       {/* Approved Projects */}
-    <div className='project-approved-byfaculty'>
-      <div className="project-faculty-header bg-primary text-white">
-        <h2 className="section-title">Approved Projects</h2>
+      <div className='project-approved-byfaculty'>
+        <div className="project-faculty-header bg-primary text-white">
+          <h2 className="section-title">Approved Projects</h2>
+        </div>
+        <ul className="faculty-approved-projects-list">
+          {approvedProjects.map((project, index) => (
+            <li key={index} className="faculty-approved-project-item">
+              <h2 className="faculty-project-title">{project.ProjectTitle}</h2>
+              <p><strong>Team Name:</strong> {project.TeamName}</p>
+              <p><strong>Status:</strong> {project.Approval}</p>
+              <p><strong>Comment:</strong> {project.Comment}</p>
+              <div className="faculty-approved-buttons">
+                <button
+                  className='Progress-of-project-faculty'
+                  onClick={() => handleModalOpen(<FacultyProgressBar />)}
+                >
+                  Progress
+                </button>
+                <button
+                  className="documents-report-file-btn-facultyproject"
+                  onClick={() => handleModalOpen(
+                    <>
+                      <UserWeeklyReport project={project} showOnlyReports={true} />
+                      <UserFileUpload project={project} showOnlyUploadedFiles={true} />
+                    </>
+                  )}
+                >
+                  Documents
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="faculty-approved-projects-list">
-        {approvedProjects.map((project, index) => (
-          <li key={index} className="faculty-approved-project-item">
-            <h2 className="faculty-project-title">{project.ProjectTitle}</h2>
-            <p><strong>Team Name:</strong> {project.TeamName}</p>
-            <p><strong>Status:</strong> {project.Approval}</p>
-            <p><strong>Comment:</strong> {project.Comment}</p>
-            <div className="faculty-approved-buttons">
-              <button
-                className="documents-report-file-btn-facultyproject"
-                onClick={() => handleModalOpen(
-                  <>
-                    <UserWeeklyReport project={project} showOnlyReports={true} />
-                    <UserFileUpload project={project} showOnlyUploadedFiles={true} />
-                  </>
-                )}
-              >
-                Documents
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
 
       {/* Rejected Projects */}
       <div className='project-rejected-byfaculty'>
@@ -150,21 +160,21 @@ const FacultyProject = () => {
         </ul>
       </div>
 
-      {/* Modal for UserWeeklyReport or UserFileUpload */}
+      {/* Modal for dynamic content */}
       <Modal
-      isOpen={isModalOpen}
-      onRequestClose={handleModalClose}
-      contentLabel="Project Details"
-      className="faculty-project-modal-uploaded"
-      overlayClassName="faculty-project-modal-overlay"
-    >
-      <button className="close-modal-button-faculty-project" onClick={handleModalClose}>Close</button>
-      <div className="faculty-project-modal-uploaded-content">
-        {modalContent}
-      </div>
-    </Modal>
-  </div>
-);
+        isOpen={isModalOpen}
+        onRequestClose={handleModalClose}
+        contentLabel="Project Details"
+        className="faculty-project-modal-uploaded"
+        overlayClassName="faculty-project-modal-overlay"
+      >
+        <button className="close-modal-button-faculty-project" onClick={handleModalClose}>Close</button>
+        <div className="faculty-project-modal-uploaded-content">
+          {modalContent}
+        </div>
+      </Modal>
+    </div>
+  );
 };
 
 export default FacultyProject;
