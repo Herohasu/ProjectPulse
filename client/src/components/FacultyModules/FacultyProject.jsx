@@ -7,8 +7,6 @@ import UserFileUpload from '../UserModules/UserFileUpload';
 import UserWeeklyReport from '../UserModules/UserWeeklyReport';
 import Modal from 'react-modal';
 import FacultyProgressBar from './FacultyProgressBar';
-import CircularProgressBar from './CircularProgressBar';
-
 const FacultyProject = () => {
   const user = useSelector((state) => state.Auth.user);
   if (!user) {
@@ -17,16 +15,23 @@ const FacultyProject = () => {
 
   const [ProjectsData, setProjectsData] = useState([]);
   const [statusPendingProject, setStatusPendingProject] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
   const [approvedProjects, setApprovedProjects] = useState([]);
   const [rejectedProjects, setRejectedProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
+
+  const [isApproveRejectModalOpen, setIsApproveRejectModalOpen] = useState(false);
+  const [isProgressModalOpen, setIsProgressModalOpen] = useState(false);
+  const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
+
+  const [commentType, setCommentType] = useState('');
+  const [comment, setComment] = useState('');
+  const [modalContent, setModalContent] = useState(null); 
 
   useEffect(() => {
     axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
       .then(result => {
         setProjectsData(result.data);
+        console.log(result.data);
       });
   }, [user.email]);
 
@@ -46,31 +51,64 @@ const FacultyProject = () => {
   const handleCloseDetails = () => {
     setSelectedProject(null);
   };
-
-  const handleModalOpen = (content) => {
-    setModalContent(content);
-    setIsModalOpen(true);
+  
+  const handleApproveRejectModalOpen = () => {
+    setIsApproveRejectModalOpen(true);
   };
 
-  const handleViewUploadedFiles = (project) => {
-    handleModalOpen(
-      <UserFileUpload project={project} showOnlyUploadedFiles={true} />
+  const handleProgressModalOpen = (project) => {
+    setModalContent(
+      <FacultyProgressBar
+        project={project}
+        onUpdateProgress={(newProgress) => handleProgressUpdate(project._id, newProgress, project)}
+      />
     );
+    setIsProgressModalOpen(true);
   };
 
-  const handleViewWeeklyReport = (project) => {
-    handleModalOpen(
-      <UserWeeklyReport project={project} showOnlyReports={true} />
+  const handleDocumentModalOpen = (project) => {
+    setModalContent(
+      <>
+        <UserWeeklyReport project={project} showOnlyReports={true} />
+        <UserFileUpload project={project} showOnlyUploadedFiles={true} />
+      </>
     );
-  };
-
-  const handleViewProgress = (project) => {
-    handleModalOpen(<FacultyProgressBar project={project} />);
+    setIsDocumentModalOpen(true);
   };
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
-    setModalContent(null);
+    setIsApproveRejectModalOpen(false);
+    setIsProgressModalOpen(false);
+    setIsDocumentModalOpen(false);
+    setComment('');
+    setModalContent(null); 
+  };
+
+  const handleCommentSubmit = () => {
+    if (selectedProject) {
+      selectedProject.Approval = commentType;
+      selectedProject.comment = comment;
+    }
+    axios.put(`http://localhost:4000/EditProjects/${selectedProject._id}`, selectedProject)
+      .then(() => {
+        axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
+          .then(result => {
+            setProjectsData(result.data);
+          });
+      })
+      .catch(err => console.log(err));
+    setSelectedProject(null);
+    handleModalClose();
+  };
+
+  const handleProgressUpdate = (projectId, newProgress, project ) => {
+    setProjectsData((prevData) =>
+      prevData.map((proj) =>
+        proj._id === projectId ? { ...proj, Progress: newProgress } : proj
+      )
+    );
+
+    toast.success(`Progress has been updated for Team: ${project.TeamName}`);
   };
 
   return (
@@ -102,7 +140,9 @@ const FacultyProject = () => {
           <p><strong>Mentor Name:</strong> {user.name}</p>
           <p><strong>Team Name:</strong> {selectedProject.TeamName}</p>
           <p><strong>Year:</strong> {selectedProject.Year}</p>
-          <button className="faculty-action-details-button" onClick={handleCloseDetails}>
+          <p><strong>Progress:</strong> {project.Progress !== undefined ? `${project.Progress}%` : 'Not updated'}</p>
+          <button className='faculty-action-details-button' onClick={handleApproveRejectModalOpen}>ACTION</button>
+          <button className="faculty-close-details-button" onClick={handleCloseDetails}>
             Close
           </button>
         </div>
@@ -120,22 +160,17 @@ const FacultyProject = () => {
               <p><strong>Team Name:</strong> {project.TeamName}</p>
               <p><strong>Status:</strong> {project.Approval}</p>
               <p><strong>Comment:</strong> {project.Comment}</p>
+              <p><strong>Progress:</strong> {project.Progress !== undefined ? `${project.Progress}%` : 'Not updated'}</p>
               <div className="faculty-approved-buttons">
-              <CircularProgressBar progress={project.Progress || 0} />
                 <button
                   className='Progress-of-project-faculty'
-                  onClick={() => handleModalOpen(<FacultyProgressBar />)}
+                  onClick={() => handleProgressModalOpen(project)}
                 >
                   Progress
                 </button>
                 <button
                   className="documents-report-file-btn-facultyproject"
-                  onClick={() => handleModalOpen(
-                    <>
-                      <UserWeeklyReport project={project} showOnlyReports={true} />
-                      <UserFileUpload project={project} showOnlyUploadedFiles={true} />
-                    </>
-                  )}
+                  onClick={() => handleDocumentModalOpen(project)}
                 >
                   Documents
                 </button>
@@ -162,16 +197,54 @@ const FacultyProject = () => {
         </ul>
       </div>
 
+      {/* Modal for Approve or Reject */}
+      <Modal
+        isOpen={isApproveRejectModalOpen}
+        onRequestClose={handleModalClose}
+        contentLabel="Approve or Reject"
+        className="faculty-project-modal-approve-reject"
+        overlayClassName="faculty-project-modal-overlay"
+      >
+        <div className="faculty-project-modal-content">
+          <span className="close" onClick={handleModalClose}>&times;</span>
+          <h2>Project Status Update</h2><br />
+          <label>
+            <input
+              type="radio"
+              name="commentType"
+              className='approvecomment-to-approve-reject-project'
+              onChange={() => setCommentType('yes')}
+            />
+            Approve With Comment
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="commentType"
+              className='rejectcomment-to-approve-reject-project'
+              onChange={() => setCommentType('no')}
+            />
+            Reject With Comment
+          </label>
+          <textarea
+            className='submitcomment-to-approve-reject-project'
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Enter your comment here..."
+          />
+          <button className='submitcomment-to-approve-reject-project-btn' onClick={handleCommentSubmit}>Submit</button>
+        </div>
+      </Modal>
+
       {/* Modal for dynamic content */}
       <Modal
-        isOpen={isModalOpen}
+        isOpen={isProgressModalOpen || isDocumentModalOpen}
         onRequestClose={handleModalClose}
         contentLabel="Project Details"
         className="faculty-project-modal-uploaded"
         overlayClassName="faculty-project-modal-overlay"
       >
-        <button className="close-modal-button-faculty-project" onClick={handleModalClose}>Close</button>
-        <div className="faculty-project-modal-uploaded-content">
+        <div className="faculty-project-modal-content">
+          <span className="close" onClick={handleModalClose}>&times;</span>
           {modalContent}
         </div>
       </Modal>
@@ -180,3 +253,4 @@ const FacultyProject = () => {
 };
 
 export default FacultyProject;
+

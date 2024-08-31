@@ -106,6 +106,8 @@
   opacity: 0.8;
 }
 
+
+
 .Progress-of-project-faculty{
   background-color: #1591d0; 
   color: white;
@@ -343,4 +345,127 @@
 
 .faculty-project-modal-uploaded-content {
   margin-top: 50px; 
+}
+
+
+/* Container for the entire modal to approve or reject comment */
+.modal-to-approve-reject-project {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-content-to-approve-reject-project {
+  background-color: #f9f6e5; 
+  border-radius: 10px;
+  width: 450px;
+  max-width: 90%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  position: relative;
+}
+
+
+.close-to-approve-reject-project {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #152f46; 
+  transition: color 0.3s;
+}
+
+.close-to-approve-reject-project:hover {
+  color: #e74c3c;
+}
+
+
+.modal-content-to-approve-reject-project h2 {
+  color: #152f46;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+
+label {
+  display: block;
+  margin: 10px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+
+.approvecomment-to-approve-reject-project,
+.rejectcomment-to-approve-reject-project {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+
+.submitcomment-to-approve-reject-project {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+
+.submitcomment-to-approve-reject-project-btn {
+  background-color: #1dabff; 
+  color: #f9f6e5; 
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  display: block;
+  width: 100%;
+}
+
+.submitcomment-to-approve-reject-project-btn:hover {
+  background-color: #0fb47f;
+}
+
+
+/* Modal for Approve or Reject Project */
+.faculty-project-modal-approve-reject {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  max-width: 90%;
+  padding: 20px;
+  background-color: #f9f6e5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 3000; 
+}
+
+.faculty-project-modal-overlay {
+  background: rgba(0, 0, 0, 0.75);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2500; 
 }

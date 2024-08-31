@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import './FacultyProgressBar.css';
 
-const FacultyProgressBar = () => {
-  const [progress, setProgress] = useState(0); 
+const FacultyProgressBar = ({ project, onUpdateProgress }) => {
+  const [progress, setProgress] = useState(project.Progress || 0);
 
   const handleProgressChange = (event) => {
-    const newValue = Math.max(0, Math.min(100, event.target.value)); 
+    const newValue = Math.max(0, Math.min(100, event.target.value));
     setProgress(newValue);
+  };
+
+  const handleUpdateProgress = () => {
+    onUpdateProgress(progress); 
   };
 
   return (
@@ -16,13 +20,14 @@ const FacultyProgressBar = () => {
         <input
           type="number"
           id="progress-input"
+          value={progress}
           onChange={handleProgressChange}
           min="0"
           max="100"
         />
         <button
           className="update-progress-button"
-          onClick={() => alert(`Progress updated to ${progress}%`)}
+          onClick={handleUpdateProgress}
         >
           Update Progress
         </button>
