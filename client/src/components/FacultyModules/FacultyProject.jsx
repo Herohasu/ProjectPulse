@@ -59,7 +59,7 @@ const FacultyProject = () => {
   const handleProgressModalOpen = (project) => {
     setModalContent(
       <FacultyProgressBar
-        project={project}
+        projectId={project._id}
         onUpdateProgress={(newProgress) => handleProgressUpdate(project._id, newProgress, project)}
       />
     );

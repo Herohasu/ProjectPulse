@@ -232,4 +232,18 @@ const WeeklyReportsDataSchema = new mongoose.Schema({
 },{timestamps:true})
 const WeeklyReportsData = mongoose.model('WeeklyReportsData',WeeklyReportsDataSchema)
 
-export { StudentData, TeamsData, ProjectData, FacultyData, NotificationData, FilesData, WeeklyReportsData};
+const ProgressForStudentByFacultySchema = new mongoose.Schema({
+  progress: {
+    type: Number, 
+    required: true,
+    min: 0,
+    max: 100
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now 
+  }
+})
+const ProgressByFaculty = model('ProgressByFaculty', ProgressForStudentByFacultySchema);
+
+export { StudentData, TeamsData, ProjectData, FacultyData, NotificationData, FilesData, WeeklyReportsData, ProgressByFaculty};

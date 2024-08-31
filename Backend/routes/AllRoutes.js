@@ -24,6 +24,7 @@ import {
   NotificationData,
   FilesData,
   WeeklyReportsData,
+  ProgressByFaculty,
 } from "../models/Schemas.js";
 
 //==============StudentData================================================
@@ -738,7 +739,7 @@ router.delete("/DeleteNotification/:id", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-export default router;
+
 
 // ==========================Project Files Storage===========================
 
@@ -835,4 +836,49 @@ router.get("/ShowWeeklyReports/:id", async (req, res) => {
 });
 
 
-// ======================== Progress Report Faculty  =======================
+// ======================== Progress Report by Faculty for student  =======================
+
+router.post("/AddProgressForStudent", async (req, res) => {
+  const { progress } = req.body;
+
+  console.log('Received request body:', req.body); 
+
+  try {
+    if ( progress === undefined) {
+      console.log('Validation failed: Missing fields'); 
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    const newProgress = new ProgressByFaculty({
+      progress
+    });
+
+    await newProgress.save();
+    res.status(201).json({ message: "Progress added successfully." });
+  } catch (err) {
+    console.error('Server error:', err); 
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+router.get("/ShowProgress/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const progressFaculty = await ProgressByFaculty.find({ projectId }).exec();
+    res.status(200).json(progressFaculty);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: err.message });
+  }
+});
+
+
+
+
+
+
+
+
+
+export default router;
