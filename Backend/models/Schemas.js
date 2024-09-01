@@ -233,6 +233,11 @@ const WeeklyReportsDataSchema = new mongoose.Schema({
 const WeeklyReportsData = mongoose.model('WeeklyReportsData',WeeklyReportsDataSchema)
 
 const ProgressForStudentByFacultySchema = new mongoose.Schema({
+  projectId: {  
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ProjectData', 
+    required: true
+  },
   progress: {
     type: Number, 
     required: true,

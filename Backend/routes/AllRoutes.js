@@ -839,39 +839,51 @@ router.get("/ShowWeeklyReports/:id", async (req, res) => {
 // ======================== Progress Report by Faculty for student  =======================
 
 router.post("/AddProgressForStudent", async (req, res) => {
-  const { progress } = req.body;
+  const { progress, projectId } = req.body;
 
   console.log('Received request body:', req.body); 
 
   try {
-    if ( progress === undefined) {
-      console.log('Validation failed: Missing fields'); 
+    if (progress === undefined || !projectId) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    const newProgress = new ProgressByFaculty({
-      progress
-    });
+    const existingProgress = await ProgressByFaculty.findOne({ projectId }).exec();
+    if (existingProgress) {
+      existingProgress.progress = progress;
+      await existingProgress.save();
+    } else {
+      const newProgress = new ProgressByFaculty({
+        projectId,
+        progress
+      });
+      await newProgress.save();
+    }
 
-    await newProgress.save();
-    res.status(201).json({ message: "Progress added successfully." });
+    res.status(201).json({ message: "Progress updated successfully." });
   } catch (err) {
-    console.error('Server error:', err); 
     res.status(500).json({ error: err.message });
   }
 });
 
 
+
 router.get("/ShowProgress/:id", async (req, res) => {
   try {
     const projectId = req.params.id;
-    const progressFaculty = await ProgressByFaculty.find({ projectId }).exec();
-    res.status(200).json(progressFaculty);
+    const progressData = await ProgressByFaculty.findOne({ projectId }).exec();
+    
+    if (!progressData) {
+      return res.status(404).json({ message: "Progress not found for this project." });
+    }
+    
+    res.status(200).json(progressData);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ err: err.message });
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 });
+
 
 
 

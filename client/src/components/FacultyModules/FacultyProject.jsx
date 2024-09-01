@@ -7,6 +7,7 @@ import UserFileUpload from '../UserModules/UserFileUpload';
 import UserWeeklyReport from '../UserModules/UserWeeklyReport';
 import Modal from 'react-modal';
 import FacultyProgressBar from './FacultyProgressBar';
+
 const FacultyProject = () => {
   const user = useSelector((state) => state.Auth.user);
   if (!user) {
@@ -28,11 +29,32 @@ const FacultyProject = () => {
   const [modalContent, setModalContent] = useState(null); 
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
-      .then(result => {
-        setProjectsData(result.data);
-        console.log(result.data);
-      });
+    const fetchProjects = async () => {
+      try {
+        const result = await axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`);
+        const projects = result.data;
+
+        // Fetch progress for each project
+        const projectsWithProgress = await Promise.all(projects.map(async (project) => {
+          try {
+            const progressResponse = await axios.get(`http://localhost:4000/api/ShowProgress/${project._id}`);
+            return {
+              ...project,
+              Progress: progressResponse.data.progress || 0
+            };
+          } catch (err) {
+            console.error('Error fetching progress for project:', err);
+            return project;
+          }
+        }));
+
+        setProjectsData(projectsWithProgress);
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+      }
+    };
+
+    fetchProjects();
   }, [user.email]);
 
   useEffect(() => {
@@ -101,7 +123,7 @@ const FacultyProject = () => {
     handleModalClose();
   };
 
-  const handleProgressUpdate = (projectId, newProgress, project ) => {
+  const handleProgressUpdate = (projectId, newProgress, project) => {
     setProjectsData((prevData) =>
       prevData.map((proj) =>
         proj._id === projectId ? { ...proj, Progress: newProgress } : proj
@@ -140,7 +162,7 @@ const FacultyProject = () => {
           <p><strong>Mentor Name:</strong> {user.name}</p>
           <p><strong>Team Name:</strong> {selectedProject.TeamName}</p>
           <p><strong>Year:</strong> {selectedProject.Year}</p>
-          <p><strong>Progress:</strong> {project.Progress !== undefined ? `${project.Progress}%` : 'Not updated'}</p>
+          <p><strong>Progress:</strong> {selectedProject.Progress !== undefined ? `${selectedProject.Progress}%` : 'Not updated'}</p>
           <button className='faculty-action-details-button' onClick={handleApproveRejectModalOpen}>ACTION</button>
           <button className="faculty-close-details-button" onClick={handleCloseDetails}>
             Close
