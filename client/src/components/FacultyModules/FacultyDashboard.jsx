@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import './FacultyDashboard.css';
 import axios from 'axios';
+import './FacultyDashboard.css';
 import { useSelector } from 'react-redux';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 const FacultyDashboard = () => {
   const user = useSelector((state) => state.Auth.user);
@@ -15,7 +17,7 @@ const FacultyDashboard = () => {
     if (!user) return;
 
     axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
-      .then(result => {
+      .then(async result => {
         const projectsData = result.data;
 
         // Calculate pending approvals count
@@ -35,6 +37,24 @@ const FacultyDashboard = () => {
 
         // Calculate total projects count
         setTotalProjectsCount(projectsData.length);
+
+        const updatedProjects = await Promise.all(approvedProjects.map(async project => {
+          try {
+            const progressResponse = await axios.get(`http://localhost:4000/api/ShowProgress/${project._id}`);
+            return {
+              ...project,
+              progress: progressResponse.data.progress || 0
+            };
+          } catch (error) {
+            console.error('Error fetching progress data:', error);
+            return {
+              ...project,
+              progress: 0 
+            };
+          }
+        }));
+
+        setApprovedProjects(updatedProjects);
       })
       .catch(error => {
         console.error('Error fetching project data:', error);
@@ -62,23 +82,48 @@ const FacultyDashboard = () => {
           <p>{pendingApprovalsCount}</p>
         </div>
       </div>
+<br /> <br /> <br />
+      {/* Circular Progress Bar for Approved Projects */}
+      <div className="circular-progress-section">
+        <h1>Approved Projects Progress</h1><br /> 
+        <div className="circular-progress-container">
+          {approvedProjects.length === 0 ? (
+            <p>No approved projects yet.</p>
+          ) : (
+            approvedProjects.map((project) => (
+              <div key={project._id} className="circular-progress-main-card">
+                <div className='circular-progress-text-card' >
+                  <h2>{project.ProjectTitle}</h2><br />
+                  <p><strong style={{color:'black'}}>Description:</strong> {project.ProjectDescription}</p>
+                  <p><strong style={{color:'black'}}>Team Name:</strong> {project.TeamName}</p>
 
-      {/* Approved Projects Details */}
-      <div className="approved-projects-section-faculty-dash">
-        <h2>Approved Projects</h2>
-        {approvedProjects.length === 0 ? (
-          <p>No approved projects yet.</p>
-        ) : (
-          <ul className="approved-projects-list-faculty-dash">
-            {approvedProjects.map((project, index) => (
-              <li key={index} className="approved-project-item-faculty-dash">
-                <h3>{project.ProjectTitle}</h3>
-                <p><strong>Description:</strong> {project.ProjectDescription}</p>
-                <p><strong>Team Name:</strong> {project.TeamName}</p>
-              </li>
-            ))}
-          </ul>
-        )}
+                </div>
+
+                <div className="circular-progress-bar-area">
+                <CircularProgressbar
+                    value={project.progress}
+                    maxValue={100} 
+                    text={`${project.progress}%`}
+                    styles={{
+                      path: {
+                        stroke: `#4CAF50`, 
+                        strokeLinecap: 'round',
+                        transition: 'stroke-dashoffset 0.5s ease 0s',
+                      },
+                      trail: {
+                        stroke: '#D6D6D6', 
+                      },
+                      text: {
+                        fill: '#1DABFF',
+                        fontSize: '16px',
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
