@@ -1,0 +1,55 @@
+.faculty-progress-bar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .faculty-progress-bar-add {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  #progress-input {
+    width: 60px;
+    padding: 5px;
+    font-size: 1rem;
+  }
+  
+  .update-progress-button {
+    background-color: #152f46;
+    color: #f9f6e5;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .update-progress-button:hover {
+    background-color: #1dabff;
+  }
+  
+  .faculty-progress-bar-display {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .progress-bar-background {
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .progress-bar-fill {
+    height: 100%;
+    background-color: #75dcc5;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+    font-weight: bold;
+    transition: width 0.3s ease;
+  }

@@ -15,6 +15,7 @@ import FacultyLayout from './Layouts/FacultyLayout'
 import PasswordReset from './pages/PasswordReset'
 import Faculty from './pages/Faculty'
 
+
 export default function App() {
   const dispatch = useDispatch();
 
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+
         </Routes>
       </BrowserRouter>
     </>

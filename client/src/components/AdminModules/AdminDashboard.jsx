@@ -1,45 +1,79 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-import Table from 'react-bootstrap/Table'
+import Table from 'react-bootstrap/Table';
+import './AdminDashboard.css';
 
-const AdminDashboard = ({ users, handleDelete,handleEdit }) => {
+const DeleteConfirmationDialog = ({ show, handleClose, handleConfirm }) => {
+  if (!show) return null;
+
+  return (
+    <div className="delete-dialog-overlay">
+      <div className="delete-dialog">
+        <h3 className="delete-dialog-title">Confirm Deletion</h3>
+        <p className="delete-dialog-message">Are you sure you want to delete this user?</p>
+        <div className="delete-dialog-buttons">
+          <Button className="delete-dialog-button" onClick={handleConfirm}>
+            Yes
+          </Button>
+          <Button className="delete-dialog-button cancel" onClick={handleClose}>
+            No
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AdminDashboard = ({ users, handleDelete, handleEdit }) => {
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [role, setRole] = useState('');
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  const handleShowEdit = (user) => {
+    setSelectedUser(user);
+    setName(user.name);
+    setEmail(user.email);
+    setRole(user.role);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEdit = () => {
+    setShowEditModal(false);
+  };
+
+  const handleShowDelete = (user) => {
+    setSelectedUser(user);
+    setShowDeleteDialog(true);
+  };
+
+  const handleCloseDelete = () => {
+    setShowDeleteDialog(false);
+  };
+
+  const handleConfirmDelete = async () => {
+    await handleDelete(selectedUser._id);
+    setShowDeleteDialog(false);
+    window.location.reload(); 
+  };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     const formData = {
-      name:name,
-      email:email,
-      role:role
-    }
-    await handleEdit(selectedUser._id,formData)
-    setShow(false)
-  }
-
-  const [selectedUser,setSeclectedUser] = useState(null)
-  const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
-  const [role, setRole] = useState('')
-  const [show, setShow] = useState(false);
-
-
-  const handleShow = (user) => {
-    setSeclectedUser(user)
-    setName(user.name)
-    setEmail(user.email)
-    setRole(user.role)
-    setShow(true)
-  }
-
-  const handleClose = () => {
-    setShow(false)
-  }
+      name: name,
+      email: email,
+      role: role,
+    };
+    await handleEdit(selectedUser._id, formData);
+    setShowEditModal(false);
+  };
 
   return (
-    <div className="admin-dashboard">
-      <h2>Manage Users</h2>
-      {/* <table> */}
-      <Table striped bordered hover variant="dark">
+    <div className="admin-dashboard-container">
+      <h2 className="admin-dashboard-title">Manage Users</h2>
+      <Table striped bordered hover className="admin-dashboard-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -56,20 +90,24 @@ const AdminDashboard = ({ users, handleDelete,handleEdit }) => {
               <td>{user.email}</td>
               <td>{user.role}</td>
               <td>
-                <Button variant="success" onClick={() => handleShow(user)}>Edit</Button>
+                <Button variant="success" onClick={() => handleShowEdit(user)} className="admin-dashboard-table btn btn-success">
+                  Edit
+                </Button>
               </td>
               <td>
-                <Button variant="failed" onClick={() => handleDelete(user._id)}>Delete</Button>
+                <Button variant="danger" onClick={() => handleShowDelete(user)} className="admin-dashboard-table btn btn-failed">
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
 
-      {show &&
-        <div className='editmodal-form'>
+      {showEditModal && (
+        <div className="admin-dashboard-editmodal">
           <form onSubmit={handleEditSubmit} encType="multipart/form-data">
-            <div className="input-group">
+            <div className="admin-dashboard-input-group">
               <label htmlFor="name">Name</label>
               <input
                 type="text"
@@ -78,7 +116,7 @@ const AdminDashboard = ({ users, handleDelete,handleEdit }) => {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div className="input-group">
+            <div className="admin-dashboard-input-group">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -87,27 +125,32 @@ const AdminDashboard = ({ users, handleDelete,handleEdit }) => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="input-group">
+            <div className="admin-dashboard-input-group">
               <label htmlFor="role">Role</label>
               <select
-                id="forWhom"
-                className="form-control"
+                id="role"
                 value={role}
-                onChange={(e) => setRole(e.target.value)}>
+                onChange={(e) => setRole(e.target.value)}
+              >
                 <option value="">Select option</option>
                 <option value="faculty">Faculty</option>
                 <option value="user">Student</option>
                 <option value="admin">Admin</option>
               </select>
             </div>
-            <button type="submit">Submit</button>
-            <button onClick={handleClose}>Close</button>
+            <button type="submit" className="admin-dashboard-button">Submit</button>
+            <button type="button" onClick={handleCloseEdit} className="admin-dashboard-button admin-dashboard-button-close">Close</button>
           </form>
         </div>
-      }
+      )}
+
+      <DeleteConfirmationDialog
+        show={showDeleteDialog}
+        handleClose={handleCloseDelete}
+        handleConfirm={handleConfirmDelete}
+      />
     </div>
   );
 };
 
 export default AdminDashboard;
-

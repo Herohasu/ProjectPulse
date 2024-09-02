@@ -4,7 +4,7 @@ import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import { useNavigate } from 'react-router-dom';
 import './Faculty.css';
-import { FaBell, FaCalendar, FaHome, FaTasks, FaWindowClose,FaUser } from 'react-icons/fa';
+import { FaBell, FaCalendar, FaHome, FaTasks, FaWindowClose, FaUser } from 'react-icons/fa';
 import { FaBarsStaggered } from "react-icons/fa6";
 import FacultyDashboard from '../components/FacultyModules/FacultyDashboard.jsx';
 import FacultyProject from '../components/FacultyModules/FacultyProject.jsx';
@@ -33,18 +33,29 @@ const IconButton = ({ isSidebarOpen, onClick }) => (
 export function Faculty({ loggedInFaculty }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
   const [currentSection, setCurrentSection] = useState(localStorage.getItem('facultyCurrentSection') || 'dashboard');
 
   useEffect(() => {
-    localStorage.setItem('facultyCurrentSection', currentSection);
-  }, [currentSection]);
+    if (loggedInFaculty) {
+      if (!localStorage.getItem('facultyCurrentSection')) {
+        navigate('/faculty#dashboard');
+        setCurrentSection('dashboard');
+      } else {
+       
+        localStorage.setItem('facultyCurrentSection', currentSection);
+      }
+    } else {
+      navigate('/');
+    }
+  }, [loggedInFaculty, currentSection, navigate]);
 
   const handleLogout = async () => {
     try {
       const request = await post('/api/auth/logout');
       if (request.status === 200) {
         dispatch(Logout());
+        localStorage.removeItem('facultyCurrentSection'); 
         navigate('/');
       }
     } catch (error) {
@@ -65,6 +76,8 @@ export function Faculty({ loggedInFaculty }) {
       closeSidebar();
     }
     setCurrentSection(path);
+    localStorage.setItem('facultyCurrentSection', path);
+    navigate(`/faculty#${path}`);
   };
 
   const sideNavItems = [
@@ -80,7 +93,7 @@ export function Faculty({ loggedInFaculty }) {
     projects: <FacultyProject />,
     notifications: <FacultyNotification />,
     calendar: <FacultyCalendar />,
-    myprofile : <FacultyProfile/>
+    myprofile: <FacultyProfile />
   };
 
   return (
@@ -122,7 +135,7 @@ export function Faculty({ loggedInFaculty }) {
       </div>
   
       {/* Main Content */}
-      <div className={`faculty-container ${isSidebarOpen ? 'sidebar-open' : ''}`} onClick={closeSidebar}>
+      <div className={`faculty-container ${isSidebarOpen ? 'sidebar-open' : ''}`}>
         {sectionComponents[currentSection]}
       </div>
     </>
@@ -130,5 +143,3 @@ export function Faculty({ loggedInFaculty }) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Faculty);
-
-

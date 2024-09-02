@@ -39,6 +39,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/', AllRoutes);
+app.use('/api', AllRoutes);
+
 
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);

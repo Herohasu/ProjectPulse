@@ -15,7 +15,6 @@ const AdminNotification = () => {
     dispatch(fetchNotifications());
   }, [dispatch]);
 
-
   const handleAddNotification = () => {
     dispatch(addNotification({ subject, message, deadlineDate, forWhom }));
     setSubject('');
@@ -32,64 +31,70 @@ const AdminNotification = () => {
 
   return (
     <div className="container">
-      <div className="cardadd">
-        <div className="card-header bg-primary text-white">
+      <div className="card cardadd">
+        <div className="card-header">
           <h2>Admin Notification</h2>
         </div>
         <div className="card-body">
-          <div className="form-group">
-            <label htmlFor="subject">Subject</label>
-            <input
-              id="subject"
-              type="text"
-              className="form-control"
-              placeholder="Enter subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-            />
+          <div className="form-container">
+            <div className="form-section">
+              <div className="form-group">
+                <label htmlFor="subject">Subject</label>
+                <input
+                  id="subject"
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter subject"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <input
+                  id="message"
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="deadlineDate">Deadline Date</label>
+                <input
+                  id="deadlineDate"
+                  type="date"
+                  className="form-control"
+                  value={deadlineDate}
+                  onChange={(e) => setDeadlineDate(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="forWhom">For Whom</label>
+                <select
+                  id="forWhom"
+                  className="form-control"
+                  value={forWhom}
+                  onChange={(e) => setForWhom(e.target.value)}
+                >
+                  <option value="">Select option</option>
+                  <option value="faculty">Faculty</option>
+                  <option value="student">Student</option>
+                  <option value="both">Both</option>
+                </select>
+              </div>
+            </div>
+            <div className="btn-container">
+              <button className="btn btn-primary" onClick={handleAddNotification}>Add Notification</button>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="message">Message</label>
-            <input
-              id="message"
-              type="text"
-              className="form-control"
-              placeholder="Enter message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="deadlineDate">Deadline Date</label>
-            <input
-              id="deadlineDate"
-              type="date"
-              className="form-control"
-              value={deadlineDate}
-              onChange={(e) => setDeadlineDate(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="forWhom">For Whom</label>
-            <select
-              id="forWhom"
-              className="form-control"
-              value={forWhom}
-              onChange={(e) => setForWhom(e.target.value)}
-            >
-              <option value="">Select option</option>
-              <option value="faculty">Faculty</option>
-              <option value="student">Student</option>
-              <option value="both">Both</option>
-            </select>
-          </div>
-          <button className="btn btn-primary" onClick={handleAddNotification}>Add Notification</button>
         </div>
       </div>
 
       {/* Notifications List */}
-      <div className="cardshow">
-        <div className="card-header bg-primary text-white">
+      <div className="card cardshow">
+        <div className="card-header">
           <h2>Existing Notifications</h2>
         </div>
         <div className="card-body">
@@ -110,3 +115,4 @@ const AdminNotification = () => {
 };
 
 export default AdminNotification;
+

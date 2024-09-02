@@ -1,0 +1,240 @@
+/* Container Styling */
+.admin-dashboard-container {
+    padding: 40px;
+    background-color: #f9f9f9;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styling */
+.admin-dashboard-title {
+    color: #152F46;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+/* Table Styling */
+.admin-dashboard-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.admin-dashboard-table th,
+.admin-dashboard-table td {
+    text-align: center;
+    padding: 15px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.admin-dashboard-table thead {
+    background-color: #1DABFF;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-dashboard-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.admin-dashboard-table tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Button Styling */
+.admin-dashboard-table .btn {
+    margin: 0 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.admin-dashboard-table .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #fff;
+}
+
+.admin-dashboard-table .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.admin-dashboard-table .btn-failed {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.admin-dashboard-table .btn-failed:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Modal Styling */
+.admin-dashboard-editmodal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 400px;
+    z-index: 1000;
+    text-align: left;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.admin-dashboard-editmodal form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input Group Styling */
+.admin-dashboard-input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-dashboard-input-group label {
+    font-weight: bold;
+    color: #152F46;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.admin-dashboard-input-group input,
+.admin-dashboard-input-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-dashboard-input-group input:focus,
+.admin-dashboard-input-group select:focus {
+    border-color: #1DABFF;
+    box-shadow: 0 0 8px rgba(29, 171, 255, 0.3);
+    outline: none;
+}
+
+/* Button Styling for Modal */
+.admin-dashboard-button {
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #1DABFF;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.admin-dashboard-button:hover {
+    background-color: #0b8fc4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-dashboard-button-close {
+    background-color: #dc3545;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.admin-dashboard-button-close:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Delete Confirmation Dialog */
+.delete-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .delete-dialog {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 400px;
+  }
+  
+  .delete-dialog-title {
+    color: #dc3545;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+  }
+  
+  .delete-dialog-message {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    color: #333;
+  }
+  
+  .delete-dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .delete-dialog-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #28a745;
+    cursor: pointer;
+  }
+  
+  .delete-dialog-button.cancel {
+    background-color: #dc3545;
+  }
+  
+  .delete-dialog-button:hover {
+    opacity: 0.9;
+  }
+  

@@ -22,6 +22,9 @@ import {
   FacultyData,
   ProjectData,
   NotificationData,
+  FilesData,
+  WeeklyReportsData,
+  ProgressByFaculty,
 } from "../models/Schemas.js";
 
 //==============StudentData================================================
@@ -462,8 +465,9 @@ router.get("/ShowProjectsByEmail/:email", async (req, res) => {
               ...project.toObject(), // Convert Mongoose document to plain object
               TeamName: team ? team.TeamName : "Unknown Team",
               MentorName: mentor ? mentor.name : "Unknown Mentor",
-                 Status: project.approval || 'Pending'
-            
+              Status: project.approval || "Pending",
+              Comment: project.comment || "N/A",
+              Completion: project.completionrate ? project.completionrate : 0,
             };
           })
         );
@@ -501,22 +505,41 @@ router.post("/AddProjects", async (req, res) => {
 
 router.put("/EditProjects/:id", async (req, res) => {
   try {
-    const ProjectId = rea.params.id;
-    const { ProjectTitle, ProjectDescription, Mentorid, Teamid, Year } =
-      req.body;
+    const ProjectId = req.params.id;
+    const {
+      ProjectTitle,
+      ProjectDescription,
+      Mentorid,
+      Approval,
+      comment,
+      Teamid,
+      Year,
+    } = req.body;
+
+    const updateData = {
+      ProjectTitle,
+      ProjectDescription,
+      Teamid,
+      Year,
+    };
+    if (Mentorid) {
+      updateData.Mentorid = Mentorid;
+    }
+    if (Approval) {
+      updateData.approval = Approval;
+    }
+    if (comment) {
+      updateData.comment = comment;
+    }
     const EditProject = await ProjectData.findByIdAndUpdate(
       ProjectId,
-      {
-        ProjectTitle,
-        ProjectDescription,
-        Mentorid,
-        Teamid,
-        Year,
-      },
+      updateData,
       { new: true }
     );
     res.status(200).json(EditProject);
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({ error: error.message });
   }
 });
@@ -543,28 +566,28 @@ router.get("/ProjectDetailByFaculty/:email", async (req, res) => {
     }
 
     const FacDetail = await FacultyData.findOne({ email: FacEmail });
-    console.log(FacDetail._id);
 
     const ProjectDetails = await ProjectData.find({ Mentorid: FacDetail._id });
-    console.log(ProjectDetails);
 
     const Prdetails = await Promise.all(
       ProjectDetails.map(async (project) => {
         const team = await TeamsData.findById(project.Teamid);
-        console.log(team);
+        // console.log(team);
         const teamname = team.TeamName;
 
         return {
+          _id: project._id,
           ProjectTitle: project.ProjectTitle,
           ProjectDescription: project.ProjectDescription,
           TeamId: team._id,
           TeamName: teamname,
-          Approval:project.approval || "pending",
-          Year:project.Year
+          Comment: project.comment,
+          Approval: project.approval || "pending",
+          Year: project.Year,
+          Completion: project.completionrate ? project.completionrate : 0,
         };
       })
     );
-    // console.log(Prdetails)
     res.status(200).json(Prdetails);
   } catch (er) {
     console.log(er);
@@ -716,4 +739,158 @@ router.delete("/DeleteNotification/:id", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
+// ==========================Project Files Storage===========================
+
+router.get("/ShowFilesToStudent/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    console.log(projectId);
+    const files = await FilesData.find({ projectId: projectId }).exec();
+    console.log(files);
+    // const extname = path.extname(files);
+    // let contentType = "application/octet-stream";
+
+    // switch (extname) {
+    //   case ".pdf":
+    //     contentType = "application/pdf";
+    //     break;
+    //   case ".jpg":
+    //   case ".jpeg":
+    //     contentType = "image/jpeg";
+    //     break;
+    //   case ".png":
+    //     contentType = "image/png";
+    //     break;
+    //   // Add more file types as needed
+    // }
+    // res.setHeader("Content-Type", contentType);
+    res.status(200).json(files);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: err.message });
+  }
+});
+
+router.post(
+  "/AddProjectFilesByStudent",
+  upload.single("file"),
+  async (req, res) => {
+    try {
+      const { projectId, fileName, commentOnFileByStudent } = req.body;
+      const file = `upload/${req.file.filename}`;
+      const AddEvent = new FilesData({
+        projectId,
+        fileName,
+        file,
+      });
+      if (commentOnFileByStudent) {
+        AddEvent.commentOnFileByStudent = commentOnFileByStudent;
+      }
+      AddEvent.save();
+      res.status(200).json(AddEvent);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ err: err.message });
+    }
+  }
+);
+
+// ========================WeeklyReportsData =======================
+
+router.post(
+  "/AddWeeklyReportByStudent",
+  upload.single("file"),
+  async (req, res) => {
+    try {
+      const { projectId, commentOnFileByStudent, submissionDate } = req.body;
+      const file = `upload/${req.file.filename}`;
+      const AddEvent = new WeeklyReportsData({
+        projectId,
+        file,
+        submissionDate,
+      });
+      if (commentOnFileByStudent) {
+        AddEvent.commentOnFileByStudent = commentOnFileByStudent;
+      }
+      AddEvent.save();
+      res.status(200).json(AddEvent);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ err: err.message });
+    }
+  }
+);
+
+
+router.get("/ShowWeeklyReports/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const weeklyReports = await WeeklyReportsData.find({ projectId }).exec();
+    res.status(200).json(weeklyReports);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: err.message });
+  }
+});
+
+
+// ======================== Progress Report by Faculty for student  =======================
+
+router.post("/AddProgressForStudent", async (req, res) => {
+  const { progress, projectId } = req.body;
+
+  console.log('Received request body:', req.body); 
+
+  try {
+    if (progress === undefined || !projectId) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    const existingProgress = await ProgressByFaculty.findOne({ projectId }).exec();
+    if (existingProgress) {
+      existingProgress.progress = progress;
+      await existingProgress.save();
+    } else {
+      const newProgress = new ProgressByFaculty({
+        projectId,
+        progress
+      });
+      await newProgress.save();
+    }
+
+    res.status(201).json({ message: "Progress updated successfully." });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
+router.get("/ShowProgress/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const progressData = await ProgressByFaculty.findOne({ projectId }).exec();
+    
+    if (!progressData) {
+      return res.status(404).json({ message: "Progress not found for this project." });
+    }
+    
+    res.status(200).json(progressData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
+
+
+
+
+
+
+
 export default router;

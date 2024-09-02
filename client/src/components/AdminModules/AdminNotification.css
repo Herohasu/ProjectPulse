@@ -1,126 +1,131 @@
 body {
-  background-color: white;
+  background-color: var(--background-color);
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.container {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .card {
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  background-color: var(--card-bg-color);
   transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.card + .card {
-  margin-top: 50px;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
-.cardadd .card-header {
+.card-header {
   background-color: var(--primary-color);
   color: #fff;
   text-align: center;
-  padding: 1rem;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  padding: 1.5rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
-.cardadd .card-body {
+.card-body {
+  padding: 2rem;
+  background-color: var(--form-bg-color);
+  border-radius: 0 0 10px 10px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-section {
+  width: 60%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 1rem; 
-  background: #f9f9f9;
-  border-radius: 0 0 8px 8px;
-  overflow: hidden; 
+  align-items: center; 
 }
 
-.cardadd .form-section {
+.form-group {
+  margin-bottom: 1.5rem;
+  width: 100%; 
+}
+
+.form-control {
   width: 100%;
-  max-width: 600px;
-  margin-bottom: 1rem; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 1rem; 
-  background: #fff;
+  padding: 0.875rem;
   border-radius: 8px;
-  transition: box-shadow 0.3s;
-}
-
-.cardadd .form-section:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.cardadd .form-group {
-  margin-bottom: 1rem;
-}
-
-.cardadd .form-control {
-  border-radius: 5px;
   border: 1px solid #ced4da;
-  padding: 0.5rem; 
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.cardadd .form-control:focus {
+.form-control:focus {
   border-color: var(--secondary-color);
   box-shadow: 0 0 0 0.2rem rgba(29, 171, 255, 0.25);
 }
 
-.cardadd .btn-primary {
+.btn-container {
+  width: 40%;
+  display: flex;
+  margin-left: 100px;
+  justify-content: center; 
+}
+
+.btn-primary {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
-  border-radius: 5px;
-  padding: 0.5rem 1rem; 
-  font-size: 0.875rem; 
-  transition: background-color 0.3s, border-color 0.3s;
-}
-
-.cardadd .btn-primary:hover {
-  background-color: #1b8fdf;
-  border-color: #1b8fdf;
-}
-
-.cardshow .card-header {
-  background-color: var(--primary-color);
-  color: #fff;
-  text-align: center;
-  padding: 1rem;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
-
-.cardshow .card-body {
-  padding: 1.5rem; 
-  background: #f9f9f9;
+  padding: 0.875rem 2rem;
+  font-size: 1.125rem;
   border-radius: 8px;
+  transition: background-color 0.3s, border-color 0.3s;
+  width: 100%; 
 }
 
-.cardshow .list-group-item {
-  margin-bottom: 0.75rem; 
-  border-radius: 5px;
+.btn-primary:hover {
+  background-color: var(--hover-color);
+  border-color: var(--hover-color);
+}
+
+.list-group-item {
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
   border: 1px solid #ced4da;
   transition: background-color 0.3s;
 }
 
-.cardshow .list-group-item:hover {
+.list-group-item:hover {
   background-color: #f0f0f0;
 }
 
+.list-group-item input {
+  width: calc(100% - 2rem);
+  padding: 1rem;
+  font-size: 1.125rem; 
+}
+
 @media (max-width: 768px) {
-  .cardadd .card-body {
-    padding: 0.5rem; 
+  .container {
+    padding: 15px;
   }
 
-  .cardadd .form-section,
-  .cardadd .button-section {
+  .form-container {
+    flex-direction: column;
+    margin-bottom: 15px; 
+  }
+
+  .form-section,
+  .btn-container {
     width: 100%;
-    max-width: none;
-    margin-bottom: 1rem; 
   }
 
-  .cardadd .button-section {
-    margin-top: 1rem;
+  .btn-primary {
+    width: 100%;
   }
 }
