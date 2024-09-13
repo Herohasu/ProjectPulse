@@ -1,0 +1,53 @@
+.user-dashboard {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+  }
+  
+  .dashboard-header h2 {
+    font-size: 24px;
+    color: var(--primary-color);
+  }
+  
+  .approved-projects-count {
+    font-size: 18px;
+    color: var(--secondary-color);
+    margin-top: 10px;
+  }
+  
+  /* Style for the list of projects */
+  .projects-in-userDashboard {
+    margin-top: 20px;
+  }
+  
+  /* Removing default list styling and styling the list */
+  .projects-list-in-userDashboard {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .project-item {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--card-border-radius);
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: var(--card-shadow);
+  }
+  
+  .project-title {
+    font-size: 20px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+  }
+  
+  .project-item p {
+    font-size: 16px;
+    color: var(--primary-color);
+    margin: 5px 0;
+  }
+  
+  .project-item p strong {
+    color: var(--secondary-color);
+  }
