@@ -1,53 +1,158 @@
 .user-dashboard {
-    padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--background-color);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-header h2 {
+  font-size: 28px;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.approved-projects-count {
+  font-size: 18px;
+  color: var(--secondary-color);
+  margin-top: 10px;
+}
+
+.projects-in-userDashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.projects-list-in-userDashboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.project-item {
+  background-color: var(--card-bg-color);
+  border-radius: var(--card-border-radius);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: calc(33.33% - (-85px));
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.project-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.project-title {
+  font-size: 22px;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.project-item p {
+  font-size: 16px;
+  color: var(--primary-color);
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+.project-item p strong {
+  color: var(--secondary-color);
+}
+
+.detail-team-in-user {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  align-self: center;
+  margin-top: 10px;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.detail-team-in-user:hover {
+  background-color: #0056b3;
+}
+
+/* Modal background */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: white; /* Background color for modal */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  padding: 20px;
+  width: 80%; /* Width of the modal */
+  max-width: 600px; /* Maximum width */
+  position: relative; /* Positioning for close button */
+}
+
+/* Close button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #aaa; /* Color for close button */
+}
+
+.close:hover {
+  color: #000; /* Change color on hover */
+}
+
+/* Modal title */
+.modal-title {
+  font-size: 24px; /* Title font size */
+  color: var(--primary-color); /* Primary color for title */
+  margin-bottom: 20px; /* Space below title */
+}
+
+/* Modal body */
+.modal-body {
+  font-size: 16px; /* Font size for body text */
+  color: var(--primary-color); /* Primary color for text */
+  line-height: 1.5; /* Line height for readability */
+}
+
+.modal-body p {
+  margin: 10px 0; 
+}
+
+/* Responsive Design for modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%; /* Full width on smaller screens */
   }
-  
-  .dashboard-header h2 {
-    font-size: 24px;
-    color: var(--primary-color);
-  }
-  
-  .approved-projects-count {
-    font-size: 18px;
-    color: var(--secondary-color);
-    margin-top: 10px;
-  }
-  
-  /* Style for the list of projects */
-  .projects-in-userDashboard {
-    margin-top: 20px;
-  }
-  
-  /* Removing default list styling and styling the list */
-  .projects-list-in-userDashboard {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
+}
+
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
   .project-item {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--primary-color);
-    border-radius: var(--card-border-radius);
-    padding: 15px;
-    margin-bottom: 10px;
-    box-shadow: var(--card-shadow);
+      width: 100%;
   }
-  
-  .project-title {
-    font-size: 20px;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-  }
-  
-  .project-item p {
-    font-size: 16px;
-    color: var(--primary-color);
-    margin: 5px 0;
-  }
-  
-  .project-item p strong {
-    color: var(--secondary-color);
-  }
+}

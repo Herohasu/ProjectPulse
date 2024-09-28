@@ -92,11 +92,14 @@ const UploadedReports = ({ project }) => {
     try {
       const response = await axios.get(`http://localhost:4000/ShowWeeklyReports/${project._id}`);
       setWeeklyReports(response.data);
+      return response.data.length;
     } catch (error) {
       console.error('Error fetching weekly reports', error);
       toast.error("Error fetching weekly reports");
     }
   };
+
+  const reportCount = weeklyReports.length;
 
   const openModal = (file) => {
     setModalFile(file);
@@ -129,6 +132,7 @@ const UploadedReports = ({ project }) => {
         <div className="uploaded-reports-container">
           <div className="uploaded-reports">
             <h3>Uploaded Weekly Reports</h3>
+            <p>Total Report Submitted: {reportCount}</p>
             <ul>
               {weeklyReports.map((report, index) => (
                 <li key={index} className="report-item">
@@ -175,5 +179,6 @@ const UserWeeklyReport = ({ project , showOnlyReports }) => {
     </>
   );
 };
+
 
 export default UserWeeklyReport;
