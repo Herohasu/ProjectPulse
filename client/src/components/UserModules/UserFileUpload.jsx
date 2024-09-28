@@ -8,11 +8,13 @@ const UploadedFiles = ({ project }) => {
   const [files, setFiles] = useState([]);
   const [viewFileUrl, setViewFileUrl] = useState(null);
   const [showFiles, setShowFiles] = useState(false);
+  const [fileCount, setFileCount] = useState(0);
 
   const fetchFiles = async () => {
     try {
       const response = await axios.get(`http://localhost:4000/ShowFilesToStudent/${project._id}`);
       setFiles(response.data);
+      setFileCount(response.data.length);
     } catch (error) {
       console.error('Error fetching files', error);
       toast.error('Failed to fetch files');
@@ -54,6 +56,7 @@ const UploadedFiles = ({ project }) => {
       {showFiles && (
         <div className="user-files-container">
           <h2>Your Uploaded Files</h2>
+          <p>Total Files Uploaded: {fileCount}</p>
           <ul>
             {files.length ? (
               files.map((file) => (

@@ -1,18 +1,24 @@
+/* General dashboard styles */
 .user-dashboard {
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  min-height: 100vh;
 }
 
 .dashboard-header h2 {
-  font-size: 28px;
-  color: var(--primary-color);
+  font-size: 32px;
+  color: #333;
   margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
 }
 
 .approved-projects-count {
   font-size: 18px;
-  color: var(--secondary-color);
+  color: #666;
   margin-top: 10px;
+  text-align: center;
 }
 
 .projects-in-userDashboard {
@@ -31,54 +37,56 @@
   margin: 0;
 }
 
+/* Individual project card */
 .project-item {
-  background-color: var(--card-bg-color);
-  border-radius: var(--card-border-radius);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: calc(33.33% - (-85px));
-  /* height: 100%; */
+  width: calc(33.33% - 20px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: all 0.3s ease;
+  border-left: 4px solid #007bff;
 }
 
 .project-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border-left: 6px solid #0056b3;
 }
 
 .project-title {
   font-size: 22px;
-  color: var(--primary-color);
+  color: #333;
   margin-bottom: 15px;
   text-align: center;
+  font-weight: bold;
 }
 
 .project-item p {
   font-size: 16px;
-  color: var(--primary-color);
+  color: #555;
   margin: 5px 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .project-item p strong {
-  color: var(--secondary-color);
+  color: #333;
 }
 
 .detail-team-in-user {
   background-color: #007bff;
-  color: #fff;
+  color: white;
   border: none;
-  padding: 10px;
-  border-radius: 4px;
+  padding: 12px 0;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
-  align-self: center;
-  margin-top: 10px;
-  width: 100%;
-  transition: background-color 0.2s;
+  text-align: center;
+  margin-top: 20px;
+  transition: all 0.3s;
 }
 
 .detail-team-in-user:hover {
@@ -86,7 +94,7 @@
 }
 
 /* Modal background */
-.modal {
+.modal-Project-Details {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,64 +103,108 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
-  z-index: 1000; /* Ensure it's above other content */
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
 }
 
-/* Modal content */
-.modal-content {
-  background-color: white; /* Background color for modal */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
-  padding: 20px;
-  width: 80%; /* Width of the modal */
-  max-width: 600px; /* Maximum width */
-  position: relative; /* Positioning for close button */
+/* Modal content styles */
+.modal-content-Project-Details {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  width: 85%;
+  max-width: 700px;
+  position: relative;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  animation: zoomIn 0.5s ease-in-out; /* Updated animation */
 }
 
-/* Close button */
-.close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  cursor: pointer;
-  color: #aaa; /* Color for close button */
-}
-
-.close:hover {
-  color: #000; /* Change color on hover */
-}
-
-/* Modal title */
-.modal-title {
-  font-size: 24px; /* Title font size */
-  color: var(--primary-color); /* Primary color for title */
-  margin-bottom: 20px; /* Space below title */
-}
-
-/* Modal body */
-.modal-body {
-  font-size: 16px; /* Font size for body text */
-  color: var(--primary-color); /* Primary color for text */
-  line-height: 1.5; /* Line height for readability */
-}
-
-.modal-body p {
-  margin: 10px 0; 
-}
-
-/* Responsive Design for modal */
-@media (max-width: 768px) {
-  .modal-content {
-    width: 90%; /* Full width on smaller screens */
+/* Modal animation */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5); /* Start smaller */
+  }
+  to {
+    opacity: 1;
+    transform: scale(1); /* End at normal size */
   }
 }
 
 
-/* Responsive Design for smaller screens */
+/* Close button */
+.close-Project-Details {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-Project-Details:hover {
+  color: #555;
+}
+
+/* Modal title styling */
+.modal-content-Project-Details h3 {
+  font-size: 24px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.modal-content-Project-Details p {
+  font-size: 16px;
+  color: #555;
+  margin: 10px 0;
+}
+.modal-content-Project-Details .team-details-section {
+  padding-left: 20px;
+  margin-bottom: 20px; 
+}
+
+.modal-content-Project-Details .team-details-section p {
+  margin: 10px 0;
+}
+
+/* Total Uploads section */
+.modal-content-Project-Details .uploads-section {
+  padding: 15px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.modal-content-Project-Details .uploads-section p {
+  margin: 8px 0;
+}
+
+/* Team Members section */
+.modal-content-Project-Details .team-members-section {
+  padding-left: 20px;
+}
+
+.modal-content-Project-Details .team-members-section p {
+  margin: 10px 0;
+}
+
+/* Modal animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design for modal */
 @media (max-width: 768px) {
-  .project-item {
-      width: 100%;
+  .modal-content-Project-Details {
+    width: 95%;
   }
 }
