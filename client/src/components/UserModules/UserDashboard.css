@@ -1,4 +1,3 @@
-/* General dashboard styles */
 .user-dashboard {
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -113,24 +112,85 @@
   border-radius: 12px;
   padding: 30px;
   width: 85%;
-  max-width: 700px;
+  max-width: 900px;
+  max-height: 80vh;
   position: relative;
+  overflow-y: auto;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  animation: zoomIn 0.5s ease-in-out; /* Updated animation */
+  animation: zoomIn 0.5s ease-in-out; 
 }
+
+/* Team Members Section */
+.modal-content-Project-Details .team-members-section {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.modal-content-Project-Details .team-members-section h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.modal-content-Project-Details .team-members-section ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal-content-Project-Details .team-members-section li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  color: #555;
+}
+
+.modal-content-Project-Details .team-members-section li:last-child {
+  border-bottom: none;
+}
+
+.modal-content-Project-Details .team-members-section strong {
+  color: #333;
+}
+
+/* Team Leader Section */
+.modal-content-Project-Details .team-leader-section {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.modal-content-Project-Details .team-leader-section h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.modal-content-Project-Details .team-leader-section p {
+  font-size: 16px;
+  color: #555;
+  margin: 8px 0;
+}
+
+.modal-content-Project-Details .team-leader-section strong {
+  color: #333;
+}
+
 
 /* Modal animation */
 @keyframes zoomIn {
   from {
     opacity: 0;
-    transform: scale(0.5); /* Start smaller */
+    transform: scale(0.5); 
   }
   to {
     opacity: 1;
-    transform: scale(1); /* End at normal size */
+    transform: scale(1); 
   }
 }
-
 
 /* Close button */
 .close-Project-Details {

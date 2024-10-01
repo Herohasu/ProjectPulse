@@ -206,55 +206,95 @@ router.post("/StudentDetailByEmail", async (req, res) => {
 });
 
 async function getStudentDataById(ids) {
-  // Map IDs to promises that fetch the email data
   const emailPromises = ids.map(async (id) => {
     const details = await StudentData.findById(id);
-    return details ? details.email : null; // Return email or null if not found
+    return details ? details.email : null; 
   });
 
-  // Wait for all promises to resolve
   const emails = await Promise.all(emailPromises);
 
-  // Filter out any null values (in case some IDs didn't exist)
   return emails.filter((email) => email !== null);
 }
 
+// router.get("/ShowTeams", async (req, res) => {
+//   try {
+//     // console.log("ShowTeams")
+//     const AllTeams = await TeamsData.find();
+//     // console.log("all",AllTeams)
+
+//     const allTeamData = await Promise.all(
+//       AllTeams.map(async (team) => {
+//         const leaderId = team.LeaderName;
+
+//         // Fetch leader's data
+//         const leaderData = await StudentData.findById(leaderId);
+//         if (!leaderData) {
+//           throw new Error(`Leader with ID ${leaderId} not found.`);
+//         }
+//         const leaderEmail = leaderData.email;
+
+//         // Fetch team members' data
+//         const memberIds = team.TeamMembers;
+//         const memberEmails = await getStudentDataById(memberIds);
+
+//         return {
+//           _id: team._id,
+//           TeamName: team.TeamName,
+//           LeaderName: leaderEmail,
+//           MemberName: memberEmails,
+//         };
+//       })
+//     );
+//     // console.log(allTeamData)
+
+//     res.status(200).json(allTeamData);
+//   } catch (e) {
+//     res.status(500).json({ error: e.message });
+//   }
+// });
+
 router.get("/ShowTeams", async (req, res) => {
   try {
-    // console.log("ShowTeams")
     const AllTeams = await TeamsData.find();
-    // console.log("all",AllTeams)
 
     const allTeamData = await Promise.all(
       AllTeams.map(async (team) => {
         const leaderId = team.LeaderName;
 
-        // Fetch leader's data
         const leaderData = await StudentData.findById(leaderId);
         if (!leaderData) {
           throw new Error(`Leader with ID ${leaderId} not found.`);
         }
-        const leaderEmail = leaderData.email;
-
-        // Fetch team members' data
+        const leaderName = leaderData.name;  
+        const leaderEmail = leaderData.email; 
         const memberIds = team.TeamMembers;
-        const memberEmails = await getStudentDataById(memberIds);
+        const memberDetails = await Promise.all(
+          memberIds.map(async (id) => {
+            const member = await StudentData.findById(id);
+            if (member) {
+              return { name: member.name, email: member.email }; 
+            }
+            return null;
+          })
+        );
+
+        const filteredMemberDetails = memberDetails.filter((member) => member !== null);
 
         return {
           _id: team._id,
           TeamName: team.TeamName,
-          LeaderName: leaderEmail,
-          MemberName: memberEmails,
+          Leader: { name: leaderName, email: leaderEmail },
+          Members: filteredMemberDetails, 
         };
       })
     );
-    // console.log(allTeamData)
 
     res.status(200).json(allTeamData);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
+
 
 router.get("/ShowTeamsByEmail/:email", async (req, res) => {
   try {
@@ -269,7 +309,6 @@ router.get("/ShowTeamsByEmail/:email", async (req, res) => {
     }).exec();
 
     if (AllTeams.length === 0) {
-      // console.log("no")
       return res.status(200).json({ message: "No Teams" });
     }
 
@@ -277,14 +316,12 @@ router.get("/ShowTeamsByEmail/:email", async (req, res) => {
       AllTeams.map(async (team) => {
         const leaderId = team.LeaderName;
 
-        // Fetch leader's data
         const leaderData = await StudentData.findById(leaderId);
         if (!leaderData) {
           throw new Error(`Leader with ID ${leaderId} not found.`);
         }
         const leaderEmail = leaderData.email;
 
-        // Fetch team members' data
         const memberIds = team.TeamMembers;
         const memberEmails = await getStudentDataById(memberIds);
 
@@ -321,9 +358,7 @@ async function getObjectIdsByEmails(emails) {
 router.post("/AddTeams", upload.none(), async (req, res) => {
   try {
     const { TeamName, LeaderName, TeamMembers } = req.body;
-    console.log("add teams");
-
-    // Convert emails to ObjectIds
+    // console.log("add teams");
     const emails = [
       LeaderName,
       ...TeamMembers.split(",").map((email) => email.trim()),
@@ -343,7 +378,6 @@ router.post("/AddTeams", upload.none(), async (req, res) => {
       });
     }
 
-    // Include the leader's ID in the team members array if not already present
     if (!teamMembersArray.includes(leaderId)) {
       teamMembersArray.push(leaderId);
     }
@@ -352,7 +386,7 @@ router.post("/AddTeams", upload.none(), async (req, res) => {
     // const allIds = teamMembersArray; // All team members including leader
     // const allIdsValid = await validateObjectIds(allIds);
 
-    console.log(teamMembersArray);
+    // console.log(teamMembersArray);
 
     // if (!allIdsValid) {
     //   return res.status(400).json({ error: 'One or more IDs are invalid or do not exist in StudentData.' });

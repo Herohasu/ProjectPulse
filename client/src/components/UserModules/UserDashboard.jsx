@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import './UserDashboard.css'; 
+import './UserDashboard.css';
 
 const UserDashboard = () => {
   const [ProjectsData, setProjectsData] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null); 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [projectProgress, setProjectProgress] = useState({}); // New state for project progress and uploads
   const user = useSelector((state) => state.Auth.user);
 
@@ -83,20 +83,47 @@ const UserDashboard = () => {
   const approvedProjects = ProjectsData.filter((project) => project.Status === 'yes');
   const approvedProjectsCount = approvedProjects.length;
 
-  const handleDetailClick = (project) => {
+  const [teamMembers, setTeamMembers] = useState([]); // State for members (name and email)
+  const [teamLeader, setTeamLeader] = useState({ name: "", email: "" });
+
+  const handleDetailClick = async (project) => {
     setSelectedProject(project);
-    setIsModalOpen(true); 
+    setIsModalOpen(true);
+
+    try {
+      // Fetch the team data for the selected project
+      const response = await axios.get(`http://localhost:4000/ShowTeams`);
+      const teamData = response.data.find(team => team.TeamName === project.TeamName);
+
+      if (teamData) {
+        // Set the leader's name and email
+        setTeamLeader({
+          name: teamData.Leader.name,
+          email: teamData.Leader.email
+        });
+
+        // Set the team members' name and email
+        setTeamMembers(teamData.Members);
+      } else {
+        setTeamMembers([]);
+        setTeamLeader({ name: "", email: "" });
+      }
+    } catch (error) {
+      console.error('Error fetching team members:', error);
+      setTeamMembers([]);
+      setTeamLeader({ name: "", email: "" });
+    }
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); 
-    setSelectedProject(null); 
+    setIsModalOpen(false);
+    setSelectedProject(null);
   };
 
   return (
     <div className="user-dashboard">
       <h2>Dashboard </h2>
-      
+
       <div className="projects-in-userDashboard">
         {approvedProjects.length > 0 ? (
           <div className="projects-list-in-userDashboard">
@@ -119,39 +146,54 @@ const UserDashboard = () => {
       </div>
 
       {/* Modal for Project Details */}
-{isModalOpen && selectedProject && (
-  <div className="modal-Project-Details">
-    <div className="modal-content-Project-Details">
-      <span className="close-Project-Details" onClick={handleCloseModal}>&times;</span>
-      
-      <h3>Team Details</h3>
-      
-      {/* Team Details Section */}
-      <div className="team-details-section">
-        <p><strong>Team Name:</strong> {selectedProject.TeamName}</p>
-        <p><strong>Mentor Name:</strong> {selectedProject.MentorName}</p>
-        <p><strong>Progress:</strong> {projectProgress[selectedProject._id]?.progress !== undefined ? `${projectProgress[selectedProject._id].progress}%` : "Loading..."}</p>
-      </div>
+      {isModalOpen && selectedProject && (
+        <div className="modal-Project-Details">
+          <div className="modal-content-Project-Details">
+            <span className="close-Project-Details" onClick={handleCloseModal}>&times;</span>
 
-      {/* Total Uploads Section */}
-      <div className="uploads-section">
-        <h3>Total Uploads</h3>
-        <p><strong>Report:</strong> {projectProgress[selectedProject._id]?.uploads !== undefined ? projectProgress[selectedProject._id].uploads : "No uploads available"}</p>
-        <p><strong>Files:</strong> {projectProgress[selectedProject._id]?.files !== undefined ? projectProgress[selectedProject._id].files : "No files available"}</p>
-      </div>
-      
-      {/* Team Members Section */}
-      <div className="team-members-section">
-      <h3>Team Members</h3>
-        <p><strong>Name: </strong> 
-          {Array.isArray(selectedProject.TeamMembers) ? 
-            selectedProject.TeamMembers.join(', ') : 
-            "No team members available"}
-        </p>
-      </div>
-    </div>
-  </div>
-)}
+            <h3>Team Details</h3>
+
+            {/* Team Details Section */}
+            <div className="team-details-section">
+              <p><strong>Team Name:</strong> {selectedProject.TeamName}</p>
+              <p><strong>Mentor Name:</strong> {selectedProject.MentorName}</p>
+              <p><strong>Progress:</strong> {projectProgress[selectedProject._id]?.progress !== undefined ? `${projectProgress[selectedProject._id].progress}%` : "Loading..."}</p>
+            </div>
+
+            {/* Total Uploads Section */}
+            <div className="uploads-section">
+              <h3>Total Uploads</h3>
+              <p><strong>Report:</strong> {projectProgress[selectedProject._id]?.uploads !== undefined ? projectProgress[selectedProject._id].uploads : "No uploads available"}</p>
+              <p><strong>Files:</strong> {projectProgress[selectedProject._id]?.files !== undefined ? projectProgress[selectedProject._id].files : "No files available"}</p>
+            </div>
+
+            {/* Team Members Section */}
+            <div className="team-members-section">
+              <h3>Team Members</h3>
+              {teamMembers.length > 0 ? (
+                <ul>
+                  {teamMembers.map((member, index) => (
+                    <li key={index}>
+                      <strong>Name:</strong> {member.name}
+                      <br /> 
+                      <strong>Email:</strong> {member.email}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No team members available</p>
+              )}
+            </div>
+
+            {/* Team Leader Section */}
+            <div className="team-leader-section">
+              <h3>Team Leader</h3>
+              <p><strong>Name:</strong> {teamLeader.name}</p>
+              <p><strong>Email:</strong> {teamLeader.email}</p>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
