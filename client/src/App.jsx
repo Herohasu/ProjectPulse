@@ -14,6 +14,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import FacultyLayout from './Layouts/FacultyLayout'
 import PasswordReset from './pages/PasswordReset'
 import Faculty from './pages/Faculty'
+// import Chat from './components/Chat/chat'
 
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
           <Route path='/register' element={<Register />} />
 
         </Routes>
+        
       </BrowserRouter>
     </>
   )

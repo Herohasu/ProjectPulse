@@ -7,6 +7,8 @@ import AuthRoutes from './routes/Auth.js';
 import AdminRoute from './routes/AdminRoute.js';
 import AllRoutes from './routes/AllRoutes.js';
 import notificationRoutes from '../Backend/routes/Notifications.js'; 
+import socketHandler from './socket/chat.js';
+import http from 'http';
 
 import path from 'path'
 import { fileURLToPath } from 'url';
@@ -41,7 +43,9 @@ app.get('/', (req, res) => {
 app.use('/', AllRoutes);
 app.use('/api', AllRoutes);
 
+const httpServer  = http.createServer(app);
+socketHandler(httpServer);
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);
 });

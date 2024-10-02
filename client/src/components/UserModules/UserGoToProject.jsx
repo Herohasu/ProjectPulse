@@ -2,6 +2,7 @@ import React from 'react';
 import './UserGoToProject.css';
 import UserFileUpload from './UserFileUpload';
 import UserWeeklyReport from './UserWeeklyReport';
+import Chat from '../Chat/chat';
 
 const UserGoToProject = ({ project, onClose }) => {
 
@@ -24,6 +25,9 @@ const UserGoToProject = ({ project, onClose }) => {
           </div>
           {project.Status === "yes" && (
             <>
+              <div className="user-go-to-container2">
+                <Chat project={project}/>
+              </div>
 
               <div className="user-go-to-container2">
                 <UserFileUpload project={project}/>

@@ -13,6 +13,7 @@ import UserCalender from '../components/UserModules/UserCalender';
 import UserProject from '../components/UserModules/UserProject';
 import UserProfile from '../components/UserModules/UserProfile';
 import UserTeam from '../components/UserModules/UserTeam';
+import Chat from '../components/Chat/chat';
 
 const IconButton = ({ isSidebarOpen, onClick }) => (
   <button 
@@ -87,6 +88,7 @@ const Home = () => {
     { name: 'Dashboard', icon: <FaHome />, path: 'dashboard' },
     { name: 'My Team', icon: <RiTeamFill />, path: 'myteam' },
     { name: 'Project', icon: <FaTasks />, path: 'project' },
+    { name: 'Chat', icon: <FaTasks />, path: 'chat' },
     { name: 'Notifications', icon: <FaBell />, path: 'notifications' },
     { name: 'Calendar', icon: <FaCalendar />, path: 'calendar' },
     { name: 'My Profile', icon: <FaUser />, path: 'myprofile' },
@@ -96,6 +98,7 @@ const Home = () => {
     dashboard: <UserDashboard />,
     project: <UserProject user={user} />,
     myteam: <UserTeam user={user} />,
+    chat:<Chat user={user}/>,
     notifications: <UserNotification />,
     calendar: <UserCalender />,
     myprofile: <UserProfile />,

@@ -27,6 +27,8 @@ import {
   ProgressByFaculty,
 } from "../models/Schemas.js";
 
+import Chat from "../models/chatModel.js";
+
 //==============StudentData================================================
 
 router.get("/StudentDetail/:id", async (req, res) => {
@@ -187,6 +189,19 @@ router.delete("/DeleteStudent/:id", async (req, res) => {
 });
 
 //==============TeamsData================================================
+
+// get team members detail 
+router.get("/TeamDataById/:id", async(req,res)=>{
+  try{
+    const teamId  = req.params.id;
+    // console.log(teamId);
+    const teamData = await TeamsData.findById(teamId).populate('TeamMembers');
+    res.status(200).json(teamData);
+  }catch(e){
+    console.log(e)
+    res.status(500).json({error:e.message});
+  }
+})
 
 router.post("/StudentDetailByEmail", async (req, res) => {
   try {
@@ -498,6 +513,7 @@ router.get("/ShowProjectsByEmail/:email", async (req, res) => {
             return {
               ...project.toObject(), // Convert Mongoose document to plain object
               TeamName: team ? team.TeamName : "Unknown Team",
+              TeamId : team ? team._id : "Unknown",
               MentorName: mentor ? mentor.name : "Unknown Mentor",
               Status: project.approval || "Pending",
               Comment: project.comment || "N/A",
@@ -919,7 +935,16 @@ router.get("/ShowProgress/:id", async (req, res) => {
 });
 
 
-
+// ============================= chats ====================
+router.get('/messages/:roomId', async (req, res) => {
+  try {
+      const messages = await Chat.find({ roomId: req.params.roomId }).sort({ createdAt: 1 }); // Sort messages by creation time
+      res.status(200).json(messages);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error fetching messages' });
+  }
+});
 
 
 
