@@ -5,6 +5,7 @@ import { Logout, updateUser } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import { FaBell, FaCalendar, FaHome, FaTasks, FaUser, FaWindowClose } from 'react-icons/fa';
 import { RiTeamFill } from "react-icons/ri";
+import { IoIosChatbubbles } from "react-icons/io";
 import { FaBarsStaggered } from "react-icons/fa6";
 import './Home.css';
 import UserDashboard from '../components/UserModules/UserDashboard';
@@ -88,7 +89,7 @@ const Home = () => {
     { name: 'Dashboard', icon: <FaHome />, path: 'dashboard' },
     { name: 'My Team', icon: <RiTeamFill />, path: 'myteam' },
     { name: 'Project', icon: <FaTasks />, path: 'project' },
-    { name: 'Chat', icon: <FaTasks />, path: 'chat' },
+    { name: 'Chat', icon: <IoIosChatbubbles />, path: 'chat' },
     { name: 'Notifications', icon: <FaBell />, path: 'notifications' },
     { name: 'Calendar', icon: <FaCalendar />, path: 'calendar' },
     { name: 'My Profile', icon: <FaUser />, path: 'myprofile' },

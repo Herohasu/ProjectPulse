@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import ChatInner from './chatInner';
+import './chat.css'
 
 const socket = io("http://localhost:4000/");
 

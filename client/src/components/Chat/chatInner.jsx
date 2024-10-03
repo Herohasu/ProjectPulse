@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-
+import './chatinner.css'
 const socket = io("http://localhost:4000/");
 
 const ChatInner = ({ project }) => {
