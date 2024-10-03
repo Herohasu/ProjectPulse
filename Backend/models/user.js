@@ -1,27 +1,57 @@
+// import mongoose from "mongoose";
+
+// const userSchema = new mongoose.Schema({
+//     name:{
+//         type:String,
+//         required:true
+//     },
+//     email:{
+//         type:String,
+//         required:true,
+//         unique:true
+//     },
+//     role:{
+//         type:String,
+//         enum:['admin',"user","faculty"],
+//         default:"user"
+//     },
+//     password:{
+//         type:String,
+//         required:true
+//     },resetPasswordToken: String,
+//     resetPasswordExpires: Date
+// },{timestamps:true})
+
+// const UserModel= mongoose.model('user',userSchema)
+
+// export default UserModel;
+
+
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    name:{
-        type:String,
-        required:true
+    name: {
+        type: String,
+        required: true
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
-    role:{
-        type:String,
-        enum:['admin',"user","faculty"],
-        default:"user"
+    role: {
+        type: String,
+        enum: ['admin', "user", "faculty"],
+        default: "user"
     },
-    password:{
-        type:String,
-        required:true
-    },resetPasswordToken: String,
+    password: {
+        type: String,
+        required: true
+    },
+    resetPasswordToken: String,
     resetPasswordExpires: Date
-},{timestamps:true})
+}, { timestamps: true });
 
-const UserModel= mongoose.model('user',userSchema)
+const UserModel = mongoose.model('user', userSchema);
 
 export default UserModel;
