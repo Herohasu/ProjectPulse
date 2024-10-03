@@ -7,7 +7,7 @@
   
   .chat-inner-container .chat-header-side {
     padding: 15px;
-    background-color: #128c7e;
+    background-color: var(--background-color);
     color: white;
     font-size: 18px;
     font-weight: bold;
@@ -28,7 +28,7 @@
   }
   
   .chat-inner-container .chat-body-inner p strong {
-    color: #128c7e;
+    color: var(--background-color);
   }
   
   .chat-inner-container .chat-input {
@@ -48,7 +48,7 @@
   
   .chat-inner-container .chat-input button {
     padding: 10px;
-    background-color: #128c7e;
+    background-color: var(--background-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -56,6 +56,6 @@
   }
   
   .chat-inner-container .chat-input button:hover {
-    background-color: #075e54;
+    background-color:var(--background-color);
   }
   
