@@ -116,6 +116,9 @@ export function Faculty({ loggedInFaculty }) {
           <div className="calendar" onClick={() => handleNavItemClicked('calendar')}>
             <FaCalendar size={20} />
           </div>
+          <div className="chat" onClick={() => handleNavItemClicked('chat')}>
+            <IoIosChatbubbles size={20} />
+          </div>
           <div className="faculty-profile">
             <h3>Welcome</h3>
             <p>{loggedInFaculty.name}</p>
