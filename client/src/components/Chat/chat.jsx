@@ -94,42 +94,54 @@ const socket = io("http://localhost:4000/");
 //     )
 // }
 
-const Chat = ({ user ,role}) => {
 
+const Chat = ({ user, role }) => {
     const [ProjectsData, setProjectsData] = useState([]);
     const [showChatModal, setShowChatModal] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
+    const [newMessage, setNewMessage] = useState(false); 
 
     useEffect(() => {
-        if(role=="faculty"){
+        // Fetch projects based on role
+        if (role === "faculty") {
             axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
-            .then(result => {
-                setProjectsData(result.data);
-                setProjectsData(ProjectsData.filter(project => project.Approval === 'yes'))
-            })
-        }
-        else{
+                .then(result => {
+                    const approvedProjects = result.data.filter(project => project.Approval === 'yes');
+                    setProjectsData(approvedProjects);
+                })
+                .catch((error) => console.log(error));
+        } else {
             axios.get(`http://localhost:4000/ShowProjectsByEmail/${user.email}`)
-            .then(result => {
-                setProjectsData(result.data);
-
-                const p = ProjectsData.filter(project => project.approval === 'yes')
-                setProjectsData(p);
-            })
+                .then(result => {
+                    const approvedProjects = result.data.filter(project => project.approval === 'yes');
+                    setProjectsData(approvedProjects);
+                })
+                .catch((error) => console.log(error));
         }
-    }, [user]);
+    }, [user, role]);
 
+    useEffect(() => {
+        // Listen for new messages
+        socket.on("message", (msg) => {
+            setNewMessage(true); // Set new message state to true when a message is received
+        });
 
-    const handleButtonClick = ((project) => {
+        return () => {
+            socket.off("message");
+        };
+    }, []);
+
+    const handleButtonClick = (project) => {
         setShowChatModal(true);
         setSelectedProject(project);
-    });
+        setNewMessage(false); 
+    };
 
     return (
         <div className="chat-container-main">
             {/* Sidebar */}
             <div className="sidebar-chat-bar">
-                <h1><h2>Project</h2> Group </h1>
+            <h1><h2>Project</h2> Group </h1>
                 <ul>
                     {ProjectsData.map((project, index) => (
                         <li key={index}>
@@ -146,8 +158,65 @@ const Chat = ({ user ,role}) => {
                 }
             </div>
         </div>
-    )
-    
+    );
 }
+
+
+
+// const Chat = ({ user ,role}) => {
+
+//     const [ProjectsData, setProjectsData] = useState([]);
+//     const [showChatModal, setShowChatModal] = useState(false);
+//     const [selectedProject, setSelectedProject] = useState(null);
+
+//     useEffect(() => {
+//         if(role=="faculty"){
+//             axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
+//             .then(result => {
+//                 setProjectsData(result.data);
+//                 setProjectsData(ProjectsData.filter(project => project.Approval === 'yes'))
+//             })
+//         }
+//         else{
+//             axios.get(`http://localhost:4000/ShowProjectsByEmail/${user.email}`)
+//             .then(result => {
+//                 setProjectsData(result.data);
+
+//                 const p = ProjectsData.filter(project => project.approval === 'yes')
+//                 setProjectsData(p);
+//             })
+//         }
+//     }, [user]);
+
+
+//     const handleButtonClick = ((project) => {
+//         setShowChatModal(true);
+//         setSelectedProject(project);
+//     });
+
+//     return (
+//         <div className="chat-container-main">
+//             {/* Sidebar */}
+//             <div className="sidebar-chat-bar">
+//                 <h1><h2>Project</h2> Group </h1>
+//                 <ul>
+//                     {ProjectsData.map((project, index) => (
+//                         <li key={index}>
+//                             <button onClick={() => handleButtonClick(project)}>{project.ProjectTitle}</button>
+//                         </li>
+//                     ))}
+//                 </ul>
+//             </div>
+    
+//             {/* Chat Window */}
+//             <div className="chat-window-flex">
+//                 {showChatModal && 
+//                     <ChatInner project={selectedProject} />
+//                 }
+//             </div>
+//         </div>
+//     )
+    
+// }
 
 export default Chat

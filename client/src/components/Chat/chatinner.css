@@ -7,7 +7,7 @@
   
   .chat-inner-container .chat-header-side {
     padding: 15px;
-    background-color: var(--background-color);
+    background-color: var(--primary-color);
     color: white;
     font-size: 18px;
     font-weight: bold;
@@ -28,7 +28,7 @@
   }
   
   .chat-inner-container .chat-body-inner p strong {
-    color: var(--background-color);
+    color: var(--secondary-color);
   }
   
   .chat-inner-container .chat-input {
