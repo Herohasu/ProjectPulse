@@ -99,7 +99,7 @@ const Home = () => {
     dashboard: <UserDashboard />,
     project: <UserProject user={user} />,
     myteam: <UserTeam user={user} />,
-    chat:<Chat user={user}/>,
+    chat:<Chat user={user} role="student"/>,
     notifications: <UserNotification />,
     calendar: <UserCalender />,
     myprofile: <UserProfile />,

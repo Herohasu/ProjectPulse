@@ -3,6 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { Logout } from '../redux/AuthSlice';
 import { post } from '../services/ApiEndpoint';
 import { useNavigate } from 'react-router-dom';
+import { IoIosChatbubbles } from "react-icons/io";
 import './Faculty.css';
 import { FaBell, FaCalendar, FaHome, FaTasks, FaWindowClose, FaUser } from 'react-icons/fa';
 import { FaBarsStaggered } from "react-icons/fa6";
@@ -11,6 +12,7 @@ import FacultyProject from '../components/FacultyModules/FacultyProject.jsx';
 import FacultyNotification from '../components/FacultyModules/FacultyNotification';
 import FacultyCalendar from '../components/FacultyModules/FacultyCalendar.jsx';
 import FacultyProfile from '../components/FacultyModules/FacultyProfile.jsx';
+import Chat from '../components/Chat/chat.jsx';
 
 const mapStateToProps = (state) => ({
   loggedInFaculty: state.Auth.user,
@@ -83,6 +85,7 @@ export function Faculty({ loggedInFaculty }) {
   const sideNavItems = [
     { name: 'Dashboard', icon: <FaHome />, path: 'dashboard' },
     { name: 'Projects', icon: <FaTasks />, path: 'projects' },
+    { name: 'Chat', icon: <IoIosChatbubbles />, path: 'chat' },
     { name: 'Notifications', icon: <FaBell />, path: 'notifications' },
     { name: 'Calendar', icon: <FaCalendar />, path: 'calendar' },
     { name: 'My Profile', icon: <FaUser />, path: 'myprofile' }
@@ -92,6 +95,7 @@ export function Faculty({ loggedInFaculty }) {
     dashboard: <FacultyDashboard />,
     projects: <FacultyProject />,
     notifications: <FacultyNotification />,
+    chat:<Chat user={loggedInFaculty} role="faculty"/>,
     calendar: <FacultyCalendar />,
     myprofile: <FacultyProfile />
   };

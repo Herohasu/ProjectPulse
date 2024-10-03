@@ -94,17 +94,29 @@ const socket = io("http://localhost:4000/");
 //     )
 // }
 
-const Chat = ({ user }) => {
+const Chat = ({ user ,role}) => {
 
     const [ProjectsData, setProjectsData] = useState([]);
     const [showChatModal, setShowChatModal] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/ShowProjectsByEmail/${user.email}`)
+        if(role=="faculty"){
+            axios.get(`http://localhost:4000/ProjectDetailByFaculty/${user.email}`)
             .then(result => {
                 setProjectsData(result.data);
+                setProjectsData(ProjectsData.filter(project => project.Approval === 'yes'))
             })
+        }
+        else{
+            axios.get(`http://localhost:4000/ShowProjectsByEmail/${user.email}`)
+            .then(result => {
+                setProjectsData(result.data);
+
+                const p = ProjectsData.filter(project => project.approval === 'yes')
+                setProjectsData(p);
+            })
+        }
     }, [user]);
 
 
