@@ -126,10 +126,10 @@ const Chat = ({ user ,role}) => {
     });
 
     return (
-        <>
-            <h1>Chat</h1>
+        <div className="chat-container-main">
             {/* Sidebar */}
-            <div>
+            <div className="sidebar-chat-bar">
+                <h1><h2>Project</h2> Group </h1>
                 <ul>
                     {ProjectsData.map((project, index) => (
                         <li key={index}>
@@ -138,13 +138,16 @@ const Chat = ({ user ,role}) => {
                     ))}
                 </ul>
             </div>
-
-            <br></br>
-            {showChatModal && 
-                <ChatInner project={selectedProject} />
-            }
-
-        </>)
+    
+            {/* Chat Window */}
+            <div className="chat-window-flex">
+                {showChatModal && 
+                    <ChatInner project={selectedProject} />
+                }
+            </div>
+        </div>
+    )
+    
 }
 
 export default Chat

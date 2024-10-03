@@ -1,0 +1,62 @@
+/* Style for the ChatInner component */
+
+.chat-inner-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .chat-inner-container .chat-header-side {
+    padding: 15px;
+    background-color: #128c7e;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .chat-inner-container .chat-body-inner {
+    padding: 15px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .chat-inner-container .chat-body-inner p {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    max-width: 60%;
+  }
+  
+  .chat-inner-container .chat-body-inner p strong {
+    color: #128c7e;
+  }
+  
+  .chat-inner-container .chat-input {
+    padding: 15px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .chat-inner-container .chat-input input {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .chat-inner-container .chat-input button {
+    padding: 10px;
+    background-color: #128c7e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .chat-inner-container .chat-input button:hover {
+    background-color: #075e54;
+  }
+  

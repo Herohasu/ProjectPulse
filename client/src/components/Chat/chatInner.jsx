@@ -82,10 +82,11 @@ const ChatInner = ({ project }) => {
     }, [project,members]); // Create room only when members change
 
     return (
-        <div>
-            <h1>{project.ProjectTitle}</h1>
-            <h2>Chat Room: {roomId}</h2>
-            <div>
+        <div className="chat-inner-container">
+            <div className="chat-header-side">
+                <h2>{project.ProjectTitle}</h2>
+            </div>
+            <div className="chat-body-inner">
                 {messages.map((msg, index) => (
                     <p key={index}>
                         <strong>{msg.senderId}: </strong>
@@ -93,7 +94,7 @@ const ChatInner = ({ project }) => {
                     </p>
                 ))}
             </div>
-            <form onSubmit={sendMessage}>
+            <form onSubmit={sendMessage} className="chat-input">
                 <input
                     type="text"
                     value={message}
@@ -104,6 +105,7 @@ const ChatInner = ({ project }) => {
             </form>
         </div>
     );
+    
 };
 
 export default ChatInner;
