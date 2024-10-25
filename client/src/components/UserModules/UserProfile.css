@@ -129,8 +129,8 @@ form {
 
 #gender {
   font-size: medium;
-  width: 150px;
-  height: 41.6px;
+  /* width: 150px;
+  height: 41.6px; */
   color: #152f46;
   border-radius: 5px;
   border: 2px solid #152f46;

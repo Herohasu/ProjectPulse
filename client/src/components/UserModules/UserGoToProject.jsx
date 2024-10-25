@@ -25,9 +25,9 @@ const UserGoToProject = ({ project, onClose }) => {
           </div>
           {project.Status === "yes" && (
             <>
-              <div className="user-go-to-container2">
+              {/* <div className="user-go-to-container2">
                 <Chat project={project}/>
-              </div>
+              </div> */}
 
               <div className="user-go-to-container2">
                 <UserFileUpload project={project}/>

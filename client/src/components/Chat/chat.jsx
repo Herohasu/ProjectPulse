@@ -95,7 +95,8 @@ const socket = io("http://localhost:4000/");
 // }
 
 
-const Chat = ({ user, role }) => {
+const Chat = ({ user,role }) => {
+    // const user = useSelector((state) => state.Auth.user)
     const [ProjectsData, setProjectsData] = useState([]);
     const [showChatModal, setShowChatModal] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
