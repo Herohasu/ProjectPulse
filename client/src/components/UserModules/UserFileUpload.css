@@ -8,6 +8,7 @@
   max-width: 600px;
   margin: 0 auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
 }
 
 .user-file-upload-container h2 {
@@ -158,4 +159,34 @@
 
 .close-button-file-upload:hover {
   background-color: #c82333;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .user-file-upload-container {
+    width: 90%; /* Make container width 90% on smaller screens */
+    padding: 15px; /* Slightly reduce padding */
+  }
+
+  .user-files-container {
+    width: 90%; /* Make user files container width 90% */
+    padding: 15px; /* Slightly reduce padding */
+  }
+
+  .file-item {
+    padding: 10px; /* Adjust padding for file items */
+  }
+  
+  .file-actions button {
+    padding: 6px 10px; /* Reduce padding for buttons */
+  }
+
+  .user-file-upload-container input[type="text"],
+  .user-file-upload-container input[type="file"],
+  .user-file-upload-container input[type="date"],
+  .user-file-upload-container textarea,
+  .file-actions button {
+    font-size: 14px; /* Slightly reduce font size for better fit */
+  }
 }

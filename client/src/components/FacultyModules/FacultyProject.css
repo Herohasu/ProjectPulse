@@ -6,6 +6,7 @@
   background-color: #152F46; 
   color: #F9F6E5; 
   padding: 10px;
+  margin-top: 20px;
 }
 
 .section-title {
@@ -468,4 +469,85 @@ label {
   align-items: center;
   justify-content: center;
   z-index: 2500; 
+}
+
+@media (max-width: 768px) {
+  .faculty-project-details-container {
+    width: 80%;
+  }
+
+  .faculty-project-title {
+    font-size: 1.2em;
+  }
+
+  .faculty-go-to-button-facultyproject,
+  .faculty-close-details-button,
+  .faculty-action-details-button,
+  .Progress-of-project-faculty,
+  .documents-report-file-btn-facultyproject {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    margin: 1px 2px;
+  }
+
+  .faculty-project-item,
+  .faculty-approved-project-item,
+  .faculty-rejected-project-item {
+    padding: 10px;
+  }
+
+  .faculty-project-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .faculty-project-page-wrapper {
+    padding: 10px;
+  }
+
+  .project-faculty-header,
+  .faculty-go-to-button-facultyproject,
+  .faculty-close-details-button,
+  .faculty-action-details-button {
+    padding: 8px;
+  }
+
+  .faculty-project-details-container,
+  .faculty-project-modal-approve-reject {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .Progress-of-project-faculty,
+  .documents-report-file-btn-facultyproject {
+    font-size: 0.8em;
+    bottom: 20px;
+    right: 10px;
+    position: static;
+    margin: 1px 2px;
+  }
+
+  .faculty-project-title {
+    font-size: 1em;
+  }
+
+  .modal-content-faculty-comment,
+  .modal-container,
+  .faculty-project-modal-uploaded {
+    width: 90%;
+  }
+
+  .modal-title,
+  .modal-report-name {
+    font-size: 1em;
+  }
+
+  .submitcomment-to-approve-reject-project-btn,
+  .btn-action-comment-faculty,
+  .faculty-go-to-button-facultyproject {
+    width: 100%;
+    font-size: 0.9em;
+  }
 }

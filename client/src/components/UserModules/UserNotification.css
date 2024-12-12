@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
   }
   
   .card-body {
@@ -29,3 +30,23 @@
     display: block;
   }
   
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .card-header {
+        flex-direction: column; /* Stack items vertically on small screens */
+        text-align: center; /* Center text for better visibility */
+    }
+
+    .card-body {
+        padding: 0 10px; /* Add padding for smaller screens */
+    }
+
+    .list-group-item {
+        padding: 0.75rem; /* Reduce padding for list items */
+    }
+
+    .spinner-border {
+        width: 2.5rem; /* Smaller spinner size */
+        height: 2.5rem; /* Smaller spinner size */
+    }
+}

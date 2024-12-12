@@ -105,14 +105,50 @@ body, html {
 @media (max-width: 768px) {
   .register-container {
     flex-direction: column;
+    background-image: url("../../public/RL.jpeg");
+    padding: 100px;
+    font-size: 15px;
+    align-items: center;
+  }
+
+  .register-form .input-group {
+    margin-bottom: 5px;
+  }
+  
+  .register-form .input-group label {
+    color: var(--background-color);
+    display: block;
+    margin-bottom: 5px;
+    font-size: 10px;
+  }
+  
+  .register-form .input-group input[type="text"],
+  .register-form .input-group input[type="email"],
+  .register-form .input-group input[type="password"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--primary-color);
+    border-radius: 3px;
+  }
+
+  .register-form .register-link {
+    margin-top: 5px;
+    font-size: 10px;
   }
 
   .register-image, .register-form {
     flex: none;
-    width: 100%;
   }
 
   .register-form form {
-    width: 70%;
+    width: 100%;
+    padding: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-form form {
+    width: 100%;
+    padding: 35px;
   }
 }

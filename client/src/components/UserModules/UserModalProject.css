@@ -114,3 +114,28 @@
 .project-card.green-bg:hover{
     background-color: var(--background-color);
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .projects-list {
+        grid-template-columns: 1fr; /* Stack cards vertically on smaller screens */
+    }
+
+    .project-card {
+        margin-bottom: 20px; /* Adjust spacing between cards */
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+
+    .delete-button, .go-to-button {
+        font-size: 12px; /* Slightly reduce button font size */
+        padding: 6px 10px; /* Adjust button padding */
+    }
+
+    .project-card h2 {
+        font-size: 1.25rem; /* Adjust heading font size */
+    }
+
+    .project-card p {
+        font-size: 0.9rem; /* Adjust paragraph font size */
+    }
+}

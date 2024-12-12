@@ -14,7 +14,7 @@ body {
   left: 0;
   right: 0;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(209, 28, 28, 0.1);
 }
 
 .top-navbar .logo {
@@ -77,6 +77,7 @@ body {
   overflow-y: auto;
   z-index: 999;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  margin-top: -12px;
 }
 
 .side-navbar.open {
@@ -110,6 +111,7 @@ body {
 
 .admin-container.sidebar-open {
   margin-left: 250px;
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
@@ -118,11 +120,12 @@ body {
   }
 
   .top-navbar {
-    padding: 10px 20px;
+    padding: 10px 15px;
+    font-size: 10px;
   }
 
   .icon-button {
-    margin-right: 10px; 
+    margin-right: 5px; 
   }
 
   .top-navbar .logo {
@@ -130,8 +133,8 @@ body {
   }
 
   .side-navbar {
-    width: 250px;
-    left: -250px;
+    width: 200px;
+    left: -200px;
   }
 
   .side-navbar.open {

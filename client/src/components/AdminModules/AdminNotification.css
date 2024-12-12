@@ -120,12 +120,32 @@ body {
     margin-bottom: 15px; 
   }
 
-  .form-section,
+  .form-section {
+    width: 100%;
+    align-items: flex-start; /* Align items to start */
+  }
+
   .btn-container {
     width: 100%;
+    margin-left: 0; /* Remove left margin */
+    justify-content: center; /* Center align the button */
+  }
+  
+  .btn-primary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-control {
+    font-size: 1rem; /* Adjust font size for smaller screens */
   }
 
   .btn-primary {
-    width: 100%;
+    font-size: 1rem; /* Adjust button font size for smaller screens */
+  }
+
+  .list-group-item input {
+    font-size: 1rem; /* Adjust input font size for smaller screens */
   }
 }

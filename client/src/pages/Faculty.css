@@ -75,6 +75,7 @@ body {
   overflow-y: auto;
   z-index: 999;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  margin-top: -12px;
 }
 
 .side-navbar.open {
@@ -108,6 +109,7 @@ body {
 
 .faculty-container.sidebar-open {
   margin-left: 250px;
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
@@ -116,11 +118,12 @@ body {
   }
 
   .top-navbar {
-    padding: 10px 20px;
+    padding: 10px 15px;
+    font-size: 10px;
   }
 
   .icon-button {
-    margin-right: 10px; 
+    margin-right: 5px; 
   }
 
   .top-navbar .logo {
@@ -128,8 +131,8 @@ body {
   }
 
   .side-navbar {
-    width: 250px;
-    left: -250px;
+    width: 200px;
+    left: -200px;
   }
 
   .side-navbar.open {
@@ -139,28 +142,37 @@ body {
   .faculty-container {
     padding-top: 60px;
   }
+
+  .top-navbar .faculty-profile {
+    padding-left: 10px; /* Adjust padding for smaller screens */
+    margin-left: 10px; /* Adjust margin for smaller screens */
+  }
+
+  .top-navbar .notifications,
+  .top-navbar .calendar,
+  .top-navbar .chat {
+    margin-right: 5px; /* Reduce margin */
+  }
 }
 
 @media screen and (max-width: 444px) {
   .top-navbar .logo {
-    font-size: 0;
-  }
-
-  .logo {
-    font-size: 0;
+    font-size: 0; /* Hide logo text */
   }
 
   .logo-img {
-    margin-right: 0;
-  }
-
-  .top-navbar .logo-img {
-    margin-right: 0;
+    margin-right: 0; /* Remove margin */
   }
 
   .top-navbar .faculty-profile {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column; /* Stack profile items */
+    align-items: center; /* Center align profile items */
+  }
+
+  .top-navbar .notifications,
+  .top-navbar .calendar,
+  .top-navbar .chat {
+    font-size: 14px; /* Adjust font size for icons */
   }
 }
 

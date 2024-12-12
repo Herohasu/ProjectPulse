@@ -4,6 +4,7 @@
     align-items: center;
     background-color: #f9f9f9;
     padding: 20px;
+    margin-top: 50px;
 }
 
 .user-project-container {
@@ -151,4 +152,38 @@
     outline: none;
     border-color: #1DABFF;
     box-shadow: 0 0 4px rgba(29, 171, 255, 0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .user-project-wrapper {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .user-project-container {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .create-project-button {
+        padding: 10px 20px; /* Adjust button padding */
+        font-size: 14px; /* Adjust button font size */
+    }
+
+    .modal-content {
+        width: 90%; /* Make modal wider on smaller screens */
+        max-width: none; /* Remove max-width for modal */
+    }
+
+    .modal-body {
+        padding: 15px; /* Adjust padding in modal body */
+    }
+
+    .modal-footer-button {
+        padding: 8px 16px; /* Adjust button padding in modal footer */
+        font-size: 12px; /* Adjust button font size */
+    }
+
+    .modal-input {
+        padding: 10px; /* Adjust input padding */
+    }
 }

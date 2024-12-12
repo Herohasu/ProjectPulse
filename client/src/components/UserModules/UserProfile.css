@@ -6,6 +6,7 @@
   color: #152f46;
   border-radius: 20px;
   font-family: Arial, sans-serif;
+  margin-top: 50px;
 }
 
 .top-profile-container {
@@ -134,4 +135,43 @@ form {
   color: #152f46;
   border-radius: 5px;
   border: 2px solid #152f46;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .top-profile-container {
+    flex-direction: column; /* Stack items vertically on small screens */
+    padding: 20px; /* Adjust padding for smaller screens */
+  }
+
+  .form-group-top,
+  .form-group {
+    width: 100%; /* Full width for inputs on smaller screens */
+  }
+
+  .profile-image-display {
+    max-width: 150px; /* Adjust image size */
+    max-height: 150px; /* Adjust image size */
+  }
+
+  .profile-image {
+    height: 150px; /* Adjust image size */
+    width: 150px; /* Adjust image size */
+  }
+
+  .profile-container {
+    padding: 10px; /* Reduce padding on small screens */
+  }
+
+  .profile-image-container {
+    margin: 0; /* Remove side margins on small screens */
+  }
+
+  .profile-picture {
+    flex-direction: column; /* Stack picture elements vertically */
+  }
+
+  .profile-picture input {
+    max-width: 100%; /* Full width for input on smaller screens */
+  }
 }

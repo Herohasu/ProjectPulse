@@ -53,3 +53,55 @@
     font-weight: bold;
     transition: width 0.3s ease;
   }
+
+  @media (max-width: 768px) {
+  .faculty-progress-bar-container {
+    gap: 15px;
+  }
+
+  .faculty-progress-bar-add {
+    gap: 8px;
+  }
+
+  #progress-input {
+    width: 50px;
+    font-size: 0.9rem;
+  }
+
+  .update-progress-button {
+    padding: 8px 16px;
+  }
+
+  .faculty-progress-bar-display {
+    height: 25px;
+  }
+
+  .progress-bar-fill {
+    line-height: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .faculty-progress-bar-container {
+    gap: 10px;
+  }
+
+  #progress-input {
+    width: 45px;
+    font-size: 0.8rem;
+  }
+
+  .update-progress-button {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+  }
+
+  .faculty-progress-bar-display {
+    height: 20px;
+  }
+
+  .progress-bar-fill {
+    line-height: 20px;
+    font-size: 0.85rem;
+  }
+}

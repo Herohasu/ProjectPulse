@@ -59,3 +59,41 @@
     background-color:var(--background-color);
   }
   
+  @media (max-width: 768px) {
+  .chat-inner-container .chat-body-inner p {
+      max-width: 100%; /* Allow messages to be wider on smaller screens */
+      font-size: 10px;
+  }
+
+  .chat-inner-container .chat-input input {
+      width: 100%; /* Adjust input width on smaller screens */
+  }
+
+  .chat-inner-container .chat-header-side {
+      font-size: 14px; /* Slightly smaller font size for header */
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-inner-container .chat-body-inner p {
+      max-width: 100%; /* Full width messages on very small screens */
+      font-size: 6px;
+  }
+
+  .chat-inner-container .chat-input {
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .chat-inner-container .chat-input input {
+      width: 100%; /* Full width input field */
+  }
+
+  .chat-inner-container .chat-input button {
+      width: 100%; /* Full width button */
+  }
+
+  .chat-inner-container .chat-header-side {
+      font-size: 10px; /* Reduce font size for smaller screens */
+  }
+}

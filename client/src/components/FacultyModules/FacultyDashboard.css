@@ -1,6 +1,11 @@
+body {
+  background-color: white;
+}
+
 .faculty-dashboard {
   padding: 20px;
   min-height: 100vh;
+  margin-top: 50px;
 }
 
 .summary-cards-faculty {
@@ -145,7 +150,7 @@
   color: var(--primary-color);
 }
 
-/* Circukar section  */
+/* Circular section  */
 .circular-progress-main-card {
   display: flex;
   align-items: center; 
@@ -205,3 +210,47 @@
 }
 
 
+@media (max-width: 768px) {
+  .card-faculty {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .approved-project-item-faculty-dash,
+  .circular-progress-main-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .circular-progress-text-card {
+    padding-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .faculty-dashboard {
+    padding: 10px;
+  }
+
+  .summary-cards-faculty {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .approved-project-item-faculty-dash,
+  .circular-progress-main-card {
+    padding: 8px;
+  }
+
+  .approved-projects-section-faculty-dash h2,
+  .card-faculty h3 {
+    font-size: 1.1rem;
+  }
+
+  .card-faculty p,
+  .approved-project-item-faculty-dash h3 {
+    font-size: 0.9rem;
+  }
+}

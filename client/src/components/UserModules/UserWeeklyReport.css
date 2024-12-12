@@ -1,6 +1,6 @@
 /* Uploaded Reports */
 .uploaded-reports-container {
-  margin-top: 40px; 
+  margin-top: 50px; 
 }
 
 .uploaded-reports {
@@ -158,4 +158,37 @@
   right: 10px;
   font-size: 24px;
   cursor: pointer;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .uploaded-reports,
+  .user-weekly-report-container,
+  .modal-content {
+    width: 90%; /* Reduce width on smaller screens */
+    padding: 15px; /* Adjust padding */
+  }
+
+  .report-item {
+    margin-bottom: 15px; /* Adjust margin */
+  }
+
+  .documents-button {
+    width: 100%; /* Full width for button */
+  }
+
+  .user-weekly-report-container form {
+    flex-direction: column; /* Stack inputs vertically */
+  }
+
+  .user-weekly-report-container input[type="text"],
+  .user-weekly-report-container input[type="file"],
+  .user-weekly-report-container input[type="date"],
+  .user-weekly-report-container textarea {
+    font-size: 14px; /* Slightly reduce font size */
+  }
+
+  .close {
+    font-size: 20px; /* Adjust close button size */
+  }
 }

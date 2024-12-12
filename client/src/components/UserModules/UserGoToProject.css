@@ -19,6 +19,7 @@
     max-width: 800px;
     position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
   }
   
   .bg-green {
@@ -194,4 +195,36 @@
     background-color: #0056b3; 
   }
   
+  /* Responsive Styles */
+@media (max-width: 768px) {
+  .user-go-to-container {
+    width: 90%; /* Make container width 90% on smaller screens */
+    padding: 15px; /* Slightly reduce padding */
+  }
+
+  .user-go-to-container h2 {
+    font-size: 1.5rem; /* Ensure the header size is appropriate */
+  }
+
+  .user-go-to-container p {
+    font-size: 1rem; /* Ensure the paragraph size is appropriate */
+  }
+
+  .close-button {
+    padding: 6px 10px; /* Adjust close button padding */
+  }
+
+  .documents-button {
+    font-size: 16px; /* Adjust button font size */
+    padding: 8px 16px; /* Adjust button padding */
+  }
   
+  .file-viewer iframe {
+    width: 95%; /* Ensure the iframe fits well on smaller screens */
+    height: 90%; /* Ensure iframe height is appropriate */
+  }
+
+  .close-button-file-upload {
+    padding: 8px 15px; /* Adjust close button padding for file viewer */
+  }
+}

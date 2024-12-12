@@ -12,6 +12,7 @@
   .chat-container-main {
     display: flex;
     height: 85vh;
+    margin-top: 20px;
   }
   
   .sidebar-chat-bar {
@@ -116,3 +117,43 @@
     background-color: #075e54;
   }
   
+  @media (max-width: 768px) {
+    .sidebar-chat-bar {
+        width: 50%; /* Slightly wider sidebar for mid-sized screens */
+    }
+
+    .chat-window-flex {
+        width: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar-chat-bar {
+      font-size: 10px;
+    width: 50%; /* Slightly wider sidebar for mid-sized screens */
+    }
+
+    .chat-window-flex {
+      font-size: 12px;
+      width: 50%;
+    }
+
+    .chat-window-flex .chat-messages p {
+        max-width: 80%; /* Allow messages to be wider */
+    }
+
+    .chat-window-flex .chat-input {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        width: 100%; /* Full width input and button */
+    }
+
+    .chat-window-flex .chat-input button {
+      flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        margin-left: 1px;
+        width: 100%; /* Full width input and button */
+    }
+}
